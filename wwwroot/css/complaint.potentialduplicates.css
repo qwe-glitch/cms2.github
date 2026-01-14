@@ -1,0 +1,9 @@
+/* Potential Duplicates Styles */
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}

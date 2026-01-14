@@ -1,0 +1,111 @@
+@model ComplaintManagementSystem.Models.ViewModels.FeedbackViewModel
+@{
+    ViewData["Title"] = "Submit Feedback";
+    var complaint = ViewBag.Complaint;
+}
+
+<div class="mb-3">
+    <a href="/Complaint/Details/@Model.ComplaintId" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Complaint
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="mb-0"><i class="bi bi-star"></i> Submit Feedback</h3>
+            </div>
+            <div class="card-body">
+                @if (complaint != null)
+                {
+                    <div class="alert alert-info mb-4">
+                        <h5>@complaint.Title</h5>
+                        <p class="mb-0 small text-muted">
+                            Status: <strong>@complaint.Status</strong> | 
+                            Category: @complaint.CategoryName
+                        </p>
+                    </div>
+                }
+
+                <form asp-action="Submit" method="post">
+                    <input type="hidden" asp-for="ComplaintId" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="Rating" class="form-label">Rating *</label>
+                        <div class="rating-selector">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <label class="rating-option">
+                                    <input type="radio" asp-for="Rating" value="@i" />
+                                    <span class="star-display">
+                                        @for (int j = 1; j <= i; j++)
+                                        {
+                                            <i class="bi bi-star-fill"></i>
+                                        }
+                                        @for (int j = i + 1; j <= 5; j++)
+                                        {
+                                            <i class="bi bi-star"></i>
+                                        }
+                                    </span>
+                                    <span class="rating-text">@i Star@(i > 1 ? "s" : "")</span>
+                                </label>
+                                <br />
+                            }
+                        </div>
+                        <span asp-validation-for="Rating" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Comment" class="form-label">Your Feedback *</label>
+                        <textarea asp-for="Comment" class="form-control" rows="6" 
+                                  placeholder="Please share your experience and feedback about how your complaint was handled..."></textarea>
+                        <span asp-validation-for="Comment" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/Complaint/Details/@Model.ComplaintId" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-send"></i> Submit Feedback
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        .rating-selector {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .rating-option {
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .rating-option:hover {
+            background: #e9ecef;
+        }
+        .rating-option input[type="radio"] {
+            margin-right: 10px;
+        }
+        .rating-option .star-display {
+            color: #ffc107;
+            font-size: 1.2rem;
+        }
+        .rating-text {
+            margin-left: 10px;
+        }
+    </style>
+}

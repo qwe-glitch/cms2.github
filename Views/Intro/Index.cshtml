@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+    Layout = "~/Views/Shared/_IntroLayout.cshtml";
+}
+
+<div class="main-intro-layout">
+
+    <div class="content-window">
+        <div class="intro-slider-wrapper">
+
+            <div id="slide-1" class="intro-content is-loaded">
+                <div class="title-section">
+                    <h1 class="main-title">You Are The<br>Missing Piece</h1>
+                    <span class="tag"><span class="tag-inner">IDENTITY</span></span>
+                </div>
+                <p class="description">
+                    Just like the scattered fragments on the right, our community is incomplete without you. Your voice is the essential component that bridges the gap between disorder and perfection.
+                </p>
+                <button id="nextSlideButton1" class="cta-button">Connect the Parts</button>
+            </div>
+
+            <div id="slide-2" class="intro-content">
+                <div class="title-section">
+                    <h1 class="main-title">Turn Fragments<br>Into Form</h1>
+                    <span class="tag"><span class="tag-inner">IMPACT</span></span>
+                </div>
+                <p class="description">
+                    Don't let your piece of the puzzle go missing. Every report you submit is a structural block that strengthens Segamat's infrastructure. Turn chaos into order with a single click.
+                </p>
+                <button id="nextSlideButton2" class="cta-button">See How It Works</button>
+            </div>
+
+            <div id="slide-3" class="intro-content">
+                <div class="title-section">
+                    <h1 class="main-title">Completing<br>The Picture</h1>
+                    <span class="tag"><span class="tag-inner">UNITY</span></span>
+                </div>
+                <p class="description">
+                    A perfect community isn't built from the top down, but piece by piece, by people like you. Snap into place. Join us now to make Segamat whole, strong, and complete.
+                </p>
+
+                <a asp-controller="Announcement" asp-action="Index" class="cta-button text-decoration-none" style="display: inline-flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-box-seam-fill me-2"></i> Join the System
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="right-side-module">
+        <spline-viewer id="intro-3d-model"
+                       loading-anim-type="spinner-big-light"
+                       url="https://prod.spline.design/Gb4vLuOef6Q3v8xi/scene.splinecode">
+        </spline-viewer>
+    </div>
+
+</div>

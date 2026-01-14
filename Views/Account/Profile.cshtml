@@ -1,0 +1,406 @@
+@model ComplaintManagementSystem.Models.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="row g-0 min-vh-100">
+    <!-- Left Side - Form -->
+    <div class="col-lg-8 mx-auto d-flex align-items-center justify-content-center p-4 bg-white">
+        <div class="w-100" style="max-width: 700px;">
+            <div class="mb-4">
+                <div class="mb-4">
+                    <div class="icon-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px; border-radius: 50%;">
+                        <i class="bi bi-person-circle" style="font-size: 1.8rem;"></i>
+                    </div>
+                    <h2 class="fw-bold mb-2">My Profile</h2>
+                    <p class="text-muted">Manage your personal information</p>
+                </div>
+            </div>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <form asp-action="Profile" method="post" class="needs-validation" id="profileForm">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <!-- Personal Information Section -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-person-vcard me-2 text-primary"></i>Personal Information
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold">
+                                <i class="bi bi-person me-1 text-primary"></i> Full Name *
+                            </label>
+                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your full name" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label fw-semibold">
+                                <i class="bi bi-envelope me-1 text-primary"></i> Email Address *
+                            </label>
+                            <input asp-for="Email" class="form-control form-control-lg" placeholder="example@email.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Phone" class="form-label fw-semibold">
+                                    <i class="bi bi-telephone me-1 text-primary"></i> Phone
+                                </label>
+                                <input asp-for="Phone" class="form-control" placeholder="012-3456789" id="phoneInput" />
+ <span asp-validation-for="Phone" class="text-danger small"></span>
+                                <div id="phoneValidationFeedback" class="mt-1"></div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Address" class="form-label fw-semibold">
+                                    <i class="bi bi-geo-alt me-1 text-primary"></i> Address
+                                </label>
+                                <input asp-for="Address" class="form-control" placeholder="Your address" />
+                                <span asp-validation-for="Address" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Section (Optional) -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-shield-lock me-2 text-primary"></i>Change Password
+                        </h5>
+                        <small class="text-muted">Leave blank if you don't want to change your password</small>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="NewPassword" class="form-label fw-semibold">
+                                    <i class="bi bi-lock me-1 text-primary"></i> New Password
+                                </label>
+                                <div class="position-relative">
+                                    <input asp-for="NewPassword" class="form-control form-control-lg" 
+                                           placeholder="Min. 8 characters" type="password" id="newPassword" />
+                                    <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y" 
+                                            onclick="togglePassword('newPassword')" tabindex="-1">
+                                        <i class="bi bi-eye" id="newPassword-icon"></i>
+                                    </button>
+                                </div>
+                                <span asp-validation-for="NewPassword" class="text-danger small"></span>
+                                <div class="password-strength mt-2" id="passwordStrength"></div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label fw-semibold">
+                                    <i class="bi bi-lock-fill me-1 text-primary"></i> Confirm Password
+                                </label>
+                                <div class="position-relative">
+                                    <input asp-for="ConfirmPassword" class="form-control form-control-lg" 
+                                           placeholder="Re-enter password" type="password" id="confirmPassword" />
+                                    <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y" 
+                                            onclick="togglePassword('confirmPassword')" tabindex="-1">
+                                        <i class="bi bi-eye" id="confirmPassword-icon"></i>
+                                    </button>
+                                </div>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg shadow-sm hover-lift">
+                        <i class="bi bi-save me-2"></i> Save Changes
+                    </button>
+                    <a href="/Complaint/Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-circle me-2"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.getElementById(fieldId + '-icon');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                field.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('profileForm');
+            const newPasswordInput = document.getElementById('newPassword');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const strengthDiv = document.getElementById('passwordStrength');
+            const phoneInput = document.getElementById('phoneInput');
+            const phoneFeedbackDiv = document.getElementById('phoneValidationFeedback');
+            
+            // Malaysian phone number validation
+            const phoneRegex = /^(01)[0-9]{1}[-\s]?[0-9]{7,8}$/;
+            const phoneLooseRegex = /^[\d\s\-()]+$/;
+
+            function validateInput(input, validator) {
+                // For optional password, if empty, it's valid (unless other rules trigger, but we handle empty specifically)
+                if (input.value === '') {
+                    input.classList.remove('is-valid', 'is-invalid');
+                    return true; 
+                }
+
+                const isValid = validator ? validator(input.value) : input.value.trim().length > 0;
+                
+                if (isValid) {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                    return true;
+                } else {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                    return false;
+                }
+            }
+
+            if (newPasswordInput) {
+                let passwordRequirements = {
+                    length: false,
+                    lowercase: false,
+                    uppercase: false,
+                    number: false,
+                    special: false
+                };
+
+                newPasswordInput.addEventListener('input', function() {
+                    const password = this.value;
+                    
+                    // If empty, clear strength and validation
+                    if (password.length === 0) {
+                        strengthDiv.innerHTML = '';
+                        this.classList.remove('is-valid', 'is-invalid');
+                        let icon = this.parentElement.querySelector('.validation-icon');
+                        if (icon) icon.remove();
+                        validateConfirmPassword(); // Re-validate confirm since main is empty
+                        return;
+                    }
+
+                    passwordRequirements.length = password.length >= 8;
+                    passwordRequirements.lowercase = /[a-z]/.test(password);
+                    passwordRequirements.uppercase = /[A-Z]/.test(password);
+                    passwordRequirements.number = /[0-9]/.test(password);
+                    passwordRequirements.special = /[^a-zA-Z0-9]/.test(password);
+
+                    let strength = 0;
+                    let text = '';
+                    let color = '';
+                    let barWidth = '0%';
+
+                    if (password.length >= 8) strength += 20;
+                    if (password.length >= 12) strength += 15;
+                    if (passwordRequirements.lowercase) strength += 15;
+                    if (passwordRequirements.uppercase) strength += 15;
+                    if (passwordRequirements.number) strength += 15;
+                    if (passwordRequirements.special) strength += 20;
+
+                    if (strength < 40) {
+                        text = 'Weak';
+                        color = 'danger';
+                        barWidth = '33%';
+                    } else if (strength < 70) {
+                        text = 'Medium';
+                        color = 'warning';
+                        barWidth = '66%';
+                    } else {
+                        text = 'Strong';
+                        color = 'success';
+                        barWidth = '100%';
+                    }
+
+                    strengthDiv.innerHTML = 
+                        '<div class="mb-2">' +
+                            '<small class="text-' + color + ' fw-semibold">' +
+                                '<i class="bi bi-shield-' + (strength >= 70 ? 'fill-check' : 'exclamation') + '"></i> ' +
+                                'Password strength: ' + text +
+                            '</small>' +
+                        '</div>' +
+                        '<div class="progress" style="height: 4px;">' +
+                            '<div class="progress-bar bg-' + color + '" role="progressbar" style="width: ' + barWidth + '" aria-valuenow="' + strength + '" aria-valuemin="0" aria-valuemax="100"></div>' +
+                        '</div>' +
+                        '<div class="mt-2">' +
+                            '<small class="d-block ' + (passwordRequirements.length ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.length ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'At least 8 characters' +
+                            '</small>' +
+                            '<small class="d-block ' + (passwordRequirements.uppercase && passwordRequirements.lowercase ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.uppercase && passwordRequirements.lowercase ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'Upper & lowercase letters' +
+                            '</small>' +
+                            '<small class="d-block ' + (passwordRequirements.number ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.number ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'At least one number' +
+                            '</small>' +
+                            '<small class="d-block ' + (passwordRequirements.special ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.special ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'Special character (!\\u0040#$%^&*)' +
+                            '</small>' +
+                        '</div>';
+
+                    if (this.classList.contains('is-valid') || this.classList.contains('is-invalid') || password.length >= 1) {
+                         validateInput(this, (value) => {
+                            return value.length >= 8 && 
+                                   passwordRequirements.lowercase && 
+                                   passwordRequirements.uppercase && 
+                                   passwordRequirements.number;
+                        });
+                    }
+
+                    if (confirmPasswordInput && confirmPasswordInput.value) {
+                        validateConfirmPassword();
+                    }
+                });
+            }
+
+            function validateConfirmPassword() {
+                if (!confirmPasswordInput || !newPasswordInput) return;
+                
+                if (confirmPasswordInput.value === '') {
+                    confirmPasswordInput.classList.remove('is-valid', 'is-invalid');
+                    let icon = confirmPasswordInput.parentElement.querySelector('.validation-icon');
+                    if (icon) icon.remove();
+                    return;
+                }
+
+                // If new password is empty, confirm should probably be empty too, but technically if user types in confirm without new, it's a mismatch or invalid state.
+                // Assuming we only validate match if new password has value.
+                if (newPasswordInput.value === '') {
+                     // If user types in confirm but new is empty, it's invalid
+                     validateInput(confirmPasswordInput, () => false);
+                     return;
+                }
+
+                const passwordsMatch = confirmPasswordInput.value === newPasswordInput.value;
+                validateInput(confirmPasswordInput, () => passwordsMatch);
+            }
+
+            if (confirmPasswordInput) {
+                confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+            }
+            
+            // Phone validation
+            if (phoneInput) {
+                function validatePhone(value) {
+                    const digitsOnly = value.replace(/[\s\-()]/g, '');
+                    const isValidFormat = phoneRegex.test(digitsOnly);
+                    const isLooseValid = phoneLooseRegex.test(value) && digitsOnly.length >= 10 && digitsOnly.length <= 11 && digitsOnly.startsWith('01');
+                    return isValidFormat || isLooseValid;
+                }
+                
+                function showPhoneFeedback(value) {
+                    if (!phoneFeedbackDiv) return;
+                    
+                    if (!value || value.trim() === '') {
+                        phoneFeedbackDiv.innerHTML = '';
+                        return;
+                    }
+                    
+                    const digitsOnly = value.replace(/[\s\-()]/g, '');
+                    const startsWithO1 = digitsOnly.startsWith('01');
+                    const hasValidLength = digitsOnly.length >= 10 && digitsOnly.length <= 11;
+                    const isValid = validatePhone(value);
+                    
+                    if (isValid) {
+                        phoneFeedbackDiv.innerHTML = 
+                            '<small class="text-success">' +
+                                '<i class="bi bi-check-circle-fill me-1"></i>' +
+                                'Valid Malaysian phone number' +
+                            '</small>';
+                    } else {
+                        let hints = [];
+                        if (!startsWithO1) hints.push('Must start with 01');
+                        if (!hasValidLength) hints.push('Must be 10-11 digits');
+                        
+                        phoneFeedbackDiv.innerHTML = 
+                            '<small class="text-danger">' +
+                                '<i class="bi bi-exclamation-circle me-1"></i>' +
+                                'Invalid format. ' + (hints.length > 0 ? hints.join(', ') : 'Use format: 012-3456789') +
+                            '</small>';
+                    }
+                }
+                
+                function validatePhoneInput(input) {
+                    if (input.value === '') {
+                        input.classList.remove('is-valid', 'is-invalid');
+                        phoneFeedbackDiv.innerHTML = '';
+                        return true;
+                    }
+                    
+                    const isValid = validatePhone(input.value);
+                    if (isValid) {
+                        input.classList.remove('is-invalid');
+                        input.classList.add('is-valid');
+                    } else {
+                        input.classList.remove('is-valid');
+                        input.classList.add('is-invalid');
+                    }
+                    showPhoneFeedback(input.value);
+                    return isValid;
+                }
+                
+                phoneInput.addEventListener('blur', function() {
+                    validatePhoneInput(this);
+                });
+                phoneInput.addEventListener('input', function() {
+                    if (this.classList.contains('is-valid') || this.classList.contains('is-invalid') || this.value.trim().length >= 3) {
+                        validatePhoneInput(this);
+                    }
+                });
+            }
+
+            form.addEventListener('submit', function(e) {
+                // Only validate password fields if they are not empty
+                if (newPasswordInput && newPasswordInput.value.length > 0) {
+                     const isPasswordValid = newPasswordInput.value.length >= 8 && 
+                           /[a-z]/.test(newPasswordInput.value) && 
+                           /[A-Z]/.test(newPasswordInput.value) && 
+                           /[0-9]/.test(newPasswordInput.value);
+                    
+                    if (!isPasswordValid) {
+                        validateInput(newPasswordInput, () => false);
+                    }
+                    
+                    validateConfirmPassword();
+                }
+
+                const hasInvalid = form.querySelectorAll('.is-invalid').length > 0;
+                if (hasInvalid) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const firstInvalid = form.querySelector('.is-invalid');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstInvalid.focus();
+                    }
+                }
+            });
+        });
+    </script>
+}

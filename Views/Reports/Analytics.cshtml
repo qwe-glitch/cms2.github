@@ -1,0 +1,413 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Analytics Dashboard";
+    var startDate = (DateTime)ViewBag.StartDate;
+    var endDate = (DateTime)ViewBag.EndDate;
+    var userType = Context.Session.GetString("UserType");
+}
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Analytics Dashboard</h2>
+        <p class="text-muted mb-0">Overview of complaint management performance</p>
+    </div>
+    <div class="d-flex gap-2">
+        @if (userType != "Staff")
+        {
+            <a href="/Reports/TeamWorkload" class="btn btn-outline-primary">
+                <i class="bi bi-people me-1"></i> Team Workload
+            </a>
+            <a href="/Reports/SlaCompliance" class="btn btn-outline-primary">
+                <i class="bi bi-speedometer2 me-1"></i> SLA Compliance
+            </a>
+        }
+        <a href="/Reports/Explore" class="btn btn-outline-primary">
+            <i class="bi bi-search me-1"></i> Explore Reports
+        </a>
+    </div>
+</div>
+
+<div class="mb-4">
+    <h4 class="fw-bold mb-3">Report Filters</h4>
+    
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form method="get" action="/Reports/Analytics" id="filterForm">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">Time Period</label>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="setDateRange('week')">Week</button>
+                            <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="setDateRange('month')">Month</button>
+                        </div>
+                        <div class="d-flex gap-2 mt-2">
+                            <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="setDateRange('quarter')">Quarter</button>
+                            <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="setDateRange('year')">Year</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">Start Date</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-calendar"></i></span>
+                            <input type="date" class="form-control" id="startDate" name="startDate" value="@startDate.ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">End Date</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-calendar"></i></span>
+                            <input type="date" class="form-control" id="endDate" name="endDate" value="@endDate.ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-primary px-4">Apply Filters</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- KPI Cards -->
+<div class="row g-4 mb-4">
+    <!-- Total Complaints -->
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <p class="text-muted small mb-1">Total Complaints</p>
+                <div class="d-flex justify-content-between align-items-end">
+                    <h2 class="fw-bold mb-0">@Model.KPIs.TotalComplaints.Value.ToString("N0")</h2>
+                    <span class="badge bg-light @(Model.KPIs.TotalComplaints.Trend >= 0 ? "text-success" : "text-danger") rounded-pill">
+                        <i class="bi @(Model.KPIs.TotalComplaints.Trend >= 0 ? "bi-graph-up-arrow" : "bi-graph-down-arrow") me-1"></i>
+                        @Math.Abs((double)Model.KPIs.TotalComplaints.Trend)%
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resolution Rate -->
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <p class="text-muted small mb-1">Resolution Rate</p>
+                <div class="d-flex justify-content-between align-items-end">
+                    <h2 class="fw-bold mb-0">@Model.KPIs.ResolutionRate.Value%</h2>
+                    <span class="badge bg-light @(Model.KPIs.ResolutionRate.Trend >= 0 ? "text-success" : "text-danger") rounded-pill">
+                        <i class="bi @(Model.KPIs.ResolutionRate.Trend >= 0 ? "bi-graph-up-arrow" : "bi-graph-down-arrow") me-1"></i>
+                        @Math.Abs((double)Model.KPIs.ResolutionRate.Trend)%
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avg Response Time -->
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <p class="text-muted small mb-1">Avg Response Time</p>
+                <div class="d-flex justify-content-between align-items-end">
+                    <h2 class="fw-bold mb-0">@Model.KPIs.AvgResponseTime.Value <small class="fs-6 text-muted">hrs</small></h2>
+                    <span class="badge bg-light @(Model.KPIs.AvgResponseTime.Trend <= 0 ? "text-success" : "text-danger") rounded-pill">
+                        <i class="bi @(Model.KPIs.AvgResponseTime.Trend >= 0 ? "bi-graph-up-arrow" : "bi-graph-down-arrow") me-1"></i>
+                        @Math.Abs((double)Model.KPIs.AvgResponseTime.Trend)%
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avg Resolution Time -->
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <p class="text-muted small mb-1">Avg Resolution Time</p>
+                <div class="d-flex justify-content-between align-items-end">
+                    <h2 class="fw-bold mb-0">@Model.KPIs.AvgResolutionTime.Value <small class="fs-6 text-muted">days</small></h2>
+                    <span class="badge bg-light @(Model.KPIs.AvgResolutionTime.Trend <= 0 ? "text-success" : "text-danger") rounded-pill">
+                        <i class="bi @(Model.KPIs.AvgResolutionTime.Trend >= 0 ? "bi-graph-up-arrow" : "bi-graph-down-arrow") me-1"></i>
+                        @Math.Abs((double)Model.KPIs.AvgResolutionTime.Trend)%
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Monthly Complaint Trends -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h4 class="fw-bold mb-4">Monthly Complaint Trends</h4>
+        <div style="height: 300px;">
+            <canvas id="monthlyTrendsChart"></canvas>
+        </div>
+        <div class="d-flex justify-content-center gap-4 mt-3 small">
+            <div class="d-flex align-items-center">
+                <span class="d-inline-block rounded-circle me-2" style="width: 8px; height: 8px; background-color: #fca5a5;"></span> Pending
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="d-inline-block rounded-circle me-2" style="width: 8px; height: 8px; background-color: #34d399;"></span> Resolved
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="d-inline-block rounded-circle me-2" style="width: 8px; height: 8px; background-color: #6366f1;"></span> Total Complaints
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Avg Resolution Time by Category -->
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-4">Average Resolution Time by Category</h4>
+                <div style="height: 300px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Performance Metrics -->
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-4">Weekly Performance Metrics</h4>
+                <div style="height: 300px;">
+                    <canvas id="weeklyPerformanceChart"></canvas>
+                </div>
+                <div class="d-flex justify-content-center gap-3 mt-3 small">
+                    <div class="d-flex align-items-center">
+                        <span class="d-inline-block rounded-circle me-2" style="width: 8px; height: 8px; background-color: #34d399;"></span> Resolution Time (days)
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="d-inline-block rounded-circle me-2" style="width: 8px; height: 8px; background-color: #6366f1;"></span> Response Time (hrs)
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="d-inline-block rounded-circle me-2" style="width: 8px; height: 8px; background-color: #fbbf24;"></span> Satisfaction (out of 5)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Detect dark mode
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        const textColor = isDarkMode ? '#ffffff' : '#666';
+        const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : '#f3f4f6';
+        const tooltipBg = isDarkMode ? 'rgba(30, 30, 30, 0.95)' : 'rgba(0, 0, 0, 0.8)';
+        
+        // Data from Model
+        const monthlyData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Charts.MonthlyTrends));
+        const categoryData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Charts.CategoryResolution));
+        const weeklyData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Charts.WeeklyPerformance));
+
+        // 1. Monthly Trends Chart (Area)
+        const ctxMonthly = document.getElementById('monthlyTrendsChart').getContext('2d');
+        new Chart(ctxMonthly, {
+            type: 'line',
+            data: {
+                labels: monthlyData.map(d => d.Date),
+                datasets: [
+                    {
+                        label: 'Total Complaints',
+                        data: monthlyData.map(d => d.Total),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: false,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Resolved',
+                        data: monthlyData.map(d => d.Resolved),
+                        borderColor: '#34d399',
+                        backgroundColor: '#34d399',
+                        borderWidth: 0,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    },
+                    {
+                        label: 'Pending',
+                        data: monthlyData.map(d => d.Pending),
+                        borderColor: '#fca5a5',
+                        backgroundColor: '#fca5a5',
+                        borderWidth: 0,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: tooltipBg,
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        stacked: true,
+                        grid: { borderDash: [2, 4], color: gridColor },
+                        ticks: { font: { size: 11 }, color: textColor }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 11 }, color: textColor }
+                    }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            }
+        });
+
+        // 2. Category Resolution Chart (Horizontal Bar)
+        const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctxCategory, {
+            type: 'bar',
+            data: {
+                labels: categoryData.map(d => d.Category),
+                datasets: [{
+                    label: 'Days',
+                    data: categoryData.map(d => d.AvgDays),
+                    backgroundColor: '#8b5cf6',
+                    borderRadius: 4,
+                    barThickness: 20
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: tooltipBg,
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff'
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { borderDash: [2, 4], color: gridColor },
+                        ticks: { color: textColor }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: textColor }
+                    }
+                }
+            }
+        });
+
+        // 3. Weekly Performance Chart (Line)
+        const ctxWeekly = document.getElementById('weeklyPerformanceChart').getContext('2d');
+        new Chart(ctxWeekly, {
+            type: 'line',
+            data: {
+                labels: weeklyData.map(d => d.Week),
+                datasets: [
+                    {
+                        label: 'Resolution Time (days)',
+                        data: weeklyData.map(d => d.AvgResolutionDays),
+                        borderColor: '#34d399',
+                        backgroundColor: '#34d399',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Response Time (hrs)',
+                        data: weeklyData.map(d => d.AvgResponseHours),
+                        borderColor: '#6366f1',
+                        backgroundColor: '#6366f1',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Satisfaction (out of 5)',
+                        data: weeklyData.map(d => d.AvgSatisfaction),
+                        borderColor: '#fbbf24',
+                        backgroundColor: '#fbbf24',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: tooltipBg,
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { borderDash: [2, 4], color: gridColor },
+                        ticks: { color: textColor }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: textColor }
+                    }
+                }
+            }
+        });
+
+        // Date Range Helper
+        function setDateRange(period) {
+            const end = new Date();
+            let start = new Date();
+
+            switch(period) {
+                case 'week':
+                    start.setDate(end.getDate() - 7);
+                    break;
+                case 'month':
+                    start.setMonth(end.getMonth() - 1);
+                    break;
+                case 'quarter':
+                    start.setMonth(end.getMonth() - 3);
+                    break;
+                case 'year':
+                    start.setFullYear(end.getFullYear() - 1);
+                    break;
+            }
+
+            document.getElementById('startDate').value = start.toISOString().split('T')[0];
+            document.getElementById('endDate').value = end.toISOString().split('T')[0];
+            document.getElementById('filterForm').submit();
+        }
+    </script>
+}

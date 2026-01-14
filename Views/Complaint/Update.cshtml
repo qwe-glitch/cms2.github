@@ -1,0 +1,122 @@
+@model ComplaintManagementSystem.Models.ViewModels.ComplaintUpdateViewModel
+@{
+    ViewData["Title"] = "Update Complaint";
+    var staff = ViewBag.Staff as IEnumerable<dynamic>;
+    var userType = Context.Session.GetString("UserType");
+}
+
+<div class="mb-3">
+    <a href="/Complaint/Details/@Model.ComplaintId" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Details
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"><i class="bi bi-pencil"></i> Update Complaint Status</h3>
+            </div>
+            <div class="card-body">
+                @if (Model.Status == "Resolved" || Model.Status == "Rejected" || Model.Status == "Closed - Duplicate")
+                {
+                    <div class="alert alert-warning">
+                        <h4 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> Cannot Update Status</h4>
+                        <p>This complaint has been finalized as <strong>@Model.Status</strong> and cannot be updated further.</p>
+                        <hr>
+                        <a href="/Complaint/Details/@Model.ComplaintId" class="btn btn-outline-dark">Return to Details</a>
+                    </div>
+                }
+                else
+                {
+                    <form asp-action="Update" method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="ComplaintId" />
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Status" class="form-label">Status *</label>
+                            <select asp-for="Status" class="form-select">
+                                @if (Model.Status == "Pending")
+                                {
+                                    <option value="Pending">Pending</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Rejected">Rejected</option>
+                                }
+                                else if (Model.Status == "In Progress")
+                                {
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Resolved">Resolved</option>
+                                }
+                                else
+                                {
+                                    @* Fallback for other statuses, though they should be caught by the "Cannot Update" block above *@
+                                    <option value="@Model.Status">@Model.Status</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger small"></span>
+                        </div>
+
+                        @if (userType == "Admin" && staff != null)
+                        {
+                            <div class="mb-3">
+                                <label asp-for="AssignedStaffId" class="form-label">Assign to Staff</label>
+                                <select asp-for="AssignedStaffId" class="form-select">
+                                    <option value="">-- Unassigned --</option>
+                                    @foreach (var s in staff)
+                                    {
+                                        <option value="@s.StaffId">@s.Name - @s.DepartmentName</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="AssignedStaffId" class="text-danger small"></span>
+                            </div>
+                        }
+
+                        <div class="mb-3">
+                            <label asp-for="Priority" class="form-label">Priority Level</label>
+                            <select asp-for="Priority" class="form-select">
+                                <option value="">-- Keep Current --</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                            <span asp-validation-for="Priority" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="UpdateNotes" class="form-label">Update Notes (Optional)</label>
+                            <textarea asp-for="UpdateNotes" class="form-control" rows="4" 
+                                      placeholder="Add notes about this update..."></textarea>
+                            <span asp-validation-for="UpdateNotes" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Attachments" class="form-label">
+                                <i class="bi bi-paperclip me-1"></i> Attachments (Optional)
+                            </label>
+                            <input type="file" asp-for="Attachments" class="form-control" multiple 
+                                   accept="image/*,.pdf,.doc,.docx,.txt" />
+                            <small class="text-muted d-block mt-1">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Upload photos, documents, or other relevant files. Multiple files allowed.
+                            </small>
+                            <span asp-validation-for="Attachments" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/Complaint/Details/@Model.ComplaintId" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle"></i> Update Complaint
+                            </button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

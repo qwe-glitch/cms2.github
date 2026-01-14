@@ -1,0 +1,586 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Home";
+    
+    // Calculate stats
+    var totalComplaints = Model?.Count() ?? 0;
+    var resolvedComplaints = Model?.Count(c => c.Status == "Resolved") ?? 0;
+    var pendingComplaints = Model?.Count(c => c.Status == "Pending") ?? 0;
+    var resolutionRate = totalComplaints > 0 ? (int)((double)resolvedComplaints / totalComplaints * 100) : 0;
+}
+
+<!-- Modern Hero Section -->
+<div class="hero-section text-center text-white position-relative overflow-hidden">
+    <div class="hero-bg-overlay"></div>
+    <div class="container position-relative z-index-1 py-5">
+        <div class="mb-4 animate-fade-down">
+            <div class="icon-circle bg-white text-primary mx-auto shadow-lg">
+                <i class="bi bi-shield-check" style="font-size: 3.5rem;"></i>
+            </div>
+        </div>
+        <h1 class="display-3 fw-bold mb-3 animate-fade-up">Segamat Community</h1>
+        <p class="lead mb-5 opacity-90 animate-fade-up delay-100" style="max-width: 600px; margin: 0 auto;">
+            A transparent platform for a better community. Report issues, track progress, and see change happen.
+        </p>
+
+        @if (Context.Session.GetString("UserType") != null)
+        {
+            var userType = Context.Session.GetString("UserType");
+            var userName = Context.Session.GetString("UserName");
+            
+            <div class="glass-card d-inline-block p-4 animate-zoom-in delay-200">
+                <h5 class="mb-3"><i class="bi bi-person-circle me-2"></i> Welcome, @userName!</h5>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    @if (userType == "Citizen")
+                    {
+                        <a href="/Complaint" class="btn btn-light btn-lg fw-semibold shadow-sm">
+                            <i class="bi bi-list-ul me-2"></i> My Complaints
+                        </a>
+                        <a href="/Complaint/Create" class="btn btn-primary btn-lg fw-semibold shadow-sm">
+                            <i class="bi bi-plus-lg me-2"></i> New Complaint
+                        </a>
+                    }
+                    else if (userType == "Staff")
+                    {
+                        <a href="/Staff/MyWork" class="btn btn-light btn-lg fw-semibold shadow-sm">
+                            <i class="bi bi-clipboard-check me-2"></i> My Work
+                        </a>
+                        <a href="/Notification" class="btn btn-info text-white btn-lg fw-semibold shadow-sm">
+                            <i class="bi bi-bell me-2"></i> Alerts
+                        </a>
+                    }
+                    else if (userType == "Admin")
+                    {
+                        <a href="/Admin/Dashboard" class="btn btn-light btn-lg fw-semibold shadow-sm">
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                        </a>
+                        <a href="/Complaint" class="btn btn-success btn-lg fw-semibold shadow-sm">
+                            <i class="bi bi-grid me-2"></i> Manage All
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex gap-3 justify-content-center animate-zoom-in delay-200">
+                <a href="/Account/Register" class="btn btn-light btn-lg px-5 fw-bold shadow-sm hover-lift">
+                    Get Started
+                </a>
+                <a href="/Account/Login" class="btn btn-outline-light btn-lg px-5 fw-bold hover-lift">
+                    Sign In
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Stats Dashboard -->
+<div class="container mt-n5 position-relative z-index-2">
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-4 col-lg-3">
+            <div class="stat-card bg-white shadow-sm p-4 rounded-4 text-center hover-lift">
+                <div class="stat-icon bg-primary-subtle text-primary mb-3">
+                    <i class="bi bi-folder2-open"></i>
+                </div>
+                <h3 class="fw-bold mb-0 count-up">@totalComplaints</h3>
+                <p class="text-muted small mb-0 text-uppercase fw-bold tracking-wide">Total Reports</p>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+            <div class="stat-card bg-white shadow-sm p-4 rounded-4 text-center hover-lift">
+                <div class="stat-icon bg-success-subtle text-success mb-3">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+                <h3 class="fw-bold mb-0 count-up">@resolvedComplaints</h3>
+                <p class="text-muted small mb-0 text-uppercase fw-bold tracking-wide">Resolved</p>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+            <div class="stat-card bg-white shadow-sm p-4 rounded-4 text-center hover-lift">
+                <div class="stat-icon bg-warning-subtle text-warning mb-3">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <h3 class="fw-bold mb-0 count-up">@pendingComplaints</h3>
+                <p class="text-muted small mb-0 text-uppercase fw-bold tracking-wide">In Progress</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Public Complaints Board -->
+<div class="container my-5 py-4">
+    <div class="text-center mb-5 bg-white">
+        <h2 class="fw-bold display-6 mb-2">Public Complaints Board</h2>
+        <p class="text-muted">Real-time updates from your community</p>
+    </div>
+
+    <!-- Modern Filters -->
+    <div class="glass-panel p-4 mb-5 rounded-4 shadow-sm">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-4">
+                <label class="form-label small text-muted fw-bold text-uppercase mb-2">Filter by Status</label>
+                <div class="d-flex flex-wrap gap-2" id="statusFilters">
+                    <button class="filter-pill active" data-filter="all">All</button>
+                    <button class="filter-pill" data-filter="pending">
+                        <span class="dot bg-warning"></span> Pending
+                    </button>
+                    <button class="filter-pill" data-filter="in progress">
+                        <span class="dot bg-info"></span> In Progress
+                    </button>
+                    <button class="filter-pill" data-filter="resolved">
+                        <span class="dot bg-success"></span> Resolved
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label class="form-label small text-muted fw-bold text-uppercase mb-2">Filter by Category</label>
+                <select class="form-select form-select-lg rounded-pill border-0 bg-light" id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    @if (ViewBag.Categories != null)
+                    {
+                        foreach (var cat in ViewBag.Categories)
+                        {
+                            <option value="@cat.CategoryName.ToLower()">@cat.CategoryName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-lg-4">
+                <label class="form-label small text-muted fw-bold text-uppercase mb-2">Search</label>
+                <div class="position-relative">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input type="text" class="form-control form-control-lg ps-5 rounded-pill border-0 bg-light" 
+                           id="searchBox" placeholder="Search complaints...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complaints Grid -->
+    <div class="row g-4" id="complaintsContainer">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var complaint in Model)
+            {
+                var statusColor = complaint.Status switch
+                {
+                    "Pending" => "warning",
+                    "In Progress" => "info",
+                    "Resolved" => "success",
+                    "Rejected" => "danger",
+                    _ => "secondary"
+                };
+
+                <div class="col-md-6 col-lg-4 complaint-item animate-fade-up" 
+                     data-status="@complaint.Status.ToLower()" 
+                     data-category="@complaint.CategoryName.ToLower()"
+                     data-title="@complaint.Title.ToLower()"
+                     data-description="@complaint.Description.ToLower()">
+                    <a href="/Complaint/Details/@complaint.ComplaintId" class="text-decoration-none">
+                    <div class="complaint-card h-100 bg-white rounded-4 shadow-sm overflow-hidden position-relative clickable-card">
+                        <div class="card-status-strip bg-@statusColor"></div>
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                                    <i class="bi bi-tag-fill text-primary me-1"></i> @complaint.CategoryName
+                                </span>
+                                <span class="status-badge text-@statusColor bg-@statusColor-subtle">
+                                    @complaint.Status
+                                </span>
+                            </div>
+                            
+                            <h5 class="card-title fw-bold mb-2 text-truncate">@complaint.Title</h5>
+                            <p class="text-muted small mb-4 line-clamp-3">@complaint.Description</p>
+                            
+                            @if (complaint.Attachments != null && complaint.Attachments.Count > 0)
+                            {
+                                <div class="mb-3">
+                                    <div class="d-flex gap-2 overflow-auto pb-2" style="scrollbar-width: thin;">
+                                        @foreach (var attachment in complaint.Attachments)
+                                        {
+                                            string fileType = attachment.FileType ?? "";
+                                            if (fileType.StartsWith("image/"))
+                                            {
+                                                <a href="@attachment.FilePath" target="_blank" class="flex-shrink-0">
+                                                    <img src="@attachment.FilePath" class="rounded border" style="height: 60px; width: 60px; object-fit: cover;" alt="Attachment" />
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@attachment.FilePath" target="_blank" class="flex-shrink-0 btn btn-light border d-flex align-items-center justify-content-center" style="height: 60px; width: 60px;">
+                                                    <i class="bi bi-file-earmark-text fs-4 text-secondary"></i>
+                                                </a>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            
+                            <div class="d-flex align-items-center text-muted small mb-3">
+                                <i class="bi bi-geo-alt-fill me-2 text-danger opacity-75"></i>
+                                <span class="text-truncate">@(complaint.Location ?? "No location specified")</span>
+                            </div>
+
+                            <div class="card-meta d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock me-1"></i> @complaint.SubmittedAt.ToString("MMM dd, yyyy")
+                                </small>
+                                <small class="fw-bold text-primary">#@complaint.ComplaintId</small>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <div class="empty-state">
+                    <div class="mb-4 text-muted opacity-25">
+                        <i class="bi bi-inbox" style="font-size: 5rem;"></i>
+                    </div>
+                    <h4>No complaints found</h4>
+                    <p class="text-muted">Be the first to submit a complaint!</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- No Results State -->
+    <div id="noResults" class="text-center py-5 d-none">
+        <div class="mb-4 text-muted opacity-25">
+            <i class="bi bi-search" style="font-size: 4rem;"></i>
+        </div>
+        <h4>No matches found</h4>
+        <p class="text-muted">Try adjusting your filters or search terms</p>
+        <button class="btn btn-outline-primary rounded-pill px-4 mt-3" onclick="resetFilters()">
+            Clear Filters
+        </button>
+    </div>
+    
+    <!-- Load More Button -->
+    <div class="text-center mt-5" id="loadMoreContainer">
+        <button class="btn btn-light btn-lg rounded-pill px-5 shadow-sm hover-lift fw-bold text-primary" id="loadMoreBtn">
+            Load More <i class="bi bi-arrow-down ms-2"></i>
+        </button>
+    </div>
+</div>
+
+<style>
+    /* Modern Variables */
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.9);
+        --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+        --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+        --shadow-hover: 0 20px 40px -10px rgba(0,0,0,0.12);
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background: var(--gradient-primary);
+        padding-bottom: 6rem;
+    }
+    
+    .hero-bg-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .icon-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Glassmorphism */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        color: white;
+    }
+
+    .glass-panel {
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Stats Cards */
+    .stat-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin: 0 auto;
+    }
+
+    /* Filter Pills */
+    .filter-pill {
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #64748b;
+        padding: 0.5rem 1.25rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-pill:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+    }
+
+    .filter-pill.active {
+        background: #0f172a;
+        color: white;
+        border-color: #0f172a;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    /* Complaint Cards */
+    .complaint-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .complaint-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover) !important;
+    }
+
+    .clickable-card {
+        cursor: pointer;
+    }
+
+    .clickable-card, .clickable-card * {
+        color: inherit;
+    }
+
+    .clickable-card .text-muted {
+        color: #6c757d !important;
+    }
+
+    .clickable-card .text-primary {
+        color: var(--bs-primary) !important;
+    }
+
+    .clickable-card .text-danger {
+        color: #dc2626 !important;
+    }
+
+    .card-status-strip {
+        height: 4px;
+        width: 100%;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0.35em 0.8em;
+        border-radius: 0.5rem;
+        letter-spacing: 0.025em;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Animations */
+    .animate-fade-up {
+        animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .animate-fade-down {
+        animation: fadeDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    
+    .animate-zoom-in {
+        animation: zoomIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+
+    @@keyframes fadeUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @@keyframes fadeDown {
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @@keyframes zoomIn {
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .hover-lift {
+        transition: transform 0.2s ease;
+    }
+    
+    .hover-lift:hover {
+        transform: translateY(-3px);
+    }
+    
+    /* Background Utilities */
+    .bg-warning-subtle { background-color: #fffbeb; }
+    .bg-info-subtle { background-color: #ecfeff; }
+    .bg-success-subtle { background-color: #f0fdf4; }
+    .bg-danger-subtle { background-color: #fef2f2; }
+    
+    .text-warning { color: #d97706 !important; }
+    .text-info { color: #0891b2 !important; }
+    .text-success { color: #16a34a !important; }
+    .text-danger { color: #dc2626 !important; }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterPills = document.querySelectorAll('.filter-pill');
+        const searchBox = document.getElementById('searchBox');
+        const items = document.querySelectorAll('.complaint-item');
+        const noResults = document.getElementById('noResults');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const loadMoreContainer = document.getElementById('loadMoreContainer');
+        
+        const categoryFilter = document.getElementById('categoryFilter');
+        let currentFilter = 'all';
+        let currentCategory = 'all';
+        let visibleCount = 0;
+        const itemsPerPage = 9;
+        let currentlyShown = itemsPerPage;
+
+        // Initialize: Show first batch
+        updateVisibility();
+
+        // Filter Click Handler
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                // Update active state
+                filterPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                
+                currentFilter = pill.dataset.filter;
+                currentlyShown = itemsPerPage; // Reset pagination
+                updateVisibility();
+            });
+        });
+
+        // Category Filter Handler
+        categoryFilter.addEventListener('change', () => {
+            currentCategory = categoryFilter.value;
+            currentlyShown = itemsPerPage; // Reset pagination
+            updateVisibility();
+        });
+
+        // Search Handler
+        searchBox.addEventListener('input', () => {
+            currentlyShown = itemsPerPage; // Reset pagination
+            updateVisibility();
+        });
+
+        // Load More Handler
+        if(loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                currentlyShown += itemsPerPage;
+                updateVisibility();
+            });
+        }
+
+        // Global Reset Function
+        window.resetFilters = function() {
+            searchBox.value = '';
+            categoryFilter.value = 'all';
+            filterPills.forEach(p => p.classList.remove('active'));
+            document.querySelector('[data-filter="all"]').classList.add('active');
+            currentFilter = 'all';
+            currentCategory = 'all';
+            currentlyShown = itemsPerPage;
+            updateVisibility();
+        };
+
+        function updateVisibility() {
+            const searchValue = searchBox.value.toLowerCase();
+            let matchCount = 0;
+            let shownCount = 0;
+
+            items.forEach(item => {
+                const status = item.dataset.status;
+                const category = item.dataset.category;
+                const title = item.dataset.title;
+                const desc = item.dataset.description;
+
+                const matchesStatus = currentFilter === 'all' || status === currentFilter;
+                const matchesCategory = currentCategory === 'all' || category === currentCategory;
+                const matchesSearch = !searchValue || title.includes(searchValue) || desc.includes(searchValue);
+
+                if (matchesStatus && matchesCategory && matchesSearch) {
+                    matchCount++;
+                    if (shownCount < currentlyShown) {
+                        item.classList.remove('d-none');
+                        // Re-trigger animation
+                        item.style.animation = 'none';
+                        item.offsetHeight; /* trigger reflow */
+                        item.style.animation = null; 
+                        shownCount++;
+                    } else {
+                        item.classList.add('d-none');
+                    }
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+
+            // Toggle No Results
+            if (matchCount === 0 && items.length > 0) {
+                noResults.classList.remove('d-none');
+                loadMoreContainer.classList.add('d-none');
+            } else {
+                noResults.classList.add('d-none');
+                // Toggle Load More
+                if (shownCount < matchCount) {
+                    loadMoreContainer.classList.remove('d-none');
+                } else {
+                    loadMoreContainer.classList.add('d-none');
+                }
+            }
+        }
+    });
+</script>

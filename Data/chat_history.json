@@ -1,0 +1,28 @@
+[
+  {
+    "Id": "e8fad1f5-b154-4259-b1fa-d76984cab9e7",
+    "SenderId": "1",
+    "SenderType": "Admin",
+    "SenderName": "System Administrator",
+    "ReceiverId": "1",
+    "ReceiverType": "Staff",
+    "Content": "hi",
+    "MessageType": "Text",
+    "SentAt": "2025-12-24T11:23:54.5048965+08:00",
+    "IsWithdrawn": false,
+    "DeletedFor": []
+  },
+  {
+    "Id": "206a04d8-1e50-499f-8b28-b0579a4233df",
+    "SenderId": "1",
+    "SenderType": "Admin",
+    "SenderName": "System Administrator",
+    "ReceiverId": "1",
+    "ReceiverType": "Staff",
+    "Content": "https://media2.giphy.com/media/v1.Y2lkPWE1YTU4ZDcwNHp4c2RnZ2FsdmdhamhicnFtYzQ5ZTZnd2c3M3R0dWpncGljdGdmYiZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/uXb5fVxiUIvHMeX3EY/200.gif",
+    "MessageType": "Gif",
+    "SentAt": "2025-12-24T12:43:42.417821+08:00",
+    "IsWithdrawn": false,
+    "DeletedFor": []
+  }
+]

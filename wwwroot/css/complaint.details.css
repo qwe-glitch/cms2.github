@@ -1,0 +1,83 @@
+/* Complaint Details Styles */
+
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gray-200);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -1.5rem;
+    top: 0.25rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.timeline-content {
+    background: var(--gray-50);
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+}
+
+.bg-warning-subtle {
+    background-color: #fff3cd;
+}
+
+.bg-info-subtle {
+    background-color: #cff4fc;
+}
+
+.bg-success-subtle {
+    background-color: #d1e7dd;
+}
+
+.bg-danger-subtle {
+    background-color: #f8d7da;
+}
+
+.text-warning {
+    color: #997404 !important;
+}
+
+.text-info {
+    color: #087990 !important;
+}
+
+.text-success {
+    color: #0a3622 !important;
+}
+
+.text-danger {
+    color: #842029 !important;
+}
+
+@media print {
+
+    .btn,
+    .alert {
+        display: none;
+    }
+}

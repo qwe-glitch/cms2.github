@@ -1,0 +1,279 @@
+﻿@model IEnumerable<ComplaintManagementSystem.Models.ViewModels.AnnouncementViewModel>
+
+@{
+    ViewData["Title"] = "Segamat Community";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var systemUpdates = Model.Where(x => x.Category == "System").ToList();
+    var communityFeed = Model.Where(x => x.Category != "System").ToList();
+
+    var userType = Context.Session.GetString("UserType");
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/announcement.css" />
+}
+
+<div class="container mt-4 animate-fade-in">
+
+    <div class="bulletin-header">
+        <h1 class="text-white">Segamat <span class="text-info">Community</span></h1>
+        <p class="text-white-50 small mt-2">LATEST NEWS & UPDATES</p>
+    </div>
+
+    <div id="partnerCarousel" class="carousel slide event-carousel fade-in-up" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#partnerCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#partnerCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#partnerCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a href="https://www.rmp.gov.my/" target="_blank" class="carousel-link">
+                    <img src="https://images.unsplash.com/photo-1589578527966-fdac0f44566c?q=80&w=1200&h=400&fit=crop" class="d-block w-100" alt="Safety">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="caption-content">
+                            <h3 class="fw-bold text-white"><i class="bi bi-shield-shaded me-2"></i> PDRM (Police)</h3>
+                            <p class="mb-0">Royal Malaysia Police Official Portal.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="https://www.mot.gov.my/" target="_blank" class="carousel-link">
+                    <img src="https://images.unsplash.com/photo-1494522855154-9297ac14b55f?q=80&w=1200&h=400&fit=crop" class="d-block w-100" alt="Transport">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="caption-content">
+                            <h3 class="fw-bold text-white"><i class="bi bi-cone-striped me-2"></i> Transport Dept</h3>
+                            <p class="mb-0">Roadworks & Traffic Updates.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="https://www.kpkt.gov.my/" target="_blank" class="carousel-link">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&h=400&fit=crop" class="d-block w-100" alt="Housing">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="caption-content">
+                            <h3 class="fw-bold text-white"><i class="bi bi-building me-2"></i> Local Council</h3>
+                            <p class="mb-0">Municipal services & Housing.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#partnerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#partnerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <div class="container mt-5">
+        <div class="bulletin-header">
+            <h1 class="text-white">Live <span class="text-info">Data Sphere</span></h1>
+            <p class="text-white-50 small">INTERACTIVE COMMUNITY VISUALIZER</p>
+        </div>
+
+        <div class="sphere-wrapper fade-in-up">
+
+            <spline-viewer class="sphere-spline-bg"
+                        url="https://prod.spline.design/07OfqFsdXNgBOQwu/scene.splinecode"
+                        loading-anim-type="spinner-small-light">
+            </spline-viewer>
+
+            <div class="sphere-scene">
+                <div class="sphere-container" id="sphereContainer">
+
+                    @foreach (var item in Model.Take(15))
+                    {
+                        bool isResolved = item.Category == "Success" || item.Category == "Resolved";
+                        string colorClass = isResolved ? "neon-green" : "neon-orange";
+
+                        <a href="/Complaint/Details/@item.Id" class="sphere-item @colorClass">
+                            <div class="item-dot"></div>
+                            <div class="item-content">
+                                <span class="item-tag">@item.Category</span>
+                                <div class="item-title">@item.Title</div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (systemUpdates.Any())
+    {
+        <div class="row justify-content-center fade-in-up" style="animation-delay: 0.1s;">
+            <div class="col-12">
+                @foreach (var update in systemUpdates)
+                {
+                    <div class="admin-notice-card">
+
+                        @if (userType == "Admin")
+                        {
+                            <button class="btn btn-sm btn-outline-light rounded-pill btn-edit-system"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editSystemModal"
+                                    data-title="@update.Title"
+                                    data-content="@update.Content">
+                                <i class="bi bi-pencil-fill me-1"></i> Edit
+                            </button>
+                        }
+
+                        <i class="bi bi-megaphone-fill bg-icon-overlay"></i>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="neon-badge-system me-3">
+                                <span class="neon-badge-inner">
+                                    <i class="bi bi-shield-lock-fill me-2"></i> Official
+                                </span>
+                            </div>
+                            <small class="text-white-50" style="font-family: monospace;">
+                                @update.PostedDate.ToString("dd MMM yyyy, HH:mm")
+                            </small>
+                        </div>
+
+                        <h3 class="text-white fw-bold mb-2">@update.Title</h3>
+                        <p class="text-white-50 mb-0" style="font-size: 1rem; line-height: 1.6;">@update.Content</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="quick-access-wrapper mb-5 fade-in-up" style="animation-delay: 0.2s;">
+        <button class="btn w-100 quick-access-trigger d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#quickAccessCollapse">
+            <span class="fw-bold text-uppercase letter-spacing-2"><i class="bi bi-grid-fill me-2 text-info"></i> More Agency Contacts</span>
+            <i class="bi bi-chevron-down transition-icon"></i>
+        </button>
+        <div class="collapse mt-2" id="quickAccessCollapse">
+            <div class="quick-access-grid">
+                <a href="https://www.moh.gov.my/" target="_blank" class="agency-card"><i class="bi bi-heart-pulse-fill text-danger fs-3 mb-2"></i><span>Health Dept</span></a>
+                <a href="https://www.span.gov.my/" target="_blank" class="agency-card"><i class="bi bi-droplet-fill text-primary fs-3 mb-2"></i><span>Water Works</span></a>
+                <a href="https://www.st.gov.my/" target="_blank" class="agency-card"><i class="bi bi-lightning-fill text-warning fs-3 mb-2"></i><span>Energy</span></a>
+                <a href="https://www.doe.gov.my/" target="_blank" class="agency-card"><i class="bi bi-tree-fill text-success fs-3 mb-2"></i><span>Environment</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mb-4 mt-4">
+        <button class="btn btn-sm btn-info text-white rounded-pill px-4 filter-btn" data-filter="all">All</button>
+        <button class="btn btn-sm btn-outline-light rounded-pill px-4 text-white-50 filter-btn" data-filter="Resolved">Resolved</button>
+        <button class="btn btn-sm btn-outline-light rounded-pill px-4 text-white-50 filter-btn" data-filter="In Progress">In Progress</button>
+    </div>
+
+    <div class="bulletin-list">
+        @foreach (var item in communityFeed)
+        {
+            bool isResolved = item.Category == "Success" || item.Category == "Resolved";
+
+            string cardStyle = isResolved ? "card-success" : "card-progress";
+            string badgeClass = isResolved ? "neon-badge-success" : "neon-badge-warning";
+            string icon = isResolved ? "bi-check-circle-fill" : "bi-tools";
+
+            string displayText = isResolved ? "Resolved" : "In Progress";
+
+            <div class="bulletin-card @cardStyle" data-display-text="@displayText.ToLower()">
+
+                <div class="d-flex flex-column align-items-center justify-content-center me-3" style="min-width: 140px;">
+                    <div class="neon-badge @badgeClass mb-2">
+                        <span class="neon-badge-inner">
+                            <i class="bi @icon me-2"></i> @displayText
+                        </span>
+                    </div>
+                    <small class="text-white-50" style="font-family: monospace; font-size: 0.75rem;">
+                        @item.PostedDate.ToString("MMM dd")
+                    </small>
+                </div>
+
+                <div class="card-content border-start border-secondary ps-4">
+                    <h5 class="text-white fw-bold mb-1">@item.Title</h5>
+                    <p class="text-white-50 small mb-0 text-truncate">@item.Content</p>
+                </div>
+
+                <div class="ms-3 d-none d-md-block">
+                    <a href="/Complaint/Details/@item.Id" class="btn btn-sm btn-outline-light rounded-pill px-3">
+                        Details <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+                <a href="/Complaint/Details/@item.Id" class="stretched-link d-md-none"></a>
+            </div>
+        }
+
+        @if (!communityFeed.Any())
+        {
+            <div class="text-center text-white-50 py-5 w-100"><p>No community updates found.</p></div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="editSystemModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card border-0" style="background: rgba(20, 20, 20, 0.95); border: 1px solid var(--neon-purple);">
+            <form asp-action="UpdateSystemAnnouncement" method="post">
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title text-white"><i class="bi bi-pencil-square me-2 text-info"></i>Edit System Notice</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small">TITLE</label>
+                        <input type="text" name="title" id="modalTitleInput" class="form-control bg-dark text-white border-secondary" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white-50 small">CONTENT / EXPLANATION</label>
+                        <textarea name="content" id="modalContentInput" rows="4" class="form-control bg-dark text-white border-secondary" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary">
+                    <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-info text-white fw-bold">Update & Publish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="maintenanceTicker" class="construction-bar">
+    <div class="ticker-content">
+        <i class="bi bi-cone-striped fs-4 me-3 text-warning"></i>
+        <div class="scrolling-text">
+            ⚠️ SYSTEM ALERT: @(systemUpdates.FirstOrDefault()?.Title ?? "System Maintenance") - @(systemUpdates.FirstOrDefault()?.Content ?? "Under Construction")
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/announcement.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var editModal = document.getElementById('editSystemModal');
+            if (editModal) {
+                editModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    var title = button.getAttribute('data-title');
+                    var content = button.getAttribute('data-content');
+
+                    document.getElementById('modalTitleInput').value = title;
+                    document.getElementById('modalContentInput').value = content;
+                });
+            }
+
+            var ticker = document.getElementById('maintenanceTicker');
+            if (ticker) {
+                setTimeout(function() {
+                    ticker.classList.add('show');
+                }, 1000);
+
+                @if (TempData["SystemMessageUpdated"] != null)
+                {
+                        <text>console.log("System Updated just now!");</text>
+                }
+            }
+        });
+    </script>
+    <script type="module" src="https://unpkg.com/@@splinetool/viewer@1.12.6/build/spline-viewer.js" async></script>
+}

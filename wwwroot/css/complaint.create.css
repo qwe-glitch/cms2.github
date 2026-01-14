@@ -1,0 +1,66 @@
+/* Complaint Create Styles */
+
+.priority-selector label {
+    transition: all 0.3s ease;
+}
+
+.priority-selector .btn-check:checked+label {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Knowledge Base Suggestions */
+.kb-suggestions-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.kb-suggestion-card {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.kb-suggestion-card:hover {
+    border-color: #0d6efd;
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.15);
+    transform: translateY(-2px);
+}
+
+.kb-suggestion-card:last-child {
+    margin-bottom: 0;
+}
+
+.kb-match-badge {
+    font-size: 1.2rem;
+    margin-top: 2px;
+}
+
+.kb-view-link {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.kb-suggestion-card:hover .kb-view-link {
+    opacity: 1;
+}
+
+#knowledgeBaseSuggestions {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

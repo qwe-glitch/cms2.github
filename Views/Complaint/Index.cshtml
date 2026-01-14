@@ -1,0 +1,203 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Complaints";
+    var userType = ViewBag.UserType;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <h2 class="mb-0">
+        <i class="bi bi-clipboard-data text-gradient"></i> 
+        @if (userType == "Citizen")
+        {
+            <span>My Complaints</span>
+        }
+        else
+        {
+            <span>Complaints Management</span>
+        }
+    </h2>
+    @if (userType == "Citizen")
+    {
+        <a href="/Complaint/Create" class="btn btn-primary btn-lg shadow-sm hover-lift">
+            <i class="bi bi-plus-circle me-2"></i> Submit New Complaint
+        </a>
+    }
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <!-- Filters and View Controls -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+                <!-- Search -->
+                <div class="col-md-4">
+                    <label class="form-label small fw-bold text-uppercase text-muted mb-1">Search</label>
+                    <div class="position-relative">
+                        <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                        <input type="text" class="form-control ps-5 rounded-pill" id="searchInput" placeholder="Search complaints...">
+                    </div>
+                </div>
+                
+                <!-- Status Filter -->
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-uppercase text-muted mb-1">Status</label>
+                    <select class="form-select rounded-pill" id="statusFilter">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Closed - Duplicate">Closed - Duplicate</option>
+                    </select>
+                </div>
+                
+                <!-- Priority Filter -->
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold text-uppercase text-muted mb-1">Priority</label>
+                    <select class="form-select rounded-pill" id="priorityFilter">
+                        <option value="">All Priorities</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                
+                <!-- View Toggle -->
+                <div class="col-md-2 text-end">
+                    <div class="btn-group shadow-sm" role="group">
+                        <button type="button" class="btn btn-outline-primary active" id="gridView" data-bs-toggle="tooltip" title="Grid View">
+                            <i class="bi bi-grid-3x3-gap"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" id="listView" data-bs-toggle="tooltip" title="List View">
+                            <i class="bi bi-list-ul"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complaints Container -->
+    <div class="row g-4" id="complaintsContainer">
+        @foreach (var complaint in Model)
+        {
+            var statusClass = complaint.Status == "Pending" ? "warning" :
+                            complaint.Status == "In Progress" ? "info" :
+                            complaint.Status == "Resolved" ? "success" : 
+                            complaint.Status == "Rejected" ? "danger" :
+                            complaint.Status == "Closed - Duplicate" ? "secondary" : "secondary";
+            
+            var priorityClass = complaint.Priority == "High" ? "danger" :
+                              complaint.Priority == "Medium" ? "warning" : "info";
+
+            <div class="col-md-6 col-lg-4 complaint-item animate-fade-in-up" 
+                 data-status="@complaint.Status.ToLower()" 
+                 data-priority="@complaint.Priority.ToLower()"
+                 data-title="@complaint.Title.ToLower()"
+                 data-category="@complaint.CategoryName.ToLower()">
+                <div class="card h-100 border-0 shadow-sm hover-lift" style="transition: all 0.3s ease;">
+                    <!-- Status Strip -->
+                    <div style="height: 4px; background: var(--@statusClass);"></div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <!-- Header -->
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                                <i class="bi bi-tag-fill text-primary me-1"></i> @complaint.CategoryName
+                            </span>
+                            <span class="badge bg-@statusClass-subtle text-@statusClass rounded-pill px-3 py-2 fw-semibold">
+                                @complaint.Status
+                            </span>
+                        </div>
+                        
+                        <!-- Title -->
+                        <h5 class="card-title fw-bold mb-2">
+                            <a href="/Complaint/Details/@complaint.ComplaintId" class="text-decoration-none text-dark hover-link">
+                                @complaint.Title
+                            </a>
+                        </h5>
+                        
+                        <!-- Meta Info -->
+                        <div class="mb-3 flex-grow-1">
+                            @if (userType != "Citizen")
+                            {
+                                <p class="small text-muted mb-1">
+                                    <i class="bi bi-person me-1"></i> @complaint.CitizenName
+                                </p>
+                            }
+                            @if (userType == "Admin" && complaint.StaffName != null)
+                            {
+                                <p class="small text-muted mb-1">
+                                    <i class="bi bi-person-badge me-1"></i> Assigned: @complaint.StaffName
+                                </p>
+                            }
+                            <p class="small text-muted mb-0">
+                                <i class="bi bi-calendar me-1"></i> @complaint.SubmittedAt.ToString("dd MMM yyyy")
+                            </p>
+                        </div>
+                        
+                        <!-- Priority Badge -->
+                        <div class="mb-3">
+                            <span class="badge bg-@priorityClass">@complaint.Priority Priority</span>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="d-flex gap-2 mt-auto">
+                            <a href="/Complaint/Details/@complaint.ComplaintId" class="btn btn-sm btn-outline-primary flex-fill">
+                                <i class="bi bi-eye me-1"></i> View
+                            </a>
+                            @if ((userType == "Staff" || userType == "Admin") && complaint.Status != "Resolved" && complaint.Status != "Rejected" && complaint.Status != "Closed - Duplicate")
+                            {
+                                <a href="/Complaint/Update/@complaint.ComplaintId" class="btn btn-sm btn-outline-success flex-fill">
+                                    <i class="bi bi-pencil me-1"></i> Update
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- No Results Message -->
+    <div id="noResults" class="text-center py-5 d-none">
+        <div class="mb-4">
+            <i class="bi bi-search" style="font-size: 4rem; color: var(--gray-300);"></i>
+        </div>
+        <h4 class="text-muted">No complaints found</h4>
+        <p class="text-muted">Try adjusting your filters or search terms</p>
+        <button class="btn btn-outline-primary rounded-pill" onclick="resetFilters()">
+            <i class="bi bi-arrow-counterclockwise me-2"></i> Clear Filters
+        </button>
+    </div>
+}
+else
+{
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <i class="bi bi-inbox" style="font-size: 5rem; color: var(--gray-200);"></i>
+        </div>
+        <h4>No complaints found</h4>
+        @if (userType == "Citizen")
+        {
+            <p class="text-muted mb-4">You haven't submitted any complaints yet</p>
+            <a href="/Complaint/Create" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle me-2"></i> Submit Your First Complaint
+            </a>
+        }
+        else
+        {
+            <p class="text-muted">No complaints have been submitted yet</p>
+        }
+    </div>
+}
+
+@section Scripts {
+<script src="~/js/complaint.index.js"></script>
+}
+
+@section Styles {
+<link rel="stylesheet" href="~/css/complaint.index.css" />
+}
+

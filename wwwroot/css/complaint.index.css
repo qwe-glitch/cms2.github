@@ -1,0 +1,41 @@
+/* Complaint Index Styles */
+
+.bg-warning-subtle {
+    background-color: #fff3cd;
+}
+
+.bg-info-subtle {
+    background-color: #cff4fc;
+}
+
+.bg-success-subtle {
+    background-color: #d1e7dd;
+}
+
+.bg-danger-subtle {
+    background-color: #f8d7da;
+}
+
+.text-warning {
+    color: #997404 !important;
+}
+
+.text-info {
+    color: #087990 !important;
+}
+
+.text-success {
+    color: #0a3622 !important;
+}
+
+.text-danger {
+    color: #842029 !important;
+}
+
+.hover-link {
+    transition: color 0.2s ease;
+}
+
+.hover-link:hover {
+    color: var(--primary) !important;
+}

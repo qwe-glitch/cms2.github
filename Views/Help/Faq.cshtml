@@ -1,0 +1,63 @@
+@model ComplaintManagementSystem.Controllers.HelpController.FaqData
+@{
+    ViewData["Title"] = "FAQ";
+}
+
+<div class="container">
+    <div class="d-flex flex-column flex-md-row align-items-md-center mb-3 gap-2">
+        <h2 class="fw-bold mb-0">Frequently Asked Questions</h2>
+        <form id="faq-search-form" class="ms-md-auto d-flex" action="/Help/Faq" method="get" role="search">
+            <input type="search" class="form-control" name="q" id="faq-search" placeholder="Search questions" aria-label="Search">
+        </form>
+    </div>
+
+    <div class="mb-3">
+        <div class="d-flex flex-wrap gap-2">
+            @foreach (var cat in Model.Categories)
+            {
+                <a href="/Help/Faq?category=@cat.Id" class="btn btn-outline-secondary btn-sm">@cat.Name</a>
+            }
+            <a href="/Help/Faq" class="btn btn-outline-secondary btn-sm">All</a>
+        </div>
+    </div>
+
+    @foreach (var cat in Model.Categories)
+    {
+        <div class="mb-4">
+            <h5 class="fw-semibold d-flex align-items-center"><i class="bi bi-folder2-open text-primary me-2"></i> @cat.Name</h5>
+            <div class="accordion" id="accordion-@cat.Id">
+                @for (var i = 0; i < cat.Items.Count; i++)
+                {
+                    var item = cat.Items[i];
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-@item.Id">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="false" aria-controls="collapse-@item.Id">
+                                @item.Question
+                            </button>
+                        </h2>
+                        <div id="collapse-@item.Id" class="accordion-collapse collapse" aria-labelledby="heading-@item.Id" data-bs-parent="#accordion-@cat.Id">
+                            <div class="accordion-body">
+                                <div>@Html.Raw(item.Answer)</div>
+                                @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                                {
+                                    <img src="@item.ImageUrl" alt="@item.Question" class="img-fluid rounded mt-2" />
+                                }
+                                <div class="d-flex align-items-center mt-3 gap-2">
+                                    <span class="text-muted small">Was this helpful?</span>
+                                    <button type="button" class="btn btn-outline-success btn-sm rate-btn" data-item-id="@item.Id" data-helpful="true"><i class="bi bi-hand-thumbs-up"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm rate-btn" data-item-id="@item.Id" data-helpful="false"><i class="bi bi-hand-thumbs-down"></i></button>
+                                    <span class="ms-2 small text-muted" id="rating-@item.Id">👍 @item.Helpful · 👎 @item.NotHelpful</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/help.js"></script>
+}
+

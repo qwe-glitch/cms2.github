@@ -1,0 +1,127 @@
+@model ComplaintManagementSystem.Models.ViewModels.DuplicateDetectionViewModel
+@{
+    ViewData["Title"] = "Potential Duplicates";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            <h2><i class="bi bi-exclamation-triangle"></i> Potential Duplicate Complaints</h2>
+        </div>
+        <div class="card-body">
+            <!-- Original Complaint -->
+            <div class="card mb-4 border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h4>Original Complaint #@Model.OriginalComplaintId</h4>
+                </div>
+                <div class="card-body">
+                    <h5>@Model.OriginalTitle</h5>
+                    <p class="text-muted">@Model.OriginalDescription</p>
+                    <p><strong>Location:</strong> @Model.OriginalLocation</p>
+                    <p><strong>Submitted:</strong> @Model.OriginalSubmittedAt.ToString("MMM dd, yyyy hh:mm tt")</p>
+                </div>
+            </div>
+
+            @if (Model.PotentialDuplicates.Any())
+            {
+                <h4 class="mb-3">Found @Model.PotentialDuplicates.Count Potential Duplicate(s)</h4>
+                
+                @foreach (var duplicate in Model.PotentialDuplicates)
+                {
+                    <div class="card mb-3 @(duplicate.SimilarityScore >= 85 ? "border-danger" : duplicate.SimilarityScore >= 70 ? "border-warning" : "border-info")">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <a href="@Url.Action("Details", "Complaint", new { id = duplicate.ComplaintId })" target="_blank">
+                                    Complaint #@duplicate.ComplaintId
+                                </a>
+                                @if (duplicate.IsAlreadyLinked)
+                                {
+                                    <span class="badge bg-secondary">Already Linked</span>
+                                }
+                            </h5>
+                            <div class="d-flex gap-2">
+                                @if (duplicate.AiSimilarityScore.HasValue)
+                                {
+                                    <span class="badge @(duplicate.AiSimilarityScore >= 85 ? "bg-primary" : "bg-info")" title="AI Confidence Score">
+                                        <i class="bi bi-robot"></i> AI: @duplicate.AiSimilarityScore%
+                                    </span>
+                                }
+                                <span class="badge @(duplicate.SimilarityScore >= 85 ? "bg-danger" : duplicate.SimilarityScore >= 70 ? "bg-warning text-dark" : "bg-info")" title="Traditional Algorithm Score">
+                                    Algo: @duplicate.SimilarityScore%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6>@duplicate.Title</h6>
+                                    <p class="text-muted">@duplicate.Description</p>
+                                    <p class="mb-1"><strong>Location:</strong> @duplicate.Location</p>
+                                    <p class="mb-1"><strong>Category:</strong> @duplicate.CategoryName</p>
+                                    <p class="mb-1"><strong>Status:</strong> <span class="badge bg-secondary">@duplicate.Status</span></p>
+                                    <p class="mb-1"><strong>Submitted:</strong> @duplicate.SubmittedAt.ToString("MMM dd, yyyy hh:mm tt")</p>
+                                    <p class="mb-0"><small class="text-info"><i class="bi bi-info-circle"></i> @duplicate.SimilarityReason</small></p>
+                                    @if (!string.IsNullOrEmpty(duplicate.AiReasoning))
+                                    {
+                                        <div class="alert alert-light border mt-2 p-2">
+                                            <small><i class="bi bi-robot"></i> <strong>AI Insight:</strong> @duplicate.AiReasoning</small>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-md-4">
+                                    @if (ViewBag.UserType == "Admin" || ViewBag.UserType == "Staff")
+                                    {
+                                        @if (!duplicate.IsAlreadyLinked)
+                                        {
+                                            <form asp-controller="Admin" asp-action="MarkAsDuplicate" method="post" class="mb-2">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="originalComplaintId" value="@Model.OriginalComplaintId" />
+                                                <input type="hidden" name="duplicateComplaintId" value="@duplicate.ComplaintId" />
+                                                <button type="submit" class="btn btn-danger btn-sm w-100" onclick="return confirm('Mark this as a duplicate and close it?')">
+                                                    <i class="bi bi-x-circle"></i> Mark as Duplicate & Close
+                                                </button>
+                                            </form>
+                                            
+                                            <form asp-controller="Admin" asp-action="LinkComplaints" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="sourceComplaintId" value="@Model.OriginalComplaintId" />
+                                                <input type="hidden" name="targetComplaintId" value="@duplicate.ComplaintId" />
+                                                <input type="hidden" name="linkType" value="Related" />
+                                                <button type="submit" class="btn btn-info btn-sm w-100">
+                                                    <i class="bi bi-link-45deg"></i> Link as Related
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("LinkedComplaints", "Complaint", new { id = Model.OriginalComplaintId })" class="btn btn-secondary btn-sm w-100">
+                                                <i class="bi bi-eye"></i> View Link Details
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle"></i> No potential duplicates found for this complaint.
+                </div>
+            }
+
+            <div class="mt-4">
+                <a href="@Url.Action("Details", "Complaint", new { id = Model.OriginalComplaintId })" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i> Back to Complaint Details
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+<link rel="stylesheet" href="~/css/complaint.potentialduplicates.css" />
+}
+

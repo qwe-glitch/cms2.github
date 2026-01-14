@@ -1,0 +1,469 @@
+@model ComplaintManagementSystem.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row g-0 min-vh-100">
+    <!-- Left Side - Form -->
+    <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 bg-white">
+        <div class="w-100" style="max-width: 500px;">
+            <div class="mb-4">
+                <a href="/Home" class="text-decoration-none text-muted d-inline-flex align-items-center mb-4">
+                    <i class="bi bi-arrow-left me-2"></i> Back to Home
+                </a>
+                <div class="mb-4">
+                    <div class="icon-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px; border-radius: 50%;">
+                        <i class="bi bi-person-plus-fill" style="font-size: 1.8rem;"></i>
+                    </div>
+                    <h2 class="fw-bold mb-2">Create Account</h2>
+                    <p class="text-muted">Register as a citizen to submit and track complaints</p>
+                </div>
+            </div>
+
+            <form asp-action="Register" method="post" class="needs-validation" id="registerForm">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label fw-semibold">
+                        <i class="bi bi-person me-1 text-primary"></i> Full Name *
+                    </label>
+                    <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your full name" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-semibold">
+                        <i class="bi bi-envelope me-1 text-primary"></i> Email Address *
+                    </label>
+                    <input asp-for="Email" class="form-control form-control-lg" placeholder="example@email.com" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Password" class="form-label fw-semibold">
+                            <i class="bi bi-lock me-1 text-primary"></i> Password *
+                        </label>
+                        <div class="position-relative">
+                            <input asp-for="Password" class="form-control form-control-lg" 
+                                   placeholder="Min. 8 characters" type="password" id="password" />
+                            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y" 
+                                    onclick="togglePassword('password')" tabindex="-1">
+                                <i class="bi bi-eye" id="password-icon"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                        <div class="password-strength mt-2" id="passwordStrength"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label fw-semibold">
+                            <i class="bi bi-lock-fill me-1 text-primary"></i> Confirm *
+                        </label>
+                        <div class="position-relative">
+                            <input asp-for="ConfirmPassword" class="form-control form-control-lg" 
+                                   placeholder="Re-enter password" type="password" id="confirmPassword" />
+                            <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y" 
+                                    onclick="togglePassword('confirmPassword')" tabindex="-1">
+                                <i class="bi bi-eye" id="confirmPassword-icon"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Phone" class="form-label fw-semibold">
+                            <i class="bi bi-telephone me-1 text-primary"></i> Phone
+                        </label>
+                        <input asp-for="Phone" class="form-control" placeholder="012-3456789" id="phoneInput" />
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                        <div id="phoneValidationFeedback" class="mt-1"></div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address" class="form-label fw-semibold">
+                            <i class="bi bi-geo-alt me-1 text-primary"></i> Address
+                        </label>
+                        <input asp-for="Address" class="form-control" placeholder="Your address" />
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg shadow-sm hover-lift">
+                        <i class="bi bi-person-check me-2"></i> Create Account
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted mb-2">Already have an account?</p>
+                <a href="/Account/Login" class="btn btn-outline-primary rounded-pill px-4">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side - Info -->
+    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-5 text-white" 
+         style="background: var(--gradient-primary);">
+        <div class="text-center" style="max-width: 500px;">
+            <i class="bi bi-shield-check" style="font-size: 5rem; opacity: 0.9;"></i>
+            <h2 class="fw-bold mt-4 mb-4">Join Segamat Community</h2>
+            <p class="lead mb-4" style="opacity: 0.95;">
+                Empower your community by reporting issues and tracking their resolution.
+            </p>
+            <div class="row g-4 text-start mt-5">
+                <div class="col-12">
+                    <div class="d-flex align-items-start">
+                        <div class="icon-circle bg-white bg-opacity-25 me-3" style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Easy Reporting</h5>
+                            <p class="mb-0 opacity-75">Submit complaints in minutes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex align-items-start">
+                        <div class="icon-circle bg-white bg-opacity-25 me-3" style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Track Progress</h5>
+                            <p class="mb-0 opacity-75">Real-time updates on your complaints</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex align-items-start">
+                        <div class="icon-circle bg-white bg-opacity-25 me-3" style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Community Impact</h5>
+                            <p class="mb-0 opacity-75">Make a difference together</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.getElementById(fieldId + '-icon');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                field.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerForm');
+            const nameInput = document.querySelector('input[name="Name"]');
+            const emailInput = document.querySelector('input[name="Email"]');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const phoneInput = document.querySelector('input[name="Phone"]');
+            const addressInput = document.querySelector('input[name="Address"]');
+            const strengthDiv = document.getElementById('passwordStrength');
+
+            // Email validation regex - using Unicode escape for at symbol to avoid Razor parsing issues
+            const emailRegex = new RegExp("^[a-zA-Z0-9._%+-]+\\u0040[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+            // Malaysian phone number validation: 01X-XXXXXXX or 01X XXXXXXX or 01XXXXXXXX (10-11 digits)
+            const phoneRegex = /^(01)[0-9]{1}[-\s]?[0-9]{7,8}$/;
+            const phoneLooseRegex = /^[\d\s\-()]+$/;
+            const phoneFeedbackDiv = document.getElementById('phoneValidationFeedback');
+
+            function validateInput(input, validator) {
+                let icon = input.parentElement.querySelector('.validation-icon');
+                if (icon) icon.remove();
+
+                if (input.value.trim() === '') {
+                    input.classList.remove('is-valid', 'is-invalid');
+                    return false;
+                }
+
+                const isValid = validator ? validator(input.value) : input.value.trim().length > 0;
+                
+                if (isValid) {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                    return true;
+                } else {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                    return false;
+                }
+            }
+
+            if (nameInput) {
+                nameInput.addEventListener('blur', function() {
+                    validateInput(this, (value) => value.trim().length >= 2);
+                });
+                nameInput.addEventListener('input', function() {
+                    if (this.classList.contains('is-valid') || this.classList.contains('is-invalid')) {
+                        validateInput(this, (value) => value.trim().length >= 2);
+                    }
+                });
+            }
+
+            if (emailInput) {
+                emailInput.addEventListener('blur', function() {
+                    validateInput(this, (value) => emailRegex.test(value));
+                });
+                emailInput.addEventListener('input', function() {
+                    if (this.classList.contains('is-valid') || this.classList.contains('is-invalid')) {
+                        validateInput(this, (value) => emailRegex.test(value));
+                    }
+                });
+            }
+
+            if (passwordInput) {
+                let passwordRequirements = {
+                    length: false,
+                    lowercase: false,
+                    uppercase: false,
+                    number: false,
+                    special: false
+                };
+
+                passwordInput.addEventListener('input', function() {
+                    const password = this.value;
+                    
+                    passwordRequirements.length = password.length >= 8;
+                    passwordRequirements.lowercase = /[a-z]/.test(password);
+                    passwordRequirements.uppercase = /[A-Z]/.test(password);
+                    passwordRequirements.number = /[0-9]/.test(password);
+                    passwordRequirements.special = /[^a-zA-Z0-9]/.test(password);
+
+                    let strength = 0;
+                    let text = '';
+                    let color = '';
+                    let barWidth = '0%';
+                    
+                    if (password.length === 0) {
+                        strengthDiv.innerHTML = '';
+                        this.classList.remove('is-valid', 'is-invalid');
+                        let icon = this.parentElement.querySelector('.validation-icon');
+                        if (icon) icon.remove();
+                        return;
+                    }
+
+                    if (password.length >= 8) strength += 20;
+                    if (password.length >= 12) strength += 15;
+                    if (passwordRequirements.lowercase) strength += 15;
+                    if (passwordRequirements.uppercase) strength += 15;
+                    if (passwordRequirements.number) strength += 15;
+                    if (passwordRequirements.special) strength += 20;
+
+                    if (strength < 40) {
+                        text = 'Weak';
+                        color = 'danger';
+                        barWidth = '33%';
+                    } else if (strength < 70) {
+                        text = 'Medium';
+                        color = 'warning';
+                        barWidth = '66%';
+                    } else {
+                        text = 'Strong';
+                        color = 'success';
+                        barWidth = '100%';
+                    }
+
+                    strengthDiv.innerHTML = 
+                        '<div class="mb-2">' +
+                            '<small class="text-' + color + ' fw-semibold">' +
+                                '<i class="bi bi-shield-' + (strength >= 70 ? 'fill-check' : 'exclamation') + '"></i> ' +
+                                'Password strength: ' + text +
+                            '</small>' +
+                        '</div>' +
+                        '<div class="progress" style="height: 4px;">' +
+                            '<div class="progress-bar bg-' + color + '" role="progressbar" style="width: ' + barWidth + '" aria-valuenow="' + strength + '" aria-valuemin="0" aria-valuemax="100"></div>' +
+                        '</div>' +
+                        '<div class="mt-2">' +
+                            '<small class="d-block ' + (passwordRequirements.length ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.length ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'At least 8 characters' +
+                            '</small>' +
+                            '<small class="d-block ' + (passwordRequirements.uppercase && passwordRequirements.lowercase ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.uppercase && passwordRequirements.lowercase ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'Upper & lowercase letters' +
+                            '</small>' +
+                            '<small class="d-block ' + (passwordRequirements.number ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.number ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'At least one number' +
+                            '</small>' +
+                            '<small class="d-block ' + (passwordRequirements.special ? 'text-success' : 'text-muted') + '">' +
+                                '<i class="bi ' + (passwordRequirements.special ? 'bi-check-circle-fill' : 'bi-circle') + '"></i> ' +
+                                'Special character (!\\u0040#$%^&*)' +
+                            '</small>' +
+                        '</div>';
+
+                    if (this.classList.contains('is-valid') || this.classList.contains('is-invalid') || password.length >= 6) {
+                        validateInput(this, (value) => {
+                            return value.length >= 8 && 
+                                   passwordRequirements.lowercase && 
+                                   passwordRequirements.uppercase && 
+                                   passwordRequirements.number;
+                        });
+                    }
+
+                    if (confirmPasswordInput && confirmPasswordInput.value) {
+                        validateConfirmPassword();
+                    }
+                });
+
+                passwordInput.addEventListener('blur', function() {
+                    if (this.value) {
+                        validateInput(this, (value) => {
+                            return value.length >= 8 && 
+                                   passwordRequirements.lowercase && 
+                                   passwordRequirements.uppercase && 
+                                   passwordRequirements.number;
+                        });
+                    }
+                });
+            }
+
+            function validateConfirmPassword() {
+                if (!confirmPasswordInput || !passwordInput) return;
+                
+                if (confirmPasswordInput.value.trim() === '') {
+                    confirmPasswordInput.classList.remove('is-valid', 'is-invalid');
+                    let icon = confirmPasswordInput.parentElement.querySelector('.validation-icon');
+                    if (icon) icon.remove();
+                    return;
+                }
+
+                const passwordsMatch = confirmPasswordInput.value === passwordInput.value && passwordInput.value !== '';
+                
+                if (passwordsMatch) {
+                    validateInput(confirmPasswordInput, () => true);
+                } else {
+                    validateInput(confirmPasswordInput, () => false);
+                }
+            }
+
+            if (confirmPasswordInput) {
+                confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+                confirmPasswordInput.addEventListener('blur', validateConfirmPassword);
+            }
+
+            if (phoneInput) {
+                function validatePhone(value) {
+                    // Remove all spaces and dashes for digit counting
+                    const digitsOnly = value.replace(/[\s\-()]/g, '');
+                    
+                    // Check Malaysian mobile format: starts with 01, 10-11 digits total
+                    const isValidFormat = phoneRegex.test(value.replace(/[\s\-()]/g, '').replace(/^(01)(\d{1})(\d{7,8})$/, '$1$2-$3').replace('-', '')) || 
+                                          phoneRegex.test(digitsOnly);
+                    
+                    // Also accept if it matches the loose format and has proper length
+                    const isLooseValid = phoneLooseRegex.test(value) && digitsOnly.length >= 10 && digitsOnly.length <= 11 && digitsOnly.startsWith('01');
+                    
+                    return isValidFormat || isLooseValid;
+                }
+                
+                function showPhoneFeedback(value) {
+                    if (!phoneFeedbackDiv) return;
+                    
+                    if (!value || value.trim() === '') {
+                        phoneFeedbackDiv.innerHTML = '';
+                        return;
+                    }
+                    
+                    const digitsOnly = value.replace(/[\s\-()]/g, '');
+                    const startsWithO1 = digitsOnly.startsWith('01');
+                    const hasValidLength = digitsOnly.length >= 10 && digitsOnly.length <= 11;
+                    const isValid = validatePhone(value);
+                    
+                    if (isValid) {
+                        phoneFeedbackDiv.innerHTML = 
+                            '<small class="text-success">' +
+                                '<i class="bi bi-check-circle-fill me-1"></i>' +
+                                'Valid Malaysian phone number' +
+                            '</small>';
+                    } else {
+                        let hints = [];
+                        if (!startsWithO1) hints.push('Must start with 01');
+                        if (!hasValidLength) hints.push('Must be 10-11 digits');
+                        
+                        phoneFeedbackDiv.innerHTML = 
+                            '<small class="text-danger">' +
+                                '<i class="bi bi-exclamation-circle me-1"></i>' +
+                                'Invalid format. ' + (hints.length > 0 ? hints.join(', ') : 'Use format: 012-3456789') +
+                            '</small>';
+                    }
+                }
+                
+                phoneInput.addEventListener('blur', function() {
+                    if (this.value.trim()) {
+                        validateInput(this, validatePhone);
+                        showPhoneFeedback(this.value);
+                    } else {
+                        phoneFeedbackDiv.innerHTML = '';
+                    }
+                });
+                phoneInput.addEventListener('input', function() {
+                    if (this.classList.contains('is-valid') || this.classList.contains('is-invalid') || this.value.trim().length >= 3) {
+                        validateInput(this, validatePhone);
+                        showPhoneFeedback(this.value);
+                    }
+                });
+            }
+
+            if (addressInput) {
+                addressInput.addEventListener('blur', function() {
+                    if (this.value.trim()) {
+                        validateInput(this, (value) => value.trim().length >= 5);
+                    }
+                });
+                addressInput.addEventListener('input', function() {
+                    if (this.classList.contains('is-valid') || this.classList.contains('is-invalid')) {
+                        validateInput(this, (value) => value.trim().length >= 5);
+                    }
+                });
+            }
+
+            form.addEventListener('submit', function(e) {
+                if (nameInput) validateInput(nameInput, (value) => value.trim().length >= 2);
+                if (emailInput) validateInput(emailInput, (value) => emailRegex.test(value));
+                if (passwordInput) {
+                    const isPasswordValid = passwordInput.value.length >= 8 && 
+                           /[a-z]/.test(passwordInput.value) && 
+                           /[A-Z]/.test(passwordInput.value) && 
+                           /[0-9]/.test(passwordInput.value);
+                    validateInput(passwordInput, () => isPasswordValid);
+                }
+                if (confirmPasswordInput) validateConfirmPassword();
+
+                const hasInvalid = form.querySelectorAll('.is-invalid').length > 0;
+                if (hasInvalid) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const firstInvalid = form.querySelector('.is-invalid');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstInvalid.focus();
+                    }
+                }
+            });
+        });
+    </script>
+}

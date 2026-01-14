@@ -1,0 +1,318 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Manage Staff";
+    var departments = ViewBag.Departments as IEnumerable<dynamic>;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-person-badge"></i> Manage Staff</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+        <i class="bi bi-plus-circle"></i> Add Staff
+    </button>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Staff" method="get" class="row g-3">
+            <div class="col-md-10">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Search staff by name, email, or department..." value="@ViewBag.SearchQuery">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Department</th>
+                            <th>Assigned</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var staff in Model)
+                        {
+                            <tr>
+                                <td>@staff.StaffId</td>
+                                <td><strong>@staff.Name</strong></td>
+                                <td>@staff.Email</td>
+                                <td>@staff.Phone</td>
+                                <td>@staff.DepartmentName</td>
+                                <td><span class="badge bg-info">@staff.AssignedComplaints</span></td>
+                                <td>
+                                    @if (staff.IsActive)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    }
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" 
+                                            onclick="editStaff(@staff.StaffId, '@staff.Name', '@staff.Email', @staff.DepartmentId, '@staff.Phone', @staff.IsActive.ToString().ToLower())">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    @if (staff.IsActive)
+                                    {
+                                        <form asp-action="DeactivateStaff" method="post" class="d-inline" id="deactivateForm-@staff.StaffId">
+                                            <input type="hidden" name="staffId" value="@staff.StaffId" />
+                                            <button type="button" class="btn btn-sm btn-outline-warning"
+                                                    onclick="showDeactivateConfirmation('@staff.StaffId', '@staff.Name', '@staff.DepartmentName', @staff.AssignedComplaints)">
+                                                <i class="bi bi-x-circle"></i> Deactivate
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="ActivateStaff" method="post" class="d-inline">
+                                            <input type="hidden" name="staffId" value="@staff.StaffId" />
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-check-circle"></i> Activate
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No staff found. Add your first staff member.
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="CreateStaff" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Staff</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name *</label>
+                        <input type="text" name="name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email *</label>
+                        <input type="email" name="email" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password *</label>
+                        <input type="password" name="password" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Department *</label>
+                        <select name="departmentId" class="form-select" required>
+                            <option value="">-- Select Department --</option>
+                            @if (departments != null)
+                            {
+                                @foreach (var dept in departments)
+                                {
+                                    <option value="@dept.DepartmentId">@dept.DepartmentName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="UpdateStaff" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="editStaffId" name="staffId" />
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Staff</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name *</label>
+                        <input type="text" id="editName" name="name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email *</label>
+                        <input type="email" id="editEmail" name="email" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Department *</label>
+                        <select id="editDepartmentId" name="departmentId" class="form-select" required>
+                            @if (departments != null)
+                            {
+                                @foreach (var dept in departments)
+                                {
+                                    <option value="@dept.DepartmentId">@dept.DepartmentName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" id="editPhone" name="phone" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status *</label>
+                        <select id="editIsActive" name="isActive" class="form-select" required>
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Staff</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Deactivate Confirmation Modal -->
+<div class="modal fade" id="deactivateConfirmModal" tabindex="-1" aria-labelledby="deactivateConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center px-4 pb-4">
+                <div class="mb-4">
+                    <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px;">
+                        <i class="bi bi-person-dash-fill text-warning" style="font-size: 2.5rem;"></i>
+                    </div>
+                </div>
+                <h4 class="mb-2 fw-bold text-dark">Deactivate Staff Account?</h4>
+                <p class="text-muted mb-1">You are about to deactivate:</p>
+                <p class="fw-semibold text-dark mb-1" id="staffNameDisplay"></p>
+                <p class="text-muted small mb-3" id="staffDeptDisplay"></p>
+                <div class="alert alert-warning py-2 mb-0" id="assignedWarning" style="display: none;">
+                    <small><i class="bi bi-exclamation-triangle me-1"></i>This staff has <strong id="assignedCount"></strong> assigned complaint(s) that may need reassignment.</small>
+                </div>
+                <div class="alert alert-info py-2 mb-0" id="noAssignedInfo" style="display: none;">
+                    <small><i class="bi bi-info-circle me-1"></i>This staff will not be able to log in or handle complaints until reactivated.</small>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0 px-4 pb-4 justify-content-center gap-2">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-warning px-4" id="confirmDeactivateBtn">
+                    <i class="bi bi-person-dash me-1"></i>Deactivate Staff
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #deactivateConfirmModal .modal-content {
+        border-radius: 16px;
+    }
+    
+    #deactivateConfirmModal .btn {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    
+    #deactivateConfirmModal .btn-warning {
+        background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+        border: none;
+        color: #212529;
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    #deactivateConfirmModal .btn-warning:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(255, 193, 7, 0.4);
+        color: #212529;
+    }
+    
+    #deactivateConfirmModal .btn-secondary {
+        background: #6c757d;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    #deactivateConfirmModal .btn-secondary:hover {
+        background: #5a6268;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function editStaff(id, name, email, deptId, phone, isActive) {
+            document.getElementById('editStaffId').value = id;
+            document.getElementById('editName').value = name;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editDepartmentId').value = deptId;
+            document.getElementById('editPhone').value = phone;
+            document.getElementById('editIsActive').value = isActive.toString();
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+        
+        let currentStaffId = null;
+        
+        function showDeactivateConfirmation(staffId, staffName, deptName, assignedCount) {
+            currentStaffId = staffId;
+            document.getElementById('staffNameDisplay').textContent = staffName;
+            document.getElementById('staffDeptDisplay').textContent = deptName + ' Department';
+            
+            // Show appropriate warning based on assigned complaints
+            if (assignedCount > 0) {
+                document.getElementById('assignedCount').textContent = assignedCount;
+                document.getElementById('assignedWarning').style.display = 'block';
+                document.getElementById('noAssignedInfo').style.display = 'none';
+            } else {
+                document.getElementById('assignedWarning').style.display = 'none';
+                document.getElementById('noAssignedInfo').style.display = 'block';
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('deactivateConfirmModal'));
+            modal.show();
+        }
+        
+        document.getElementById('confirmDeactivateBtn').addEventListener('click', function() {
+            if (currentStaffId) {
+                document.getElementById('deactivateForm-' + currentStaffId).submit();
+            }
+        });
+    </script>
+}

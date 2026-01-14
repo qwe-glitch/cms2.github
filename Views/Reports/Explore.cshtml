@@ -1,0 +1,189 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Explore Reports";
+    var startDate = (DateTime)ViewBag.StartDate;
+    var endDate = (DateTime)ViewBag.EndDate;
+    var currentStatus = (string)ViewBag.CurrentStatus;
+    var currentCategoryId = (int?)ViewBag.CurrentCategoryId;
+    var currentDepartmentId = (int?)ViewBag.CurrentDepartmentId;
+    var categories = (List<ComplaintManagementSystem.Models.Category>)ViewBag.Categories;
+    var departments = (List<ComplaintManagementSystem.Models.Department>)ViewBag.Departments;
+}
+
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold mb-0">Explore Reports</h2>
+        <div class="d-flex gap-2">
+            <a href="/Reports/Analytics" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left me-1"></i> Back to Analytics
+            </a>
+            <button type="button" class="btn btn-outline-success" onclick="exportData('excel')">
+                <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
+            </button>
+            <button type="button" class="btn btn-outline-danger" onclick="exportData('pdf')">
+                <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
+            </button>
+        </div>
+    </div>
+    
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <form method="get" action="/Reports/Explore" id="filterForm">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">Start Date</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-calendar"></i></span>
+                            <input type="date" class="form-control" id="startDate" name="startDate" value="@startDate.ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">End Date</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-calendar"></i></span>
+                            <input type="date" class="form-control" id="endDate" name="endDate" value="@endDate.ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">Status</label>
+                        <select class="form-select" name="status">
+                            <option value="">All Statuses</option>
+                            <!option value="Pending" @(currentStatus == "Pending" ? "selected" : "")>Pending</!option>
+                            <!option value="In Progress" @(currentStatus == "In Progress" ? "selected" : "")>In Progress</!option>
+                            <!option value="Resolved" @(currentStatus == "Resolved" ? "selected" : "")>Resolved</!option>
+                            <!option value="Closed" @(currentStatus == "Closed" ? "selected" : "")>Closed</!option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">Category</label>
+                        <select class="form-select" name="categoryId">
+                            <option value="">All Categories</option>
+                            @foreach (var category in categories)
+                            {
+                                <!option value="@category.CategoryId" @(currentCategoryId == category.CategoryId ? "selected" : "")>@category.CategoryName</!option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label text-muted small text-uppercase fw-semibold">Department</label>
+                        <select class="form-select" name="departmentId">
+                            <option value="">All Departments</option>
+                            @foreach (var dept in departments)
+                            {
+                                <!option value="@dept.DepartmentId" @(currentDepartmentId == dept.DepartmentId ? "selected" : "")>@dept.DepartmentName</!option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="text-end mt-3">
+                    <button type="submit" class="btn btn-primary px-4">Apply Filters</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">ID</th>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">Title</th>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">Category</th>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">Department</th>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">Status</th>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">Submitted</th>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">Citizen</th>
+                        <th class="px-4 py-3 text-muted small text-uppercase fw-semibold">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Complaints)
+                    {
+                        <tr>
+                            <td class="px-4">
+                                <span class="fw-semibold">#@item.ComplaintId</span>
+                            </td>
+                            <td class="px-4">
+                                <div class="fw-medium">@item.Title</div>
+                                <div class="small text-muted">@item.Priority Priority</div>
+                            </td>
+                            <td class="px-4">
+                                <span class="badge bg-light text-dark border">@item.Category</span>
+                            </td>
+                            <td class="px-4">
+                                <span class="text-muted">@item.Department</span>
+                            </td>
+                            <td class="px-4">
+                                @if (item.Status == "Pending")
+                                {
+                                    <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill">Pending</span>
+                                }
+                                else if (item.Status == "In Progress")
+                                {
+                                    <span class="badge bg-info-subtle text-info-emphasis rounded-pill">In Progress</span>
+                                }
+                                else if (item.Status == "Resolved")
+                                {
+                                    <span class="badge bg-success-subtle text-success-emphasis rounded-pill">Resolved</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill">@item.Status</span>
+                                }
+                            </td>
+                            <td class="px-4 text-muted small">
+                                @item.SubmittedAt.ToString("MMM dd, yyyy")
+                            </td>
+                            <td class="px-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-circle bg-light text-secondary me-2" style="width: 24px; height: 24px; font-size: 10px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
+                                    <span class="small">@item.CitizenName</span>
+                                </div>
+                            </td>
+                            <td class="px-4">
+                                <a href="/Complaint/Details/@item.ComplaintId" class="btn btn-sm btn-light text-primary">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.Complaints.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                No complaints found matching your criteria
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function exportData(type) {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const status = document.querySelector('select[name="status"]').value;
+            const categoryId = document.querySelector('select[name="categoryId"]').value;
+            const departmentId = document.querySelector('select[name="departmentId"]').value;
+
+            let url = '';
+            if (type === 'excel') {
+                url = `/Reports/ExportExcel?startDate=${startDate}&endDate=${endDate}&status=${status}&categoryId=${categoryId}&departmentId=${departmentId}`;
+            } else {
+                url = `/Reports/ExportPDF?reportType=complaints&startDate=${startDate}&endDate=${endDate}`;
+            }
+            
+            window.location.href = url;
+        }
+    </script>
+}

@@ -1,0 +1,26 @@
+<!-- Chatbot Button -->
+<button id="chatbot-button" class="chatbot-button" title="Chat with us" aria-label="Open support chat">
+    <i class="bi bi-chat-dots"></i>
+</button>
+
+<!-- Chat Window -->
+<div id="chat-window" class="chat-window">
+    <div class="chat-header">
+        <h3>AI Chatbot</h3>
+        <button id="chat-close-btn" class="close-btn">&times;</button>
+    </div>
+    <div id="chat-messages" class="chat-messages">
+        <div class="message bot-message">
+            Hello! How can I help you today?
+        </div>
+        <div id="suggested-questions" class="suggested-questions">
+            <!-- Questions will be loaded dynamically -->
+        </div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Type a message...">
+        <button id="chat-send-btn" aria-label="Send message">
+            <i class="bi bi-send"></i>
+        </button>
+    </div>
+</div>

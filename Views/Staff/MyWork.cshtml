@@ -1,0 +1,357 @@
+@{
+    ViewData["Title"] = "My Work";
+    var resolvedComplaints = ViewBag.ResolvedComplaints as IEnumerable<dynamic>;
+    var inProgressComplaints = ViewBag.InProgressComplaints as IEnumerable<dynamic>;
+    var pendingComplaints = ViewBag.PendingComplaints as IEnumerable<dynamic>;
+    var resolvedCount = ViewBag.ResolvedCount ?? 0;
+    var inProgressCount = ViewBag.InProgressCount ?? 0;
+    var pendingCount = ViewBag.PendingCount ?? 0;
+    var activeTab = ViewBag.ActiveTab ?? "inprogress";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <h2 class="mb-0">
+        <i class="bi bi-briefcase text-gradient"></i> My Work
+    </h2>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 hover-lift" style="cursor: pointer;" onclick="switchTab('pending')">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #ffc107, #ff9800);">
+                            <i class="bi bi-hourglass-split text-white fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Pending</h6>
+                        <h2 class="mb-0 fw-bold text-warning">@pendingCount</h2>
+                        <small class="text-muted">Awaiting action</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 hover-lift" style="cursor: pointer;" onclick="switchTab('inprogress')">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #0dcaf0, #0a8bc9);">
+                            <i class="bi bi-clock-history text-white fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">In Progress</h6>
+                        <h2 class="mb-0 fw-bold text-info">@inProgressCount</h2>
+                        <small class="text-muted">Active complaints</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100 hover-lift" style="cursor: pointer;" onclick="switchTab('resolved')">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" 
+                             style="width: 60px; height: 60px; background: linear-gradient(135deg, #198754, #0f5132);">
+                            <i class="bi bi-check-circle text-white fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Completed</h6>
+                        <h2 class="mb-0 fw-bold text-success">@resolvedCount</h2>
+                        <small class="text-muted">Resolved complaints</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Navigation -->
+<ul class="nav nav-pills mb-4" id="workTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(activeTab == "pending" ? "active" : "")" id="pending-tab" data-bs-toggle="tab" 
+                data-bs-target="#pending-pane" type="button" role="tab">
+            <i class="bi bi-hourglass-split me-2"></i>Pending
+            <span class="badge bg-warning ms-2">@pendingCount</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(activeTab == "inprogress" ? "active" : "")" id="inprogress-tab" data-bs-toggle="tab" 
+                data-bs-target="#inprogress-pane" type="button" role="tab">
+            <i class="bi bi-clock-history me-2"></i>In Progress
+            <span class="badge bg-info ms-2">@inProgressCount</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(activeTab == "resolved" ? "active" : "")" id="resolved-tab" data-bs-toggle="tab" 
+                data-bs-target="#resolved-pane" type="button" role="tab">
+            <i class="bi bi-check-circle me-2"></i>Completed
+            <span class="badge bg-success ms-2">@resolvedCount</span>
+        </button>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content" id="workTabsContent">
+    <!-- Pending Tab -->
+    <div class="tab-pane fade @(activeTab == "pending" ? "show active" : "")" id="pending-pane" role="tabpanel">
+        @if (pendingComplaints != null && pendingComplaints.Any())
+        {
+            <div class="row g-4">
+                @foreach (var complaint in pendingComplaints)
+                {
+                    var priorityClass = complaint.Priority == "High" ? "danger" :
+                                      complaint.Priority == "Medium" ? "warning" : "info";
+                    
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div style="height: 4px; background: var(--warning);"></div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                                        <i class="bi bi-tag-fill text-primary me-1"></i> @complaint.CategoryName
+                                    </span>
+                                    <span class="badge bg-warning-subtle text-warning rounded-pill px-3 py-2 fw-semibold">
+                                        Pending
+                                    </span>
+                                </div>
+                                
+                                <h5 class="card-title fw-bold mb-2">
+                                    <a href="/Complaint/Details/@complaint.ComplaintId" class="text-decoration-none text-dark hover-link">
+                                        @complaint.Title
+                                    </a>
+                                </h5>
+                                
+                                <div class="mb-3 flex-grow-1">
+                                    <p class="small text-muted mb-1">
+                                        <i class="bi bi-person me-1"></i> @complaint.CitizenName
+                                    </p>
+                                    <p class="small text-muted mb-0">
+                                        <i class="bi bi-calendar me-1"></i> @complaint.SubmittedAt.ToString("dd MMM yyyy")
+                                    </p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <span class="badge bg-@priorityClass">@complaint.Priority Priority</span>
+                                </div>
+                                
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="/Complaint/Details/@complaint.ComplaintId" class="btn btn-sm btn-outline-primary flex-fill">
+                                        <i class="bi bi-eye me-1"></i> View
+                                    </a>
+                                    <a href="/Complaint/Update/@complaint.ComplaintId" class="btn btn-sm btn-outline-success flex-fill">
+                                        <i class="bi bi-pencil me-1"></i> Update
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="bi bi-inbox" style="font-size: 5rem; color: var(--gray-200);"></i>
+                </div>
+                <h4>No pending complaints</h4>
+                <p class="text-muted">You don't have any pending complaints assigned</p>
+            </div>
+        }
+    </div>
+    
+    <!-- In Progress Tab -->
+    <div class="tab-pane fade @(activeTab == "inprogress" ? "show active" : "")" id="inprogress-pane" role="tabpanel">
+        @if (inProgressComplaints != null && inProgressComplaints.Any())
+        {
+            <div class="row g-4">
+                @foreach (var complaint in inProgressComplaints)
+                {
+                    var statusClass = complaint.Status == "Pending" ? "warning" : "info";
+                    var priorityClass = complaint.Priority == "High" ? "danger" :
+                                      complaint.Priority == "Medium" ? "warning" : "info";
+                    
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div style="height: 4px; background: var(--@statusClass);"></div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                                        <i class="bi bi-tag-fill text-primary me-1"></i> @complaint.CategoryName
+                                    </span>
+                                    <span class="badge bg-@statusClass-subtle text-@statusClass rounded-pill px-3 py-2 fw-semibold">
+                                        @complaint.Status
+                                    </span>
+                                </div>
+                                
+                                <h5 class="card-title fw-bold mb-2">
+                                    <a href="/Complaint/Details/@complaint.ComplaintId" class="text-decoration-none text-dark hover-link">
+                                        @complaint.Title
+                                    </a>
+                                </h5>
+                                
+                                <div class="mb-3 flex-grow-1">
+                                    <p class="small text-muted mb-1">
+                                        <i class="bi bi-person me-1"></i> @complaint.CitizenName
+                                    </p>
+                                    <p class="small text-muted mb-0">
+                                        <i class="bi bi-calendar me-1"></i> @complaint.SubmittedAt.ToString("dd MMM yyyy")
+                                    </p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <span class="badge bg-@priorityClass">@complaint.Priority Priority</span>
+                                </div>
+                                
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="/Complaint/Details/@complaint.ComplaintId" class="btn btn-sm btn-outline-primary flex-fill">
+                                        <i class="bi bi-eye me-1"></i> View
+                                    </a>
+                                    <a href="/Complaint/Update/@complaint.ComplaintId" class="btn btn-sm btn-outline-success flex-fill">
+                                        <i class="bi bi-pencil me-1"></i> Update
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="bi bi-inbox" style="font-size: 5rem; color: var(--gray-200);"></i>
+                </div>
+                <h4>No active work</h4>
+                <p class="text-muted">You don't have any complaints in progress</p>
+            </div>
+        }
+    </div>
+    
+    <!-- Resolved Tab -->
+    <div class="tab-pane fade @(activeTab == "resolved" ? "show active" : "")" id="resolved-pane" role="tabpanel">
+        @if (resolvedComplaints != null && resolvedComplaints.Any())
+        {
+            <div class="row g-4">
+                @foreach (var complaint in resolvedComplaints)
+                {
+                    var statusClass = complaint.Status == "Resolved" ? "success" : 
+                                    complaint.Status == "Rejected" ? "danger" : "secondary";
+                    var priorityClass = complaint.Priority == "High" ? "danger" :
+                                      complaint.Priority == "Medium" ? "warning" : "info";
+                    
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div style="height: 4px; background: var(--@statusClass);"></div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2">
+                                        <i class="bi bi-tag-fill text-primary me-1"></i> @complaint.CategoryName
+                                    </span>
+                                    <span class="badge bg-@statusClass-subtle text-@statusClass rounded-pill px-3 py-2 fw-semibold">
+                                        @complaint.Status
+                                    </span>
+                                </div>
+                                
+                                <h5 class="card-title fw-bold mb-2">
+                                    <a href="/Complaint/Details/@complaint.ComplaintId" class="text-decoration-none text-dark hover-link">
+                                        @complaint.Title
+                                    </a>
+                                </h5>
+                                
+                                <div class="mb-3 flex-grow-1">
+                                    <p class="small text-muted mb-1">
+                                        <i class="bi bi-person me-1"></i> @complaint.CitizenName
+                                    </p>
+                                    @if (complaint.ResolvedAt != null)
+                                    {
+                                        <p class="small text-muted mb-0">
+                                            <i class="bi bi-check2-circle me-1 text-success"></i> Resolved: @complaint.ResolvedAt.ToString("dd MMM yyyy")
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="small text-muted mb-0">
+                                            <i class="bi bi-calendar me-1"></i> @complaint.SubmittedAt.ToString("dd MMM yyyy")
+                                        </p>
+                                    }
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <span class="badge bg-@priorityClass">@complaint.Priority Priority</span>
+                                </div>
+                                
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="/Complaint/Details/@complaint.ComplaintId" class="btn btn-sm btn-outline-primary flex-fill">
+                                        <i class="bi bi-eye me-1"></i> View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="bi bi-clipboard-check" style="font-size: 5rem; color: var(--gray-200);"></i>
+                </div>
+                <h4>No completed work yet</h4>
+                <p class="text-muted">Resolved complaints will appear here</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function switchTab(tabName) {
+        const tabElement = document.getElementById(tabName + '-tab');
+        if (tabElement) {
+            const tab = new bootstrap.Tab(tabElement);
+            tab.show();
+        }
+    }
+</script>
+}
+
+@section Styles {
+<style>
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.1) !important;
+    }
+    .nav-pills .nav-link {
+        border-radius: 50px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        color: var(--gray-600);
+        background: var(--gray-100);
+        margin-right: 0.5rem;
+    }
+    .nav-pills .nav-link.active {
+        background: var(--gradient-primary);
+        color: white;
+    }
+    .nav-pills .nav-link:hover:not(.active) {
+        background: var(--gray-200);
+    }
+</style>
+}

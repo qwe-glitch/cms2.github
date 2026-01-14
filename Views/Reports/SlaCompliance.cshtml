@@ -1,0 +1,277 @@
+@model dynamic
+@{
+    ViewData["Title"] = "SLA Compliance Report";
+    var startDate = (DateTime)ViewBag.StartDate;
+    var endDate = (DateTime)ViewBag.EndDate;
+}
+
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1 fw-bold">
+                <i class="bi bi-speedometer2 text-gradient"></i> SLA Compliance Report
+            </h2>
+            <p class="text-muted mb-0">Track service level agreement performance</p>
+        </div>
+        <a href="/Reports/Analytics" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left me-1"></i> Back to Analytics
+        </a>
+    </div>
+</div>
+
+<!-- Period Info -->
+<div class="alert alert-info border-0 shadow-sm mb-4">
+    <div class="d-flex align-items-center">
+        <i class="bi bi-calendar3 me-3" style="font-size: 1.5rem;"></i>
+        <div>
+            <strong>Report Period:</strong> @startDate.ToString("MMM dd, yyyy") - @endDate.ToString("MMM dd, yyyy")
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1 small text-uppercase">Total Complaints</p>
+                        <h2 class="mb-0 fw-bold">@Model.TotalComplaints</h2>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="bi bi-clipboard-data text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1 small text-uppercase">SLA Met</p>
+                        <h2 class="mb-0 fw-bold text-success">@Model.SlaMetCount</h2>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="bi bi-check-circle text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1 small text-uppercase">SLA Missed</p>
+                        <h2 class="mb-0 fw-bold text-danger">@Model.SlaMissedCount</h2>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="bi bi-x-circle text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-1 small text-uppercase">Compliance Rate</p>
+                        <h2 class="mb-0 fw-bold" style="color: @(Model.ComplianceRate >= 90 ? "#198754" : Model.ComplianceRate >= 70 ? "#ffc107" : "#dc3545")">
+                            @Model.ComplianceRate%
+                        </h2>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="bi bi-speedometer2 text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Metrics -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1 small">Currently Overdue</p>
+                        <h3 class="mb-0 fw-bold text-warning">@Model.OverdueCount</h3>
+                        <small class="text-muted">Complaints past SLA deadline</small>
+                    </div>
+                    <i class="bi bi-exclamation-triangle" style="font-size: 3rem; color: #ffc107; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1 small">Avg Resolution Time</p>
+                        <h3 class="mb-0 fw-bold text-info">@Model.AvgResolutionHours hours</h3>
+                        <small class="text-muted">Average time to resolve</small>
+                    </div>
+                    <i class="bi bi-clock-history" style="font-size: 3rem; color: #0dcaf0; opacity: 0.2;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLA by Category -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white border-0 p-4">
+        <h5 class="mb-0 fw-bold">
+            <i class="bi bi-tags text-primary me-2"></i> SLA Performance by Category
+        </h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="px-4 py-3 border-0">Category</th>
+                        <th class="px-4 py-3 border-0 text-center">Total</th>
+                        <th class="px-4 py-3 border-0 text-center">Met</th>
+                        <th class="px-4 py-3 border-0 text-center">Missed</th>
+                        <th class="px-4 py-3 border-0 text-center">Overdue</th>
+                        <th class="px-4 py-3 border-0 text-center">Compliance Rate</th>
+                        <th class="px-4 py-3 border-0">Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.SlaByCategory)
+                    {
+                        var rateColor = item.ComplianceRate >= 90 ? "success" : item.ComplianceRate >= 70 ? "warning" : "danger";
+                        <tr>
+                            <td class="px-4 py-3">
+                                <span class="fw-semibold">@item.CategoryName</span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="badge bg-secondary">@item.Total</span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="badge bg-success">@item.Met</span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="badge bg-danger">@item.Missed</span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="badge bg-warning">@item.Overdue</span>
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                <span class="badge bg-@rateColor">@item.ComplianceRate%</span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-@rateColor" role="progressbar"
+                                         style="width: @item.ComplianceRate%"
+                                         aria-valuenow="@item.ComplianceRate" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- SLA by Department -->
+@if (Model.SlaByDepartment != null && Model.SlaByDepartment.Count > 0)
+{
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white border-0 p-4">
+            <h5 class="mb-0 fw-bold">
+                <i class="bi bi-building text-primary me-2"></i> SLA Performance by Department
+            </h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="px-4 py-3 border-0">Department</th>
+                            <th class="px-4 py-3 border-0 text-center">Total</th>
+                            <th class="px-4 py-3 border-0 text-center">Met</th>
+                            <th class="px-4 py-3 border-0 text-center">Missed</th>
+                            <th class="px-4 py-3 border-0 text-center">Overdue</th>
+                            <th class="px-4 py-3 border-0 text-center">Compliance Rate</th>
+                            <th class="px-4 py-3 border-0">Performance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SlaByDepartment)
+                        {
+                            var rateColor = item.ComplianceRate >= 90 ? "success" : item.ComplianceRate >= 70 ? "warning" : "danger";
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <span class="fw-semibold">@item.DepartmentName</span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="badge bg-secondary">@item.Total</span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="badge bg-success">@item.Met</span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="badge bg-danger">@item.Missed</span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="badge bg-warning">@item.Overdue</span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="badge bg-@rateColor">@item.ComplianceRate%</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-@rateColor" role="progressbar"
+                                             style="width: @item.ComplianceRate%"
+                                             aria-valuenow="@item.ComplianceRate" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .icon-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .icon-circle i {
+        font-size: 1.5rem;
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>

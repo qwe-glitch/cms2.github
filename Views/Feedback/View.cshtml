@@ -1,0 +1,75 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Feedback";
+    var complaintId = ViewBag.ComplaintId;
+    var averageRating = ViewBag.AverageRating;
+}
+
+<div class="mb-3">
+    <a href="/Complaint/Details/@complaintId" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Back to Complaint
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-header bg-warning text-dark">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="bi bi-star-fill"></i> Feedback</h3>
+            <div>
+                @if (averageRating > 0)
+                {
+                    <span class="fs-4">
+                        @for (int i = 1; i <= (int)averageRating; i++)
+                        {
+                            <i class="bi bi-star-fill"></i>
+                        }
+                        @if (averageRating - (int)averageRating >= 0.5)
+                        {
+                            <i class="bi bi-star-half"></i>
+                        }
+                        @for (int i = (int)Math.Ceiling(averageRating); i < 5; i++)
+                        {
+                            <i class="bi bi-star"></i>
+                        }
+                    </span>
+                    <small class="text-muted ms-2">@averageRating.ToString("0.0") average</small>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var feedback in Model)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <span class="text-warning">
+                                    @for (int i = 0; i < feedback.Rating; i++)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    @for (int i = feedback.Rating; i < 5; i++)
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                </span>
+                                <span class="ms-2 text-muted">by @feedback.CitizenName</span>
+                            </div>
+                            <small class="text-muted">@feedback.CreatedAt.ToString("dd MMM yyyy HH:mm")</small>
+                        </div>
+                        <p class="mb-0">@feedback.Comment</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No feedback yet for this complaint.
+            </div>
+        }
+    </div>
+</div>

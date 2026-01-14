@@ -1,0 +1,25 @@
+/* Admin Dashboard Styles */
+
+.bg-primary-subtle {
+    background-color: #cfe2ff;
+}
+
+.bg-success-subtle {
+    background-color: #d1e7dd;
+}
+
+.bg-warning-subtle {
+    background-color: #fff3cd;
+}
+
+.hover-bg-light:hover {
+    background-color: var(--gray-50);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--info) 100%);
+}
+
+.min-width-0 {
+    min-width: 0;
+}

@@ -1,0 +1,205 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Complaint_Management_System
+build_property.RootNamespace = Complaint_Management_System
+build_property.ProjectDir = c:\Users\User\Downloads\Complaint-Management-System-main\Complaint-Management-System-main\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = c:\Users\User\Downloads\Complaint-Management-System-main\Complaint-Management-System-main
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/CompleteExternalRegistration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDb21wbGV0ZUV4dGVybmFsUmVnaXN0cmF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/VerifyEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxWZXJpZnlFbWFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Account/VerifyResetCode.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxWZXJpZnlSZXNldENvZGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Admin/Categories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2F0ZWdvcmllcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Admin/Citizens.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2l0aXplbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Admin/Departments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVwYXJ0bWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Admin/Staff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3RhZmYuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Announcement/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/LinkedComplaints.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XExpbmtlZENvbXBsYWludHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/PotentialDuplicates.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XFBvdGVudGlhbER1cGxpY2F0ZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/PrintDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XFByaW50RGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Complaint/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGxhaW50XFVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Feedback/Submit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmVlZGJhY2tcU3VibWl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Feedback/View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmVlZGJhY2tcVmlldy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Help/Faq.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVscFxGYXEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Help/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVscFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Help/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVscFxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Help/Terms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVscFxUZXJtcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Intro/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW50cm9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Notification/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/PrivateChat/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJpdmF0ZUNoYXRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Reports/Analytics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xBbmFseXRpY3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Reports/Explore.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xFeHBsb3JlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Reports/SlaCompliance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xTbGFDb21wbGlhbmNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Reports/TeamWorkload.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xUZWFtV29ya2xvYWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Shared/_Chatbot.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DaGF0Ym90LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Shared/_IntroLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9JbnRyb0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/Staff/MyWork.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcTXlXb3JrLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[c:/Users/User/Downloads/Complaint-Management-System-main/Complaint-Management-System-main/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

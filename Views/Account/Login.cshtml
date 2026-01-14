@@ -1,0 +1,137 @@
+@model ComplaintManagementSystem.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row g-0 min-vh-100">
+    <!-- Left Side - Form -->
+    <div class="col-lg-6 d-flex align-items-center justify-content-center p-4 bg-white">
+        <div class="w-100" style="max-width: 450px;">
+            <div class="mb-5">
+                <a href="/Home" class="text-decoration-none text-muted d-inline-flex align-items-center mb-4">
+                    <i class="bi bi-arrow-left me-2"></i> Back to Home
+                </a>
+                <div>
+                    <div class="icon-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" 
+                         style="width: 60px; height: 60px; border-radius: 50%;">
+                        <i class="bi bi-lock-fill" style="font-size: 1.8rem;"></i>
+                    </div>
+                    <h2 class="fw-bold mb-2">Welcome Back</h2>
+                    <p class="text-muted">Sign in to continue to Segamat Community</p>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="text-center mb-3">
+                    <small class="text-muted">Sign in with</small>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="/Account/ExternalLogin?provider=Google" class="btn btn-outline-danger">
+                        <i class="bi bi-google me-2"></i> Continue with Google
+                    </a>
+                </div>
+                <div class="text-center my-3">
+                    <small class="text-muted">Or sign in with email</small>
+                </div>
+            </div>
+
+            <form asp-action="Login" method="post" class="needs-validation">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="mb-4">
+                    <label asp-for="Email" class="form-label fw-semibold">
+                        <i class="bi bi-envelope me-1 text-primary"></i> Email Address
+                    </label>
+                    <input asp-for="Email" class="form-control form-control-lg" 
+                           placeholder="example@email.com" autofocus />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label fw-semibold">
+                        <i class="bi bi-lock me-1 text-primary"></i> Password
+                    </label>
+                    <div class="position-relative">
+                        <input asp-for="Password" class="form-control form-control-lg" 
+                               placeholder="Enter your password" type="password" id="loginPassword" />
+                        <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y" 
+                                onclick="toggleLoginPassword()" tabindex="-1">
+                            <i class="bi bi-eye" id="loginPassword-icon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input asp-for="RememberMe" class="form-check-input" type="checkbox" />
+                        <label asp-for="RememberMe" class="form-check-label text-muted">
+                            Remember Me
+                        </label>
+                    </div>
+                    <a href="/Account/ForgotPassword" class="text-decoration-none small text-primary fw-semibold">
+                        Forgot Password?
+                    </a>
+                </div>
+
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg shadow-sm hover-lift">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted mb-2">Don't have an account?</p>
+                <a href="/Account/Register" class="btn btn-outline-primary rounded-pill px-4">
+                    <i class="bi bi-person-plus me-2"></i> Create Account
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side - Info -->
+    <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center p-5 text-white" 
+         style="background: var(--gradient-primary);">
+        <div class="text-center" style="max-width: 500px;">
+            <i class="bi bi-shield-check" style="font-size: 5rem; opacity: 0.9;"></i>
+            <h2 class="fw-bold mt-4 mb-4">Segamat Community Portal</h2>
+            <p class="lead mb-5" style="opacity: 0.95;">
+                Your voice matters. Report issues, track progress, and make a difference in your community.
+            </p>
+            
+            <div class="glass-card p-4 text-start" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border-radius: 16px;">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="icon-circle bg-white bg-opacity-25 me-3" style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </div>
+                    <h5 class="mb-0">Quick Login Tips</h5>
+                </div>
+                <ul class="list-unstyled mb-0" style="opacity: 0.9;">
+                    <li class="mb-2"><i class="bi bi-check2 me-2"></i> Citizens can submit and track complaints</li>
+                    <li class="mb-2"><i class="bi bi-check2 me-2"></i> Staff members handle complaint resolution</li>
+                    <li class="mb-2"><i class="bi bi-check2 me-2"></i> Admins manage the entire system</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function toggleLoginPassword() {
+            const field = document.getElementById('loginPassword');
+            const icon = document.getElementById('loginPassword-icon');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                field.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+    </script>
+}

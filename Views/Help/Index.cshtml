@@ -1,0 +1,63 @@
+@model ComplaintManagementSystem.Controllers.HelpController.FaqData
+@{
+    ViewData["Title"] = "Help Center";
+}
+
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-8">
+            <h1 class="fw-bold">Help Center</h1>
+            <p class="text-muted">Find answers quickly, explore FAQs, and read our policies.</p>
+        </div>
+        <div class="col-md-4">
+            <form action="/Help/Faq" method="get" class="d-flex" role="search">
+                <input type="search" name="q" class="form-control me-2" placeholder="Search FAQs e.g. reset password" aria-label="Search">
+                <button class="btn btn-primary btn-fixed fw-semibold text-nowrap btn-search" type="submit" aria-label="Search FAQs"><i class="bi bi-search" aria-hidden="true"></i> Search</button>
+                </form>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Frequently Asked Questions</h5>
+                    <div class="row g-3">
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <div class="col-12 col-md-6">
+                                <a href="/Help/Faq?category=@cat.Id" class="text-decoration-none">
+                                    <div class="p-3 border rounded h-100 d-flex flex-column">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-question-circle text-primary me-2"></i>
+                                            <strong>@cat.Name</strong>
+                                        </div>
+                                        <span class="text-muted small">@cat.Items.Count items</span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="fw-bold">Policies</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><a class="text-decoration-none" href="/Help/Privacy"><i class="bi bi-shield-lock me-2"></i> Privacy Policy</a></li>
+                        <li><a class="text-decoration-none" href="/Help/Terms"><i class="bi bi-file-text me-2"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="fw-bold">Need more help?</h6>
+                    <p class="text-muted small mb-2">Contact our support team.</p>
+                    <a href="/Contact" class="btn btn-outline-primary btn-sm"><i class="bi bi-envelope"></i> Email Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

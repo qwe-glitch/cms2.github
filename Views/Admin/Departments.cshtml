@@ -1,0 +1,179 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Manage Departments";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-building"></i> Manage Departments</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+        <i class="bi bi-plus-circle"></i> Add Department
+    </button>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Departments" method="get" class="row g-3">
+            <div class="col-md-10">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Search departments by name, location, or description..." value="@ViewBag.SearchQuery">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var dept in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">@dept.DepartmentName</h5>
+                                <p class="text-muted mb-2">@dept.Description</p>
+                                <p class="mb-1">
+                                    <i class="bi bi-geo-alt"></i> @dept.Location
+                                </p>
+                                <p class="mb-1">
+                                    <i class="bi bi-telephone"></i> @dept.OfficePhone
+                                </p>
+                                <p class="mb-0">
+                                    <i class="bi bi-envelope"></i> @dept.OfficeEmail
+                                </p>
+                            </div>
+                            <div>
+                                <span class="badge bg-info">@dept.StaffCount Staff</span>
+                                @if (dept.IsActive)
+                                {
+                                    <span class="badge bg-success ms-1">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger ms-1">Inactive</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-sm btn-outline-primary" 
+                                    onclick="editDepartment(@dept.DepartmentId, '@dept.DepartmentName', '@dept.Location', '@dept.Description', '@dept.OfficePhone', '@dept.OfficeEmail', @(dept.IsActive.ToString().ToLower()))">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No departments found. Add your first department.
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="CreateDepartment" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Department Name *</label>
+                        <input type="text" name="name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Location *</label>
+                        <input type="text" name="location" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Office Phone</label>
+                        <input type="text" name="officePhone" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Office Email</label>
+                        <input type="email" name="officeEmail" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="UpdateDepartment" method="post">
+                <input type="hidden" id="editDepartmentId" name="departmentId" />
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Department Name *</label>
+                        <input type="text" id="editName" name="name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Location *</label>
+                        <input type="text" id="editLocation" name="location" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea id="editDescription" name="description" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Office Phone</label>
+                        <input type="text" id="editOfficePhone" name="officePhone" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Office Email</label>
+                        <input type="email" id="editOfficeEmail" name="officeEmail" class="form-control" />
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="editIsActive" name="isActive" value="true">
+                        <label class="form-check-label" for="editIsActive">Active</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function editDepartment(id, name, location, description, phone, email, isActive) {
+            document.getElementById('editDepartmentId').value = id;
+            document.getElementById('editName').value = name;
+            document.getElementById('editLocation').value = location;
+            document.getElementById('editDescription').value = description;
+            document.getElementById('editOfficePhone').value = phone;
+            document.getElementById('editOfficeEmail').value = email;
+            document.getElementById('editIsActive').checked = isActive;
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+    </script>
+}

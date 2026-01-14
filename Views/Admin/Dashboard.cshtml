@@ -1,0 +1,430 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1 fw-bold">
+                <i class="bi bi-speedometer2 text-gradient"></i> Dashboard
+            </h2>
+            <p class="text-muted mb-0">Welcome back! Here's what's happening today.</p>
+        </div>
+        <div class="text-muted small">
+            <i class="bi bi-calendar3 me-1"></i> @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+        </div>
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 hover-lift animate-fade-in-up" style="animation-delay: 0s;">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted mb-1 small text-uppercase">Total Complaints</p>
+                        <h2 class="mb-0 fw-bold" id="totalCount">@Model.TotalComplaints</h2>
+                        <small class="text-success">
+                            <i class="bi bi-arrow-up"></i> All time
+                        </small>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-clipboard-data text-white" style="font-size: 1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 hover-lift animate-fade-in-up" style="animation-delay: 0.1s;">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted mb-1 small text-uppercase">Pending</p>
+                        <h2 class="mb-0 fw-bold text-warning" id="pendingCount">@Model.PendingComplaints</h2>
+                        <small class="text-muted">
+                            <i class="bi bi-hourglass-split"></i> Awaiting action
+                        </small>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-exclamation-circle text-white" style="font-size: 1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 hover-lift animate-fade-in-up" style="animation-delay: 0.2s;">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted mb-1 small text-uppercase">In Progress</p>
+                        <h2 class="mb-0 fw-bold text-info" id="progressCount">@Model.InProgressComplaints</h2>
+                        <small class="text-muted">
+                            <i class="bi bi-arrow-repeat"></i> Being resolved
+                        </small>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-gear-fill text-white" style="font-size: 1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 hover-lift animate-fade-in-up" style="animation-delay: 0.3s;">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <p class="text-muted mb-1 small text-uppercase">Resolved</p>
+                        <h2 class="mb-0 fw-bold text-success" id="resolvedCount">@Model.ResolvedComplaints</h2>
+                        <small class="text-success">
+                            <i class="bi bi-check-circle"></i> Completed
+                        </small>
+                    </div>
+                    <div class="icon-circle" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-check2-circle text-white" style="font-size: 1.5rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Secondary Stats -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm hover-lift animate-fade-in-up" style="animation-delay: 0.4s;">
+            <div class="card-body text-center p-4">
+                <div class="icon-circle bg-primary-subtle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px; border-radius: 50%;">
+                    <i class="bi bi-people text-primary" style="font-size: 2rem;"></i>
+                </div>
+                <h3 class="mb-1 fw-bold">@Model.TotalCitizens</h3>
+                <p class="text-muted mb-0">Registered Citizens</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm hover-lift animate-fade-in-up" style="animation-delay: 0.5s;">
+            <div class="card-body text-center p-4">
+                <div class="icon-circle bg-success-subtle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px; border-radius: 50%;">
+                    <i class="bi bi-person-badge text-success" style="font-size: 2rem;"></i>
+                </div>
+                <h3 class="mb-1 fw-bold">@Model.TotalStaff</h3>
+                <p class="text-muted mb-0">Active Staff</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm hover-lift animate-fade-in-up" style="animation-delay: 0.6s;">
+            <div class="card-body text-center p-4">
+                <div class="icon-circle bg-warning-subtle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px; border-radius: 50%;">
+                    <i class="bi bi-tags text-warning" style="font-size: 2rem;"></i>
+                </div>
+                <h3 class="mb-1 fw-bold">@Model.TotalCategories</h3>
+                <p class="text-muted mb-0">Categories</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts and Data -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <!-- Weekly Activity Chart -->
+        <div class="card border-0 shadow-sm h-100 animate-fade-in-up" style="animation-delay: 0.7s;">
+            <div class="card-header bg-white border-0 p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-calendar-week text-primary me-2"></i> Weekly Activity
+                    </h5>
+                    <span class="badge bg-light text-dark">Last 7 Days</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <canvas id="weeklyActivityChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <!-- Pie Chart for Category Distribution -->
+        <div class="card border-0 shadow-sm h-100 animate-fade-in-up" style="animation-delay: 0.8s;">
+            <div class="card-header bg-white border-0 p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-pie-chart text-primary me-2"></i> Complaints by Category
+                    </h5>
+                    <span class="badge bg-light text-dark">Distribution</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                @if (Model.ComplaintsByCategory != null && ((IEnumerable<dynamic>)Model.ComplaintsByCategory).Any())
+                {
+                    <canvas id="categoryPieChart" height="200"></canvas>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox" style="font-size: 3rem; color: var(--gray-300);"></i>
+                        <p class="text-muted mt-3">No data available</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity Section -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm animate-fade-in-up" style="animation-delay: 0.9s;">
+            <div class="card-header bg-white border-0 p-4">
+                <h5 class="mb-0 fw-bold">
+                    <i class="bi bi-clock-history text-primary me-2"></i> Recent Activity
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.RecentComplaints != null && ((IEnumerable<dynamic>)Model.RecentComplaints).Any())
+                {
+                    <div class="list-group list-group-flush">
+                        <div class="row g-0">
+                            @foreach (var complaint in Model.RecentComplaints)
+                            {
+                                <div class="col-md-6 col-lg-4">
+                                    <a href="/Complaint/Details/@complaint.ComplaintId" 
+                                       class="list-group-item list-group-item-action border-0 p-4 h-100 hover-bg-light">
+                                        <div class="d-flex align-items-start">
+                                            <div class="icon-circle bg-primary bg-opacity-10 me-3" style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <i class="bi bi-file-earmark-text text-primary" style="font-size: 1.25rem;"></i>
+                                            </div>
+                                            <div class="flex-grow-1 min-width-0">
+                                                <h6 class="mb-2 fw-semibold text-truncate">@complaint.Title</h6>
+                                                <div class="small text-muted mb-1">
+                                                    <i class="bi bi-tag me-1"></i>@complaint.CategoryName
+                                                </div>
+                                                <div class="small text-muted mb-2">
+                                                    <i class="bi bi-person me-1"></i>@complaint.CitizenName
+                                                </div>
+                                                <small class="text-muted">
+                                                    <i class="bi bi-calendar3 me-1"></i>@complaint.SubmittedAt.ToString("dd MMM yyyy")
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox" style="font-size: 3rem; color: var(--gray-300);"></i>
+                        <p class="text-muted mt-3 mb-0">No recent complaints</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="~/js/admin.dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detect dark mode
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const textColor = isDarkMode ? '#ffffff' : '#666';
+            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+            const legendColor = isDarkMode ? '#ffffff' : '#666';
+            const tooltipBg = isDarkMode ? 'rgba(30, 30, 30, 0.95)' : 'rgba(0, 0, 0, 0.8)';
+            const borderColor = isDarkMode ? '#333' : '#fff';
+            
+            // Animate counters
+            if (typeof animateCounter === 'function') {
+                animateCounter(document.getElementById('totalCount'), @Model.TotalComplaints);
+                animateCounter(document.getElementById('pendingCount'), @Model.PendingComplaints);
+                animateCounter(document.getElementById('progressCount'), @Model.InProgressComplaints);
+                animateCounter(document.getElementById('resolvedCount'), @Model.ResolvedComplaints);
+            }
+
+            // Chart.js
+            @if (Model.ComplaintsByCategory != null && ((IEnumerable<dynamic>)Model.ComplaintsByCategory).Any())
+            {
+                var categories = (IEnumerable<dynamic>)Model.ComplaintsByCategory;
+                <text>
+                // Pie Chart for Category Distribution
+                const pieCtx = document.getElementById('categoryPieChart');
+                if (pieCtx) {
+                    new Chart(pieCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: [@Html.Raw(string.Join(",", categories.Select(c => "'" + c.Category + "'")))],
+                            datasets: [{
+                                data: [@Html.Raw(string.Join(",", categories.Select(c => c.Count)))],
+                                backgroundColor: [
+                                    '#667eea', // Infrastructure - Blue/Purple
+                                    '#a78bfa', // Roads - Purple  
+                                    '#34d399', // Environment - Green
+                                    '#fbbf24', // Parks - Orange/Yellow
+                                    '#f87171', // Other - Red
+                                    '#60a5fa'  // Additional - Light Blue
+                                ],
+                                borderWidth: 2,
+                                borderColor: borderColor
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                    labels: {
+                                        padding: 15,
+                                        color: legendColor,
+                                        font: {
+                                            size: 12
+                                        },
+                                        generateLabels: function(chart) {
+                                            const data = chart.data;
+                                            if (data.labels.length && data.datasets.length) {
+                                                const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                                return data.labels.map((label, i) => {
+                                                    const value = data.datasets[0].data[i];
+                                                    const percentage = ((value / total) * 100).toFixed(0);
+                                                    return {
+                                                        text: `${label} ${percentage}%`,
+                                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                                        fontColor: legendColor,
+                                                        hidden: false,
+                                                        index: i
+                                                    };
+                                                });
+                                            }
+                                            return [];
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: tooltipBg,
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#ffffff',
+                                    padding: 12,
+                                    cornerRadius: 8,
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.parsed || 0;
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = ((value / total) * 100).toFixed(1);
+                                            return `${label}: ${value} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Weekly Activity Chart (using real database data)
+                const weeklyCtx = document.getElementById('weeklyActivityChart');
+                if (weeklyCtx) {
+                    // Get real data from backend - by status
+                    const weeklyResolved = [@Html.Raw(string.Join(",", ((IEnumerable<int>)Model.WeeklyResolved)))];
+                    const weeklyInProgress = [@Html.Raw(string.Join(",", ((IEnumerable<int>)Model.WeeklyInProgress)))];
+                    const weeklyPending = [@Html.Raw(string.Join(",", ((IEnumerable<int>)Model.WeeklyPending)))];
+                    
+                    new Chart(weeklyCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                            datasets: [
+                                {
+                                    label: 'Resolved',
+                                    data: weeklyResolved,
+                                    backgroundColor: '#34d399',
+                                    borderRadius: 6,
+                                    borderSkipped: false
+                                },
+                                {
+                                    label: 'In Progress',
+                                    data: weeklyInProgress,
+                                    backgroundColor: '#60a5fa',
+                                    borderRadius: 6,
+                                    borderSkipped: false
+                                },
+                                {
+                                    label: 'Pending',
+                                    data: weeklyPending,
+                                    backgroundColor: '#fbbf24',
+                                    borderRadius: 6,
+                                    borderSkipped: false
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: {
+                                        padding: 15,
+                                        color: legendColor,
+                                        font: {
+                                            size: 12
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: tooltipBg,
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#ffffff',
+                                    padding: 12,
+                                    cornerRadius: 8
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 5,
+                                        color: textColor
+                                    },
+                                    grid: {
+                                        color: gridColor
+                                    }
+                                },
+                                x: {
+                                    ticks: {
+                                        color: textColor
+                                    },
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+                </text>
+            }
+        });
+    </script>
+}
+
+@section Styles {
+<link rel="stylesheet" href="~/css/admin.dashboard.css" />
+}
+

@@ -1,0 +1,218 @@
+@model List<ComplaintManagementSystem.Models.ViewModels.LinkedComplaintViewModel>
+@{
+    ViewData["Title"] = "Linked Complaints";
+    var complaintId = ViewBag.ComplaintId;
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-info text-white">
+            <h2><i class="bi bi-link-45deg"></i> Linked Complaints for #@complaintId</h2>
+        </div>
+        <div class="card-body">
+            @if (Model.Any())
+            {
+                <!-- Group by link type -->
+                var duplicates = Model.Where(l => l.LinkType == "Duplicate").ToList();
+                var related = Model.Where(l => l.LinkType == "Related").ToList();
+                var followUps = Model.Where(l => l.LinkType == "FollowUp").ToList();
+
+                @if (duplicates.Any())
+                {
+                    <div class="mb-4">
+                        <h4 class="text-danger"><i class="bi bi-exclamation-octagon"></i> Duplicates (@duplicates.Count)</h4>
+                        <div class="alert alert-danger">
+                            <i class="bi bi-info-circle"></i> These complaints have been marked as duplicates of the current complaint.
+                        </div>
+                        @foreach (var link in duplicates)
+                        {
+                            <div class="card mb-2 border-danger">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h5>
+                                                <a href="@Url.Action("Details", "Complaint", new { id = link.ComplaintId })">
+                                                    #@link.ComplaintId - @link.Title
+                                                </a>
+                                                @if (link.SimilarityScore.HasValue)
+                                                {
+                                                    <span class="badge bg-danger">@link.SimilarityScore.Value% Similar</span>
+                                                }
+                                            </h5>
+                                            <p class="mb-1">@link.Description</p>
+                                            <p class="mb-1"><strong>Status:</strong> <span class="badge bg-secondary">@link.Status</span></p>
+                                            <p class="mb-1"><strong>Priority:</strong> <span class="badge bg-primary">@link.Priority</span></p>
+                                            <p class="mb-1"><strong>Category:</strong> @link.CategoryName</p>
+                                            <p class="mb-1"><small class="text-muted">Linked on @link.LinkedAt.ToString("MMM dd, yyyy") by @link.LinkedByUserType</small></p>
+                                            @if (!string.IsNullOrEmpty(link.Notes))
+                                            {
+                                                <p class="mb-0"><small><strong>Notes:</strong> @link.Notes</small></p>
+                                            }
+                                        </div>
+                                        <div class="col-md-3 text-end">
+                                            @if (ViewBag.UserType == "Admin")
+                                            {
+                                                <form asp-controller="Admin" asp-action="UnlinkComplaints" method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="linkId" value="@link.LinkId" />
+                                                    <input type="hidden" name="complaintId" value="@complaintId" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remove this link?')">
+                                                        <i class="bi bi-trash"></i> Unlink
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (related.Any())
+                {
+                    <div class="mb-4">
+                        <h4 class="text-info"><i class="bi bi-diagram-3"></i> Related Complaints (@related.Count)</h4>
+                        @foreach (var link in related)
+                        {
+                            <div class="card mb-2 border-info">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h5>
+                                                <a href="@Url.Action("Details", "Complaint", new { id = link.ComplaintId })">
+                                                    #@link.ComplaintId - @link.Title
+                                                </a>
+                                            </h5>
+                                            <p class="mb-1">@link.Description</p>
+                                            <p class="mb-1"><strong>Status:</strong> <span class="badge bg-secondary">@link.Status</span></p>
+                                            <p class="mb-1"><strong>Priority:</strong> <span class="badge bg-primary">@link.Priority</span></p>
+                                            <p class="mb-1"><strong>Category:</strong> @link.CategoryName</p>
+                                            <p class="mb-1"><small class="text-muted">Linked on @link.LinkedAt.ToString("MMM dd, yyyy") by @link.LinkedByUserType</small></p>
+                                            @if (!string.IsNullOrEmpty(link.Notes))
+                                            {
+                                                <p class="mb-0"><small><strong>Notes:</strong> @link.Notes</small></p>
+                                            }
+                                        </div>
+                                        <div class="col-md-3 text-end">
+                                            @if (ViewBag.UserType == "Admin")
+                                            {
+                                                <form asp-controller="Admin" asp-action="UnlinkComplaints" method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="linkId" value="@link.LinkId" />
+                                                    <input type="hidden" name="complaintId" value="@complaintId" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remove this link?')">
+                                                        <i class="bi bi-trash"></i> Unlink
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (followUps.Any())
+                {
+                    <div class="mb-4">
+                        <h4 class="text-success"><i class="bi bi-arrow-right-circle"></i> Follow-up Complaints (@followUps.Count)</h4>
+                        @foreach (var link in followUps)
+                        {
+                            <div class="card mb-2 border-success">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <h5>
+                                                <a href="@Url.Action("Details", "Complaint", new { id = link.ComplaintId })">
+                                                    #@link.ComplaintId - @link.Title
+                                                </a>
+                                            </h5>
+                                            <p class="mb-1">@link.Description</p>
+                                            <p class="mb-1"><strong>Status:</strong> <span class="badge bg-secondary">@link.Status</span></p>
+                                            <p class="mb-1"><strong>Priority:</strong> <span class="badge bg-primary">@link.Priority</span></p>
+                                            <p class="mb-1"><strong>Category:</strong> @link.CategoryName</p>
+                                            <p class="mb-1"><small class="text-muted">Linked on @link.LinkedAt.ToString("MMM dd, yyyy") by @link.LinkedByUserType</small></p>
+                                            @if (!string.IsNullOrEmpty(link.Notes))
+                                            {
+                                                <p class="mb-0"><small><strong>Notes:</strong> @link.Notes</small></p>
+                                            }
+                                        </div>
+                                        <div class="col-md-3 text-end">
+                                            @if (ViewBag.UserType == "Admin")
+                                            {
+                                                <form asp-controller="Admin" asp-action="UnlinkComplaints" method="post">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="linkId" value="@link.LinkId" />
+                                                    <input type="hidden" name="complaintId" value="@complaintId" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remove this link?')">
+                                                        <i class="bi bi-trash"></i> Unlink
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> No linked complaints found.
+                </div>
+            }
+
+            <!-- Link new complaint (Admin/Staff only) -->
+            @if (ViewBag.UserType == "Admin" || ViewBag.UserType == "Staff")
+            {
+                <div class="card bg-light mt-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-plus-circle"></i> Link Another Complaint</h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-controller="Admin" asp-action="LinkComplaints" method="post" class="row g-3">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="sourceComplaintId" value="@complaintId" />
+                            <div class="col-md-4">
+                                <label class="form-label">Target Complaint ID</label>
+                                <input type="number" name="targetComplaintId" class="form-control" required />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Link Type</label>
+                                <select name="linkType" class="form-select" required>
+                                    <option value="Related">Related</option>
+                                    <option value="Duplicate">Duplicate</option>
+                                    <option value="FollowUp">Follow-up</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label">Notes (Optional)</label>
+                                <input type="text" name="notes" class="form-control" />
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-link-45deg"></i> Create Link
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+
+            <div class="mt-4">
+                <a href="@Url.Action("Details", "Complaint", new { id = complaintId })" class="btn btn-primary">
+                    <i class="bi bi-arrow-left"></i> Back to Complaint Details
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+<link rel="stylesheet" href="~/css/complaint.linkedcomplaints.css" />
+}
+

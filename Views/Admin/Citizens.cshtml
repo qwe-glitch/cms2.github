@@ -1,0 +1,193 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Manage Citizens";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-people"></i> Manage Citizens</h2>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Citizens" method="get" class="row g-3">
+            <div class="col-md-10">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Search citizens by name, email, phone, or address..." value="@ViewBag.SearchQuery">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Joined</th>
+                            <th>Complaints</th>
+                            <th>Status</th>
+                            <th>Failed Attempts</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var citizen in Model)
+                        {
+                            <tr>
+                                <td>@citizen.CitizenId</td>
+                                <td>
+                                    <div class="fw-bold">@citizen.Name</div>
+                                    <small class="text-muted">@citizen.Address</small>
+                                </td>
+                                <td>
+                                    <div>@citizen.Email</div>
+                                    <small class="text-muted">@citizen.Phone</small>
+                                </td>
+                                <td>@citizen.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <span class="badge bg-info rounded-pill">@citizen.ComplaintCount</span>
+                                </td>
+                                <td>
+                                    @if (citizen.IsLocked)
+                                    {
+                                        <span class="badge bg-danger">Locked</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (citizen.FailedLoginAttempts > 0)
+                                    {
+                                        <span class="text-danger fw-bold">@citizen.FailedLoginAttempts</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td>
+                                    <form asp-action="ToggleCitizenLock" method="post" class="d-inline" id="blockForm-@citizen.CitizenId">
+                                        <input type="hidden" name="citizenId" value="@citizen.CitizenId" />
+                                        @if (citizen.IsLocked)
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-success" title="Unlock Account">
+                                                <i class="bi bi-unlock"></i> Unlock
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-sm btn-outline-danger" title="Block Account" 
+                                                    onclick="showBlockConfirmation('@citizen.CitizenId', '@citizen.Name')">
+                                                <i class="bi bi-lock"></i> Block
+                                            </button>
+                                        }
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No citizens registered yet.
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Block Confirmation Modal -->
+<div class="modal fade" id="blockConfirmModal" tabindex="-1" aria-labelledby="blockConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center px-4 pb-4">
+                <div class="mb-4">
+                    <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px;">
+                        <i class="bi bi-shield-lock-fill text-danger" style="font-size: 2.5rem;"></i>
+                    </div>
+                </div>
+                <h4 class="mb-2 fw-bold text-dark">Block Citizen Account?</h4>
+                <p class="text-muted mb-1">You are about to block:</p>
+                <p class="fw-semibold text-dark mb-3" id="citizenNameDisplay"></p>
+                <div class="alert alert-warning py-2 mb-0">
+                    <small><i class="bi bi-exclamation-triangle me-1"></i>This citizen will not be able to log in or submit complaints until unlocked.</small>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0 px-4 pb-4 justify-content-center gap-2">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-1"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-danger px-4" id="confirmBlockBtn">
+                    <i class="bi bi-lock-fill me-1"></i>Block Citizen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #blockConfirmModal .modal-content {
+        border-radius: 16px;
+    }
+    
+    #blockConfirmModal .btn {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    
+    #blockConfirmModal .btn-danger {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border: none;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    #blockConfirmModal .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+    }
+    
+    #blockConfirmModal .btn-secondary {
+        background: #6c757d;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    #blockConfirmModal .btn-secondary:hover {
+        background: #5a6268;
+    }
+</style>
+
+<script>
+    let currentCitizenId = null;
+    
+    function showBlockConfirmation(citizenId, citizenName) {
+        currentCitizenId = citizenId;
+        document.getElementById('citizenNameDisplay').textContent = citizenName;
+        
+        const modal = new bootstrap.Modal(document.getElementById('blockConfirmModal'));
+        modal.show();
+    }
+    
+    document.getElementById('confirmBlockBtn').addEventListener('click', function() {
+        if (currentCitizenId) {
+            document.getElementById('blockForm-' + currentCitizenId).submit();
+        }
+    });
+</script>

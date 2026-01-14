@@ -1,0 +1,3058 @@
+/* ===================================================================
+   Dark Mode Theme - Complaint Management System
+   Black background with bright purple accents and white text
+   Toggle-able via body.dark-mode class
+   =================================================================== */
+
+/* ===================================================================
+   Dark Mode Toggle Switch Styles
+   =================================================================== */
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.dark-mode-toggle .toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark-mode-toggle .toggle-switch::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode-toggle .toggle-switch.active {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    border-color: #a855f7;
+}
+
+.dark-mode-toggle .toggle-switch.active::before {
+    left: calc(100% - 22px);
+    background: white;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+.dark-mode-toggle .toggle-icon {
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* ===================================================================
+   CSS Custom Properties - Dark Mode Tokens (scoped to body.dark-mode)
+   =================================================================== */
+body.dark-mode {
+    --dark-bg: #0a0a0a;
+    --dark-bg-secondary: #121212;
+    --dark-bg-tertiary: #1a1a1a;
+    --dark-bg-elevated: #242424;
+
+    --purple-primary: #a855f7;
+    --purple-bright: #c084fc;
+    --purple-glow: #d8b4fe;
+    --purple-subtle: rgba(168, 85, 247, 0.15);
+    --purple-dark: #7c3aed;
+
+    --gradient-purple: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+    --gradient-purple-glow: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+    --gradient-purple-bright: linear-gradient(135deg, #d8b4fe 0%, #c084fc 100%);
+
+    --text-white: #ffffff;
+    --text-light: #f5f5f5;
+    --text-muted-dark: #a3a3a3;
+
+    --shadow-purple: 0 4px 20px rgba(168, 85, 247, 0.3);
+    --shadow-purple-lg: 0 8px 30px rgba(168, 85, 247, 0.4);
+    --glow-purple: 0 0 20px rgba(168, 85, 247, 0.5);
+    --glow-purple-intense: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 60px rgba(168, 85, 247, 0.3);
+}
+
+/* ===================================================================
+   Base Styles - Dark Background & White Text
+   =================================================================== */
+body.dark-mode {
+    background-color: #0a0a0a !important;
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   Typography - All Text White
+   =================================================================== */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+    color: #ffffff !important;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode label,
+body.dark-mode li,
+body.dark-mode td,
+body.dark-mode th {
+    color: #ffffff;
+}
+
+body.dark-mode a {
+    color: #c084fc !important;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode a:hover {
+    color: #d8b4fe !important;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+body.dark-mode .text-muted {
+    color: #a3a3a3 !important;
+}
+
+/* ===================================================================
+   Cards & Panels - Dark with Purple Border Glow
+   =================================================================== */
+body.dark-mode .card {
+    background: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .card:hover {
+    border-color: #c084fc !important;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 60px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .card-header {
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .card-body {
+    background: #121212 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .card-footer {
+    background: #1a1a1a !important;
+    border-top: 1px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .glass-card,
+body.dark-mode .glass-panel {
+    background: rgba(10, 10, 10, 0.9) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   Navbar - Dark with Purple Glow
+   =================================================================== */
+body.dark-mode .navbar {
+    background: #121212 !important;
+    border-bottom: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .navbar-brand {
+    color: #ffffff !important;
+}
+
+body.dark-mode .navbar-brand:hover {
+    color: #c084fc !important;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+body.dark-mode .nav-link {
+    color: #ffffff !important;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .nav-link:hover,
+body.dark-mode .nav-link.active {
+    color: #c084fc !important;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+body.dark-mode .navbar-toggler {
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* ===================================================================
+   Sidebar - Dark with Purple Accents
+   =================================================================== */
+body.dark-mode .sidebar,
+body.dark-mode .sidenav {
+    background: #121212 !important;
+    border-right: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .sidebar a,
+body.dark-mode .sidenav a {
+    color: #ffffff !important;
+}
+
+body.dark-mode .sidebar a:hover,
+body.dark-mode .sidenav a:hover,
+body.dark-mode .sidebar a.active,
+body.dark-mode .sidenav a.active {
+    background: rgba(168, 85, 247, 0.15) !important;
+    color: #c084fc !important;
+    border-left: 3px solid #a855f7;
+}
+
+/* ===================================================================
+   Buttons - Purple Gradient with Glow
+   =================================================================== */
+body.dark-mode .btn {
+    color: #ffffff !important;
+    border: 1px solid #a855f7 !important;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .btn-primary {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .btn-primary:hover {
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%) !important;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 60px rgba(168, 85, 247, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+body.dark-mode .btn-secondary {
+    background: #1a1a1a !important;
+    border: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border: none !important;
+}
+
+body.dark-mode .btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    border: none !important;
+}
+
+body.dark-mode .btn-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    border: none !important;
+    color: #000 !important;
+}
+
+body.dark-mode .btn-outline-primary {
+    background: transparent !important;
+    border: 2px solid #a855f7 !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .btn-outline-primary:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .btn-outline-light {
+    border-color: #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-outline-light:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .btn-light {
+    background: #242424 !important;
+    color: #ffffff !important;
+    border: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .btn-light:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .btn-gradient {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .btn-gradient:hover {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 60px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* ===================================================================
+   Forms - Dark with Purple Focus
+   =================================================================== */
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background-color: #1a1a1a !important;
+    border: 2px solid #242424 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+    background-color: #1a1a1a !important;
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .form-label {
+    color: #ffffff !important;
+}
+
+body.dark-mode .input-group-text {
+    background-color: #242424 !important;
+    border: 2px solid #242424 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .form-check-input {
+    background-color: #1a1a1a !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .form-check-input:checked {
+    background-color: #a855f7 !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .form-check-input:focus {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode textarea.form-control {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Form Validation States - Dark Mode */
+body.dark-mode .form-control.is-valid,
+body.dark-mode .form-control.form-control-lg.is-valid,
+body.dark-mode input.form-control.is-valid,
+body.dark-mode input.form-control.form-control-lg.is-valid {
+    border-color: #10b981 !important;
+    background-color: #1a1a1a !important;
+    /* Green checkmark SVG - visible on dark background */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2310b981' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 1rem 1rem !important;
+    padding-right: 2.5rem !important;
+}
+
+body.dark-mode .form-control.is-valid:focus,
+body.dark-mode .form-control.form-control-lg.is-valid:focus {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
+}
+
+body.dark-mode .form-control.is-invalid,
+body.dark-mode .form-control.form-control-lg.is-invalid,
+body.dark-mode input.form-control.is-invalid,
+body.dark-mode input.form-control.form-control-lg.is-invalid {
+    border-color: #ef4444 !important;
+    background-color: #1a1a1a !important;
+    /* Red X mark SVG - visible on dark background */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23ef4444'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23ef4444' stroke='none'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 1rem 1rem !important;
+    padding-right: 2.5rem !important;
+}
+
+body.dark-mode .form-control.is-invalid:focus,
+body.dark-mode .form-control.form-control-lg.is-invalid:focus {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Password fields with validation - adjust checkmark position */
+body.dark-mode .position-relative .form-control.is-valid,
+body.dark-mode .position-relative .form-control.form-control-lg.is-valid {
+    background-position: right 0.75rem center !important;
+    padding-right: 2.5rem !important;
+}
+
+body.dark-mode .valid-feedback {
+    color: #10b981 !important;
+}
+
+body.dark-mode .invalid-feedback {
+    color: #ef4444 !important;
+}
+
+/* ===================================================================
+   Tables - Dark with Purple Borders
+   =================================================================== */
+body.dark-mode .table {
+    color: #ffffff !important;
+}
+
+body.dark-mode .table thead {
+    background: #1a1a1a !important;
+}
+
+body.dark-mode .table th {
+    color: #ffffff !important;
+    border-bottom: 2px solid #a855f7 !important;
+}
+
+body.dark-mode .table td {
+    color: #ffffff !important;
+    border-bottom: 1px solid #242424 !important;
+}
+
+body.dark-mode .table tbody tr:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+}
+
+body.dark-mode .table-modern {
+    background: #121212 !important;
+}
+
+body.dark-mode .table-modern thead {
+    background: #1a1a1a !important;
+}
+
+body.dark-mode .table-modern th {
+    color: #ffffff !important;
+    border-bottom: 2px solid #a855f7 !important;
+}
+
+body.dark-mode .table-modern td {
+    color: #ffffff !important;
+    border-bottom: 1px solid #242424 !important;
+}
+
+body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #1a1a1a !important;
+}
+
+/* ===================================================================
+   Modals - Dark with Purple Border
+   =================================================================== */
+body.dark-mode .modal-content {
+    background: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 60px rgba(168, 85, 247, 0.3) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .modal-header {
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .modal-body {
+    background: #121212 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .modal-footer {
+    background: #1a1a1a !important;
+    border-top: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .modal-title {
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+/* ===================================================================
+   Dropdowns - Dark with Purple Accents
+   =================================================================== */
+body.dark-mode .dropdown-menu {
+    background-color: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .dropdown-item {
+    color: #ffffff !important;
+}
+
+body.dark-mode .dropdown-item:hover,
+body.dark-mode .dropdown-item:focus {
+    background-color: rgba(168, 85, 247, 0.15) !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .dropdown-divider {
+    border-top-color: #242424 !important;
+}
+
+body.dark-mode .dropdown-header {
+    color: #a3a3a3 !important;
+}
+
+/* ===================================================================
+   Alerts - Dark Variants with Purple Tint
+   =================================================================== */
+body.dark-mode .alert {
+    background: #1a1a1a !important;
+    border-left: 4px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .alert-success {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border-left-color: #10b981 !important;
+}
+
+body.dark-mode .alert-danger {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-left-color: #ef4444 !important;
+}
+
+body.dark-mode .alert-warning {
+    background: rgba(245, 158, 11, 0.15) !important;
+    border-left-color: #f59e0b !important;
+}
+
+body.dark-mode .alert-info {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-left-color: #a855f7 !important;
+}
+
+/* ===================================================================
+   Badges - Purple Variants
+   =================================================================== */
+body.dark-mode .badge {
+    color: #ffffff !important;
+}
+
+body.dark-mode .badge-primary,
+body.dark-mode .bg-primary {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+body.dark-mode .badge-secondary,
+body.dark-mode .bg-secondary {
+    background: #242424 !important;
+}
+
+body.dark-mode .badge.bg-success-subtle {
+    background-color: #0c3a2f !important;
+    color: #2efea2 !important;
+}
+
+body.dark-mode .text-success {
+    color: #2efea2 !important;
+}
+
+body.dark-mode .badge.bg-warning-subtle {
+    background-color: #3a2b00 !important;
+    color: #fbbf24 !important;
+}
+
+body.dark-mode .text-warning {
+    color: #fbbf24 !important;
+}
+
+body.dark-mode .badge.bg-info-subtle {
+    background-color: #0a3035 !important;
+    color: #22d3ee !important;
+}
+
+body.dark-mode .text-info {
+    color: #22d3ee !important;
+}
+
+body.dark-mode .badge.bg-danger-subtle {
+    background-color: #3a0c0c !important;
+    color: #f87171 !important;
+}
+
+body.dark-mode .text-danger {
+    color: #f87171 !important;
+}
+
+body.dark-mode .badge.bg-secondary-subtle {
+    background-color: #2a2a2a !important;
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .text-secondary {
+    color: #a3a3a3 !important;
+}
+
+/* ===================================================================
+   Pagination - Dark with Purple
+   =================================================================== */
+body.dark-mode .pagination .page-link {
+    background-color: #1a1a1a !important;
+    border-color: #242424 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .pagination .page-link:hover {
+    background-color: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .pagination .page-item.disabled .page-link {
+    background-color: #121212 !important;
+    color: #a3a3a3 !important;
+}
+
+/* ===================================================================
+   Breadcrumbs - Dark Theme
+   =================================================================== */
+body.dark-mode .breadcrumb {
+    background: #1a1a1a !important;
+}
+
+body.dark-mode .breadcrumb-item {
+    color: #ffffff !important;
+}
+
+body.dark-mode .breadcrumb-item a {
+    color: #c084fc !important;
+}
+
+body.dark-mode .breadcrumb-item.active {
+    color: #a3a3a3 !important;
+}
+
+/* ===================================================================
+   List Groups - Dark with Purple
+   =================================================================== */
+body.dark-mode .list-group-item {
+    background-color: #1a1a1a !important;
+    border-color: #242424 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .list-group-item:hover {
+    background-color: rgba(168, 85, 247, 0.15) !important;
+}
+
+body.dark-mode .list-group-item.active {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+}
+
+/* ===================================================================
+   Toasts - Dark Theme
+   =================================================================== */
+body.dark-mode .toast {
+    background: #121212 !important;
+    border-left: 4px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .toast-title {
+    color: #ffffff !important;
+}
+
+body.dark-mode .toast-message {
+    color: #a3a3a3 !important;
+}
+
+/* ===================================================================
+   Loading States - Dark Theme
+   =================================================================== */
+body.dark-mode .loading-overlay {
+    background: rgba(10, 10, 10, 0.9) !important;
+}
+
+body.dark-mode .spinner {
+    border-color: #242424 !important;
+    border-top-color: #a855f7 !important;
+}
+
+body.dark-mode .skeleton {
+    background: linear-gradient(90deg, #1a1a1a 0%, #242424 50%, #1a1a1a 100%) !important;
+}
+
+/* ===================================================================
+   Timeline - Dark Theme
+   =================================================================== */
+body.dark-mode .timeline::before {
+    background: #a855f7 !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .timeline-dot {
+    background: #0a0a0a !important;
+    border-color: #c084fc !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .timeline-content {
+    background: #1a1a1a !important;
+    border: 1px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   Scroll to Top Button - Purple Glow
+   =================================================================== */
+body.dark-mode .scroll-to-top {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 60px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .scroll-to-top:hover {
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.8) !important;
+}
+
+/* ===================================================================
+   Footer - Dark Theme
+   =================================================================== */
+body.dark-mode footer {
+    background: #121212 !important;
+    border-top: 1px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   Miscellaneous Elements
+   =================================================================== */
+body.dark-mode hr {
+    border-color: #a855f7 !important;
+    opacity: 0.5;
+}
+
+body.dark-mode blockquote {
+    border-left: 4px solid #a855f7 !important;
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode code {
+    background: #1a1a1a !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode pre {
+    background: #1a1a1a !important;
+    border: 1px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .progress {
+    background-color: #242424 !important;
+}
+
+body.dark-mode .progress-bar {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+body.dark-mode .accordion-item {
+    background-color: #121212 !important;
+    border-color: #242424 !important;
+}
+
+body.dark-mode .accordion-button {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .accordion-button:not(.collapsed) {
+    background-color: rgba(168, 85, 247, 0.15) !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .accordion-button::after {
+    filter: invert(1);
+}
+
+body.dark-mode .accordion-body {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   Glow Animation for Purple Elements
+   =================================================================== */
+@keyframes purpleGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.7), 0 0 60px rgba(168, 85, 247, 0.4);
+    }
+}
+
+body.dark-mode .glow-animated {
+    animation: purpleGlow 2s ease-in-out infinite;
+}
+
+/* ===================================================================
+   Text Gradient - Purple
+   =================================================================== */
+body.dark-mode .text-gradient {
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* ===================================================================
+   Selection Highlight
+   =================================================================== */
+body.dark-mode ::selection {
+    background: #a855f7;
+    color: #ffffff;
+}
+
+body.dark-mode ::-moz-selection {
+    background: #a855f7;
+    color: #ffffff;
+}
+
+/* ===================================================================
+   Scrollbar Styling - Dark with Purple
+   =================================================================== */
+body.dark-mode::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: #7c3aed;
+    border-radius: 5px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: #a855f7;
+}
+
+body.dark-mode * {
+    scrollbar-width: thin;
+    scrollbar-color: #7c3aed #0a0a0a;
+}
+
+/* ===================================================================
+   User Info Box in Navbar - Dark Mode
+   =================================================================== */
+body.dark-mode .glass-card[style*="background: rgba(255, 255, 255, 0.15)"] {
+    background: rgba(168, 85, 247, 0.2) !important;
+    border: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .icon-circle {
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* ===================================================================
+   HOME PAGE - Hero Section Dark Mode
+   =================================================================== */
+body.dark-mode .hero-section {
+    background: linear-gradient(135deg, #1a0a2e 0%, #16082a 50%, #0d0618 100%) !important;
+}
+
+body.dark-mode .hero-bg-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a855f7' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
+}
+
+body.dark-mode .hero-section .icon-circle {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    color: white !important;
+    border: 3px solid rgba(168, 85, 247, 0.5) !important;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.5), 0 0 60px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .hero-section .icon-circle i {
+    color: white !important;
+}
+
+body.dark-mode .hero-section h1 {
+    text-shadow: 0 0 40px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   HOME PAGE - Stats Cards Dark Mode
+   =================================================================== */
+body.dark-mode .stat-card {
+    background: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .stat-card:hover {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.5) !important;
+    border-color: #c084fc !important;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .stat-card p {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .stat-icon {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .stat-icon.bg-primary-subtle {
+    background: rgba(168, 85, 247, 0.2) !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .stat-icon.bg-success-subtle {
+    background: rgba(16, 185, 129, 0.2) !important;
+}
+
+body.dark-mode .stat-icon.bg-warning-subtle {
+    background: rgba(245, 158, 11, 0.2) !important;
+}
+
+/* ===================================================================
+   HOME PAGE - Public Complaints Board Section
+   =================================================================== */
+body.dark-mode .text-center.mb-5.bg-white {
+    background: transparent !important;
+}
+
+body.dark-mode .text-center h2.display-6 {
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   HOME PAGE - Glass Panel (Filter Section) Dark Mode
+   =================================================================== */
+body.dark-mode .glass-panel {
+    background: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* ===================================================================
+   HOME PAGE - Filter Pills Dark Mode
+   =================================================================== */
+body.dark-mode .filter-pill {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .filter-pill:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .filter-pill.active {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   HOME PAGE - Search Box Dark Mode
+   =================================================================== */
+body.dark-mode #searchBox,
+body.dark-mode .form-control.bg-light {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode #searchBox:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   HOME PAGE - Complaint Cards Dark Mode
+   =================================================================== */
+body.dark-mode .complaint-card {
+    background: #121212 !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode .complaint-card:hover {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.4) !important;
+}
+
+body.dark-mode .complaint-card .card-title {
+    color: #ffffff !important;
+}
+
+body.dark-mode .complaint-card .text-muted {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .complaint-card .badge.bg-light {
+    background: #242424 !important;
+    color: #ffffff !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .complaint-card .badge.bg-light .text-primary {
+    color: #c084fc !important;
+}
+
+body.dark-mode .complaint-card .border-top {
+    border-color: #333 !important;
+}
+
+body.dark-mode .complaint-card .text-primary {
+    color: #c084fc !important;
+}
+
+/* Status Badge Dark Mode */
+body.dark-mode .status-badge.bg-warning-subtle {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #fbbf24 !important;
+}
+
+body.dark-mode .status-badge.bg-info-subtle {
+    background: rgba(6, 182, 212, 0.2) !important;
+    color: #22d3ee !important;
+}
+
+body.dark-mode .status-badge.bg-success-subtle {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #34d399 !important;
+}
+
+body.dark-mode .status-badge.bg-danger-subtle {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #f87171 !important;
+}
+
+/* ===================================================================
+   HOME PAGE - Load More Button Dark Mode
+   =================================================================== */
+body.dark-mode #loadMoreBtn {
+    background: #1a1a1a !important;
+    border: 1px solid #a855f7 !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode #loadMoreBtn:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   HOME PAGE - No Results State Dark Mode
+   =================================================================== */
+body.dark-mode #noResults h4 {
+    color: #ffffff !important;
+}
+
+body.dark-mode #noResults .text-muted {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .empty-state h4 {
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   GENERAL - Background Utilities Dark Mode Override
+   =================================================================== */
+body.dark-mode .bg-white {
+    background: #121212 !important;
+}
+
+body.dark-mode .bg-light {
+    background: #1a1a1a !important;
+}
+
+body.dark-mode .shadow-sm {
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.2) !important;
+}
+
+/* ===================================================================
+   GENERAL - Link Colors in Cards
+   =================================================================== */
+body.dark-mode a.text-decoration-none .complaint-card * {
+    color: inherit;
+}
+
+body.dark-mode a.text-decoration-none:hover .complaint-card {
+    border-color: #a855f7 !important;
+}
+
+/* ===================================================================
+   Container & Main Content Area
+   =================================================================== */
+body.dark-mode main.container {
+    background: transparent !important;
+}
+
+/* ===================================================================
+   Rounded Corners Dark Mode
+   =================================================================== */
+body.dark-mode .rounded-4 {
+    border-color: #333 !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Bulletin Header Dark Mode
+   =================================================================== */
+body.dark-mode .bulletin-header h1 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .bulletin-header p {
+    color: #a3a3a3 !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Event Carousel Dark Mode
+   =================================================================== */
+body.dark-mode .event-carousel {
+    border-color: #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Admin Notice Card Dark Mode
+   =================================================================== */
+body.dark-mode .admin-notice-card {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, #121212 100%) !important;
+    border: 1px solid #a855f7 !important;
+    border-left: 5px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .admin-notice-card:hover {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .admin-notice-card h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .admin-notice-card p {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .bg-icon-overlay {
+    color: #a855f7 !important;
+    opacity: 0.15 !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Quick Access Section Dark Mode
+   =================================================================== */
+body.dark-mode .quick-access-trigger {
+    background: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .quick-access-trigger:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #c084fc !important;
+}
+
+body.dark-mode .quick-access-grid {
+    background: #0a0a0a !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode .agency-card {
+    background: #121212 !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .agency-card:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Bulletin Cards Dark Mode
+   =================================================================== */
+body.dark-mode .bulletin-card {
+    background: #121212 !important;
+    border: 1px solid #333 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.2) !important;
+}
+
+body.dark-mode .bulletin-card:hover {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.4) !important;
+}
+
+body.dark-mode .card-content {
+    border-left-color: #333 !important;
+}
+
+body.dark-mode .card-content h5 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .card-content p {
+    color: #a3a3a3 !important;
+}
+
+/* Card Status Colors Dark Mode */
+body.dark-mode .card-success {
+    border-left: 4px solid #10b981 !important;
+}
+
+body.dark-mode .card-progress {
+    border-left: 4px solid #f59e0b !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Neon Badges Dark Mode
+   =================================================================== */
+body.dark-mode .neon-badge-success {
+    background: rgba(16, 185, 129, 0.2) !important;
+}
+
+body.dark-mode .neon-badge-success .neon-badge-inner {
+    color: #34d399 !important;
+}
+
+body.dark-mode .neon-badge-warning {
+    background: rgba(245, 158, 11, 0.2) !important;
+}
+
+body.dark-mode .neon-badge-warning .neon-badge-inner {
+    color: #fbbf24 !important;
+}
+
+body.dark-mode .neon-badge-system {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Filter Buttons Dark Mode
+   =================================================================== */
+body.dark-mode .filter-btn {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .filter-btn:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .filter-btn.active {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Action Buttons Dark Mode
+   =================================================================== */
+body.dark-mode .bulletin-card .btn-outline-light {
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+    background: transparent !important;
+}
+
+body.dark-mode .bulletin-card .btn-outline-light:hover {
+    background: #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-edit-system {
+    background: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .btn-edit-system:hover {
+    background: #a855f7 !important;
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Construction Bar/Ticker Dark Mode
+   =================================================================== */
+body.dark-mode .construction-bar {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .ticker-content {
+    background: #121212 !important;
+}
+
+body.dark-mode .scrolling-text {
+    color: #c084fc !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Modal Dark Mode
+   =================================================================== */
+body.dark-mode #editSystemModal .modal-content {
+    background: #121212 !important;
+    border: 1px solid #a855f7 !important;
+}
+
+body.dark-mode #editSystemModal .modal-header {
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #a855f7 !important;
+}
+
+body.dark-mode #editSystemModal .modal-footer {
+    background: #1a1a1a !important;
+    border-top: 1px solid #a855f7 !important;
+}
+
+body.dark-mode #editSystemModal .modal-title {
+    color: #ffffff !important;
+}
+
+body.dark-mode #editSystemModal .form-label {
+    color: #ffffff !important;
+}
+
+body.dark-mode #editSystemModal .form-control {
+    background: #1a1a1a !important;
+    border: 2px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode #editSystemModal .form-control:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   ANNOUNCEMENT PAGE - Text Overrides Dark Mode
+   =================================================================== */
+body.dark-mode .text-info {
+    color: #c084fc !important;
+}
+
+body.dark-mode .bulletin-list {
+    background: transparent !important;
+}
+
+/* ===================================================================
+   INTRO PAGE - Dark Mode Styles
+   =================================================================== */
+body.dark-mode.intro-body {
+    background-color: #0a0a0a !important;
+}
+
+body.dark-mode .intro-navbar {
+    background: #0a0a0a !important;
+    border-bottom: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .main-intro-layout {
+    background-color: #0a0a0a !important;
+}
+
+body.dark-mode .main-intro-layout::before {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(124, 58, 237, 0.3) 100%),
+        url('../Images/Background.jpg') !important;
+}
+
+body.dark-mode .main-intro-layout::after {
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.85) 0%, rgba(168, 85, 247, 0.3) 100%) !important;
+}
+
+body.dark-mode .main-title {
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+body.dark-mode .tag {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4) !important;
+}
+
+body.dark-mode .cta-button {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4) !important;
+}
+
+body.dark-mode .cta-button:hover {
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .cta-button-secondary {
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .cta-button-secondary:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #c084fc !important;
+}
+
+body.dark-mode .intro-feature-card {
+    background: rgba(168, 85, 247, 0.1) !important;
+    border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .intro-feature-card:hover {
+    background: rgba(168, 85, 247, 0.2) !important;
+    box-shadow: 0 20px 40px rgba(168, 85, 247, 0.2) !important;
+}
+
+body.dark-mode .intro-feature-icon {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+body.dark-mode.intro-body::-webkit-scrollbar-track {
+    background: #0a0a0a !important;
+}
+
+body.dark-mode.intro-body::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+body.dark-mode.intro-body::-webkit-scrollbar-thumb:hover {
+    background: #c084fc !important;
+}
+
+/* ===================================================================
+   CHATBOT - Dark Mode Styles
+   =================================================================== */
+
+/* Chatbot Button */
+body.dark-mode .chatbot-button {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4) !important;
+}
+
+body.dark-mode .chatbot-button:hover {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.6) !important;
+}
+
+/* Chat Window */
+body.dark-mode .chat-window {
+    background-color: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 30px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Chat Header */
+body.dark-mode .chat-header {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+body.dark-mode .chat-header h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .close-btn {
+    color: #ffffff !important;
+}
+
+/* Chat Messages Area */
+body.dark-mode .chat-messages {
+    background-color: #0a0a0a !important;
+}
+
+/* Bot Message */
+body.dark-mode .bot-message {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+
+/* User Message */
+body.dark-mode .user-message {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    color: #ffffff !important;
+}
+
+/* Suggested Questions */
+body.dark-mode .question-btn {
+    background-color: #1a1a1a !important;
+    border: 1px solid #a855f7 !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .question-btn:hover {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+    color: #ffffff !important;
+}
+
+/* Chat Input Area */
+body.dark-mode .chat-input-area {
+    background-color: #121212 !important;
+    border-top: 1px solid #333 !important;
+}
+
+body.dark-mode .chat-input-area input {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .chat-input-area input::placeholder {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .chat-input-area input:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .chat-input-area button {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+body.dark-mode .chat-input-area button:hover {
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%) !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* ===================================================================
+   INPUT FIELDS - All Types Dark Mode (Password, Text, etc.)
+   =================================================================== */
+body.dark-mode input[type="password"],
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="tel"],
+body.dark-mode input[type="number"],
+body.dark-mode input[type="url"],
+body.dark-mode input[type="search"],
+body.dark-mode input[type="date"],
+body.dark-mode input[type="datetime-local"],
+body.dark-mode input[type="time"] {
+    background-color: #1a1a1a !important;
+    border-color: #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode input[type="password"]:focus,
+body.dark-mode input[type="text"]:focus,
+body.dark-mode input[type="email"]:focus,
+body.dark-mode input[type="tel"]:focus,
+body.dark-mode input[type="number"]:focus,
+body.dark-mode input[type="url"]:focus,
+body.dark-mode input[type="search"]:focus,
+body.dark-mode input[type="date"]:focus,
+body.dark-mode input[type="datetime-local"]:focus,
+body.dark-mode input[type="time"]:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+    background-color: #1a1a1a !important;
+}
+
+body.dark-mode input::placeholder {
+    color: #a3a3a3 !important;
+}
+
+/* Password Toggle Button */
+body.dark-mode .password-toggle-btn,
+body.dark-mode .btn-outline-secondary {
+    background-color: #1a1a1a !important;
+    border-color: #333 !important;
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .password-toggle-btn:hover,
+body.dark-mode .btn-outline-secondary:hover {
+    background-color: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+}
+
+/* ===================================================================
+   PRIVATE CHAT - Dark Mode Styles
+   =================================================================== */
+
+/* Chat Container */
+body.dark-mode .chat-container {
+    background: #0a0a0a !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 30px rgba(168, 85, 247, 0.2) !important;
+}
+
+/* Chat Sidebar */
+body.dark-mode .chat-sidebar {
+    background: #121212 !important;
+    border-right: 1px solid #333 !important;
+}
+
+body.dark-mode .sidebar-header {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-bottom: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .user-search {
+    border-bottom: 1px solid #333 !important;
+}
+
+body.dark-mode .user-search .form-control {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .user-search .form-control:focus {
+    background: #1a1a1a !important;
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* User List */
+body.dark-mode .user-list {
+    background: #121212 !important;
+}
+
+body.dark-mode .user-item {
+    border-bottom: 1px solid #333 !important;
+}
+
+body.dark-mode .user-item:hover {
+    background: rgba(168, 85, 247, 0.1) !important;
+}
+
+body.dark-mode .user-item.active {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-left: 3px solid #a855f7 !important;
+}
+
+body.dark-mode .user-avatar {
+    background: #1a1a1a !important;
+}
+
+body.dark-mode .user-avatar i {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .online-indicator {
+    border-color: #121212 !important;
+}
+
+body.dark-mode .user-name {
+    color: #ffffff !important;
+}
+
+body.dark-mode .unread-badge {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+/* Chat Main Area */
+body.dark-mode .chat-main {
+    background: #0a0a0a !important;
+}
+
+body.dark-mode .chat-header {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-bottom: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .chat-header .receiver-name {
+    color: #ffffff !important;
+}
+
+body.dark-mode .chat-header .receiver-avatar {
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Chat Messages */
+body.dark-mode .chat-messages {
+    background: #0a0a0a !important;
+}
+
+body.dark-mode .message.received .message-bubble {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode .message.sent .message-bubble {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .message-time {
+    color: #a3a3a3 !important;
+}
+
+/* Empty State */
+body.dark-mode .empty-state {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .empty-state i {
+    color: #333 !important;
+}
+
+body.dark-mode .empty-state h5 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .empty-state p {
+    color: #a3a3a3 !important;
+}
+
+/* Chat Input */
+body.dark-mode .chat-input {
+    background: #121212 !important;
+    border-top: 1px solid #333 !important;
+}
+
+body.dark-mode .chat-input .form-control {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .chat-input .form-control:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .chat-input .btn-primary {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .chat-input .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* Typing Indicator */
+body.dark-mode .typing-indicator span {
+    background: #a855f7 !important;
+}
+
+/* Connection Status */
+body.dark-mode .connection-status {
+    border: 1px solid #333 !important;
+}
+
+/* ===================================================================
+   EMOJI PICKER - Comprehensive Dark Mode Styles
+   =================================================================== */
+body.dark-mode #emojiPickerContainer,
+body.dark-mode .emoji-picker,
+body.dark-mode emoji-picker,
+body.dark-mode .EmojiPickerReact,
+body.dark-mode [class*="emoji-picker"],
+body.dark-mode [class*="EmojiPicker"] {
+    background: #121212 !important;
+    background-color: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 30px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Emoji Picker Search */
+body.dark-mode .emoji-picker input,
+body.dark-mode emoji-picker input,
+body.dark-mode .EmojiPickerReact input,
+body.dark-mode [class*="emoji-picker"] input,
+body.dark-mode [class*="EmojiPicker"] input,
+body.dark-mode .epr-search,
+body.dark-mode [class*="search"] input {
+    background: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .emoji-picker input:focus,
+body.dark-mode emoji-picker input:focus,
+body.dark-mode .EmojiPickerReact input:focus,
+body.dark-mode [class*="emoji-picker"] input:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Emoji Picker Categories/Tabs */
+body.dark-mode .emoji-picker nav,
+body.dark-mode emoji-picker nav,
+body.dark-mode .EmojiPickerReact nav,
+body.dark-mode .epr-category-nav,
+body.dark-mode [class*="category-nav"],
+body.dark-mode [class*="emoji-picker"] header,
+body.dark-mode [class*="EmojiPicker"] header {
+    background: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+body.dark-mode .emoji-picker button,
+body.dark-mode emoji-picker button,
+body.dark-mode .EmojiPickerReact button,
+body.dark-mode [class*="emoji-picker"] button {
+    background: transparent !important;
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .emoji-picker button:hover,
+body.dark-mode emoji-picker button:hover,
+body.dark-mode .EmojiPickerReact button:hover,
+body.dark-mode [class*="emoji-picker"] button:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+}
+
+body.dark-mode .emoji-picker button.active,
+body.dark-mode emoji-picker button.active,
+body.dark-mode .EmojiPickerReact button.active,
+body.dark-mode [class*="emoji-picker"] button.active,
+body.dark-mode [class*="emoji-picker"] button[aria-selected="true"] {
+    background: rgba(168, 85, 247, 0.2) !important;
+    color: #c084fc !important;
+}
+
+/* Emoji List Container */
+body.dark-mode .emoji-picker .emoji-scroll-wrapper,
+body.dark-mode emoji-picker .emoji-scroll-wrapper,
+body.dark-mode .EmojiPickerReact .epr-body,
+body.dark-mode [class*="emoji-picker"] [class*="scroll"],
+body.dark-mode [class*="emoji-picker"] [class*="list"],
+body.dark-mode [class*="emoji-picker"] [class*="content"],
+body.dark-mode [class*="emoji-picker"] main {
+    background: #121212 !important;
+    background-color: #121212 !important;
+}
+
+/* Category Labels */
+body.dark-mode .emoji-picker .emoji-category-label,
+body.dark-mode emoji-picker .emoji-category-label,
+body.dark-mode .EmojiPickerReact .epr-emoji-category-label,
+body.dark-mode [class*="emoji-picker"] [class*="category-label"],
+body.dark-mode [class*="emoji-picker"] h2,
+body.dark-mode [class*="emoji-picker"] h3,
+body.dark-mode [class*="emoji-picker"] [class*="header"] {
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
+    color: #c084fc !important;
+}
+
+/* Emoji Buttons/Items */
+body.dark-mode .emoji-picker .emoji-btn,
+body.dark-mode emoji-picker .emoji-btn,
+body.dark-mode .EmojiPickerReact .epr-emoji,
+body.dark-mode [class*="emoji-picker"] [class*="emoji"]:not([class*="picker"]) {
+    border-radius: 8px !important;
+}
+
+body.dark-mode .emoji-picker .emoji-btn:hover,
+body.dark-mode emoji-picker .emoji-btn:hover,
+body.dark-mode .EmojiPickerReact .epr-emoji:hover,
+body.dark-mode [class*="emoji-picker"] [class*="emoji"]:hover:not([class*="picker"]) {
+    background: rgba(168, 85, 247, 0.2) !important;
+}
+
+/* Preview Area */
+body.dark-mode .emoji-picker .emoji-preview,
+body.dark-mode emoji-picker .emoji-preview,
+body.dark-mode .EmojiPickerReact .epr-preview,
+body.dark-mode [class*="emoji-picker"] [class*="preview"],
+body.dark-mode [class*="emoji-picker"] footer {
+    background: #1a1a1a !important;
+    background-color: #1a1a1a !important;
+    border-top: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+/* Scrollbar for Emoji Picker */
+body.dark-mode .emoji-picker ::-webkit-scrollbar,
+body.dark-mode emoji-picker ::-webkit-scrollbar,
+body.dark-mode .EmojiPickerReact ::-webkit-scrollbar,
+body.dark-mode [class*="emoji-picker"] ::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+body.dark-mode .emoji-picker ::-webkit-scrollbar-track,
+body.dark-mode emoji-picker ::-webkit-scrollbar-track,
+body.dark-mode .EmojiPickerReact ::-webkit-scrollbar-track,
+body.dark-mode [class*="emoji-picker"] ::-webkit-scrollbar-track {
+    background: #0a0a0a !important;
+}
+
+body.dark-mode .emoji-picker ::-webkit-scrollbar-thumb,
+body.dark-mode emoji-picker ::-webkit-scrollbar-thumb,
+body.dark-mode .EmojiPickerReact ::-webkit-scrollbar-thumb,
+body.dark-mode [class*="emoji-picker"] ::-webkit-scrollbar-thumb {
+    background: #a855f7 !important;
+    border-radius: 4px !important;
+}
+
+/* Override any white backgrounds in emoji picker */
+body.dark-mode [class*="emoji-picker"] *,
+body.dark-mode [class*="EmojiPicker"] * {
+    --epr-bg-color: #121212 !important;
+    --epr-category-label-bg-color: #0a0a0a !important;
+    --epr-text-color: #ffffff !important;
+    --epr-search-input-bg-color: #1a1a1a !important;
+    --epr-picker-border-color: #a855f7 !important;
+    --epr-category-icon-active-color: #c084fc !important;
+    --epr-hover-bg-color: rgba(168, 85, 247, 0.2) !important;
+}
+
+/* Picmo Emoji Picker - Specific Dark Mode Overrides */
+body.dark-mode .picmo__picker,
+body.dark-mode .picmo-picker,
+body.dark-mode [class*="picmo-picker"] {
+    --background-color: #121212 !important;
+    --secondary-background-color: #1a1a1a !important;
+    --text-color: #c084fc !important;
+    --secondary-text-color: #a3a3a3 !important;
+    --accent-color: #a855f7 !important;
+    --border-color: #a855f7 !important;
+    --category-name-background-color: #0a0a0a !important;
+    --category-name-text-color: #c084fc !important;
+    --search-background-color: #1a1a1a !important;
+    --search-placeholder-color: #a3a3a3 !important;
+    --preview-background-color: #1a1a1a !important;
+
+    background-color: #121212 !important;
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+}
+
+/* Picmo Category Labels (the white text issue) */
+body.dark-mode .picmo__categoryName,
+body.dark-mode .picmo-category-name,
+body.dark-mode [class*="picmo"] [class*="categoryName"],
+body.dark-mode [class*="picmo"] [class*="CategoryName"],
+body.dark-mode [class*="picmo"] [class*="category-name"] {
+    color: #c084fc !important;
+    background-color: #0a0a0a !important;
+    backdrop-filter: blur(10px);
+}
+
+/* Picmo Header/Search area */
+body.dark-mode .picmo__header,
+body.dark-mode .picmo-header,
+body.dark-mode [class*="picmo"] header,
+body.dark-mode [class*="picmo"] [class*="header"] {
+    background-color: #121212 !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+body.dark-mode .picmo__searchContainer input,
+body.dark-mode .picmo-search-container input,
+body.dark-mode [class*="picmo"] input[type="search"],
+body.dark-mode [class*="picmo"] input[type="text"] {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .picmo__searchContainer input:focus,
+body.dark-mode .picmo-search-container input:focus,
+body.dark-mode [class*="picmo"] input:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Picmo Nav/Tab buttons */
+body.dark-mode .picmo__categoryButton,
+body.dark-mode .picmo-category-button,
+body.dark-mode [class*="picmo"] button {
+    background-color: transparent !important;
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .picmo__categoryButton:hover,
+body.dark-mode .picmo-category-button:hover,
+body.dark-mode [class*="picmo"] button:hover {
+    background-color: rgba(168, 85, 247, 0.2) !important;
+}
+
+body.dark-mode .picmo__categoryButton--active,
+body.dark-mode .picmo__categoryButton.active,
+body.dark-mode .picmo-category-button.active,
+body.dark-mode [class*="picmo"] button[aria-selected="true"] {
+    background-color: rgba(168, 85, 247, 0.3) !important;
+    color: #c084fc !important;
+}
+
+/* Picmo Emoji Grid/Content */
+body.dark-mode .picmo__content,
+body.dark-mode .picmo__emojiArea,
+body.dark-mode .picmo-content,
+body.dark-mode .picmo-emoji-area,
+body.dark-mode [class*="picmo"] [class*="content"],
+body.dark-mode [class*="picmo"] [class*="emojiArea"],
+body.dark-mode [class*="picmo"] [class*="emoji-area"] {
+    background-color: #121212 !important;
+}
+
+/* Picmo Emoji hover state */
+body.dark-mode .picmo__emoji:hover,
+body.dark-mode .picmo-emoji:hover,
+body.dark-mode [class*="picmo"] [class*="emoji"]:hover {
+    background-color: rgba(168, 85, 247, 0.2) !important;
+    border-radius: 4px;
+}
+
+/* Picmo Preview Area */
+body.dark-mode .picmo__preview,
+body.dark-mode .picmo-preview,
+body.dark-mode [class*="picmo"] [class*="preview"] {
+    background-color: #1a1a1a !important;
+    border-top: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+/* All text inside picmo should be visible */
+body.dark-mode [class*="picmo"] span,
+body.dark-mode [class*="picmo"] div,
+body.dark-mode [class*="picmo"] h1,
+body.dark-mode [class*="picmo"] h2,
+body.dark-mode [class*="picmo"] h3,
+body.dark-mode [class*="picmo"] h4,
+body.dark-mode [class*="picmo"] p,
+body.dark-mode [class*="picmo"] label {
+    color: #c084fc !important;
+}
+
+/* ===================================================================
+   AUTHENTICATION PAGES - Dark Mode Styles
+   (Login, Register, Forgot Password, Verify Code, Reset Password)
+   =================================================================== */
+
+/* Main Row Container */
+body.dark-mode .row.g-0.min-vh-100 {
+    background: #0a0a0a !important;
+}
+
+/* Left Side - Form Panel */
+body.dark-mode .row.g-0>.col-lg-6.bg-white,
+body.dark-mode .row.g-0>.col-lg-5.bg-white,
+body.dark-mode .row.g-0>.col-md-6.bg-white,
+body.dark-mode .col-lg-6[class*="bg-white"],
+body.dark-mode .col-lg-5[class*="bg-white"],
+body.dark-mode .row.min-vh-100>.col-lg-6:first-child,
+body.dark-mode .row.min-vh-100>.col-lg-5:first-child {
+    background: #0a0a0a !important;
+    background-color: #0a0a0a !important;
+}
+
+/* Right Side - Info Panel (Override gradient-primary) */
+body.dark-mode .row.g-0>.col-lg-6[style*="gradient-primary"],
+body.dark-mode .row.g-0>.col-lg-7[style*="gradient-primary"],
+body.dark-mode .row.min-vh-100>.col-lg-6:last-child,
+body.dark-mode .row.min-vh-100>.col-lg-7:last-child,
+body.dark-mode [style*="background: var(--gradient-primary)"],
+body.dark-mode [style*="background:var(--gradient-primary)"] {
+    background: linear-gradient(135deg, #1a0a2e 0%, #0d0618 100%) !important;
+}
+
+/* Auth Form Headings */
+body.dark-mode .row.g-0 h2,
+body.dark-mode .row.min-vh-100 h2 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .row.g-0 h3,
+body.dark-mode .row.min-vh-100 h3 {
+    color: #ffffff !important;
+}
+
+/* Auth Form Labels */
+body.dark-mode .row.g-0 .form-label,
+body.dark-mode .row.min-vh-100 .form-label {
+    color: #ffffff !important;
+}
+
+/* Auth Form Text */
+body.dark-mode .row.g-0 p,
+body.dark-mode .row.min-vh-100 p {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .row.g-0 .text-muted,
+body.dark-mode .row.min-vh-100 .text-muted {
+    color: #a3a3a3 !important;
+}
+
+/* Auth Page Icon Circles */
+body.dark-mode .row.g-0 .icon-circle,
+body.dark-mode .row.min-vh-100 .icon-circle {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+body.dark-mode .row.g-0 .icon-circle.bg-info,
+body.dark-mode .row.min-vh-100 .icon-circle.bg-info {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+/* Auth Page Buttons */
+body.dark-mode .row.g-0 .btn-primary,
+body.dark-mode .row.min-vh-100 .btn-primary {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .row.g-0 .btn-primary:hover,
+body.dark-mode .row.min-vh-100 .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .row.g-0 .btn-link,
+body.dark-mode .row.min-vh-100 .btn-link {
+    color: #c084fc !important;
+}
+
+body.dark-mode .row.g-0 .btn-link:hover,
+body.dark-mode .row.min-vh-100 .btn-link:hover {
+    color: #a855f7 !important;
+}
+
+/* Auth Page Back Link */
+body.dark-mode .row.g-0 a.text-muted,
+body.dark-mode .row.min-vh-100 a.text-muted {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .row.g-0 a.text-muted:hover,
+body.dark-mode .row.min-vh-100 a.text-muted:hover {
+    color: #c084fc !important;
+}
+
+/* Auth Page Form Control */
+body.dark-mode .row.g-0 .form-control,
+body.dark-mode .row.min-vh-100 .form-control {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .row.g-0 .form-control:focus,
+body.dark-mode .row.min-vh-100 .form-control:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+    background: #1a1a1a !important;
+}
+
+/* Input Group */
+body.dark-mode .row.g-0 .input-group,
+body.dark-mode .row.min-vh-100 .input-group {
+    background: transparent !important;
+}
+
+body.dark-mode .row.g-0 .input-group-text,
+body.dark-mode .row.min-vh-100 .input-group-text {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #a3a3a3 !important;
+}
+
+/* Password Toggle Button in Auth Forms */
+body.dark-mode .row.g-0 .input-group .btn-outline-secondary,
+body.dark-mode .row.min-vh-100 .input-group .btn-outline-secondary {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .row.g-0 .input-group .btn-outline-secondary:hover,
+body.dark-mode .row.min-vh-100 .input-group .btn-outline-secondary:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+}
+
+/* Social Login Buttons */
+body.dark-mode .row.g-0 .btn-outline-dark,
+body.dark-mode .row.min-vh-100 .btn-outline-dark {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .row.g-0 .btn-outline-dark:hover,
+body.dark-mode .row.min-vh-100 .btn-outline-dark:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+}
+
+/* Divider */
+body.dark-mode .row.g-0 hr,
+body.dark-mode .row.min-vh-100 hr {
+    border-color: #333 !important;
+    opacity: 1 !important;
+}
+
+/* Password Strength Indicator */
+body.dark-mode .row.g-0 .password-strength-bar,
+body.dark-mode .row.min-vh-100 .password-strength-bar {
+    background: #333 !important;
+}
+
+/* Checkbox */
+body.dark-mode .row.g-0 .form-check-label,
+body.dark-mode .row.min-vh-100 .form-check-label {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .row.g-0 .form-check-input,
+body.dark-mode .row.min-vh-100 .form-check-input {
+    background-color: #1a1a1a !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .row.g-0 .form-check-input:checked,
+body.dark-mode .row.min-vh-100 .form-check-input:checked {
+    background-color: #a855f7 !important;
+    border-color: #a855f7 !important;
+}
+
+/* Links in auth pages */
+body.dark-mode .row.g-0 a.text-decoration-none,
+body.dark-mode .row.min-vh-100 a.text-decoration-none {
+    color: #c084fc !important;
+}
+
+body.dark-mode .row.g-0 a.text-decoration-none:hover,
+body.dark-mode .row.min-vh-100 a.text-decoration-none:hover {
+    color: #a855f7 !important;
+}
+
+/* Alerts in auth pages */
+body.dark-mode .row.g-0 .alert-danger,
+body.dark-mode .row.min-vh-100 .alert-danger {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    color: #f87171 !important;
+}
+
+body.dark-mode .row.g-0 .alert-success,
+body.dark-mode .row.min-vh-100 .alert-success {
+    background: rgba(16, 185, 129, 0.15) !important;
+    border-color: rgba(16, 185, 129, 0.3) !important;
+    color: #34d399 !important;
+}
+
+/* Strong text */
+body.dark-mode .row.g-0 strong,
+body.dark-mode .row.min-vh-100 strong {
+    color: #ffffff !important;
+}
+
+/* ===================================================================
+   COMPLAINT STATUS BADGES - Vibrant Dark Mode Colors
+   =================================================================== */
+
+/* Badge Base Style */
+body.dark-mode .badge {
+    font-weight: 600 !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* Resolved - Bright Green with Glow */
+body.dark-mode .badge.bg-success,
+body.dark-mode .badge.badge-success,
+body.dark-mode [class*="badge"][class*="success"],
+body.dark-mode .status-badge[class*="success"],
+body.dark-mode .badge:contains("Resolved") {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5) !important;
+    border: none !important;
+}
+
+/* Pending - Bright Amber/Yellow with Glow */
+body.dark-mode .badge.bg-warning,
+body.dark-mode .badge.badge-warning,
+body.dark-mode [class*="badge"][class*="warning"],
+body.dark-mode .status-badge[class*="warning"],
+body.dark-mode .badge:contains("Pending") {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    color: #000000 !important;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.5) !important;
+    border: none !important;
+}
+
+/* In Progress - Bright Cyan/Blue with Glow */
+body.dark-mode .badge.bg-info,
+body.dark-mode .badge.badge-info,
+body.dark-mode [class*="badge"][class*="info"],
+body.dark-mode .status-badge[class*="info"],
+body.dark-mode .badge:contains("In Progress"),
+body.dark-mode .badge:contains("Progress") {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.5) !important;
+    border: none !important;
+}
+
+/* Rejected/Danger - Bright Red with Glow */
+body.dark-mode .badge.bg-danger,
+body.dark-mode .badge.badge-danger,
+body.dark-mode [class*="badge"][class*="danger"],
+body.dark-mode .status-badge[class*="danger"],
+body.dark-mode .badge:contains("Rejected") {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+    border: none !important;
+}
+
+/* Closed/Secondary - Purple with Glow */
+body.dark-mode .badge.bg-secondary,
+body.dark-mode .badge.badge-secondary,
+body.dark-mode [class*="badge"][class*="secondary"],
+body.dark-mode .status-badge[class*="secondary"],
+body.dark-mode .badge:contains("Closed"),
+body.dark-mode .badge:contains("Duplicate") {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+    border: none !important;
+}
+
+/* Primary Badge - Bright Purple */
+body.dark-mode .badge.bg-primary,
+body.dark-mode .badge.badge-primary,
+body.dark-mode [class*="badge"][class*="primary"] {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+    border: none !important;
+}
+
+/* Dark Badge */
+body.dark-mode .badge.bg-dark,
+body.dark-mode .badge.badge-dark {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(55, 65, 81, 0.5) !important;
+    border: 1px solid #4b5563 !important;
+}
+
+/* Light Badge */
+body.dark-mode .badge.bg-light,
+body.dark-mode .badge.badge-light {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+
+/* Priority Badges */
+body.dark-mode .badge:contains("High Priority"),
+body.dark-mode .badge:contains("High"),
+body.dark-mode [class*="priority-high"] {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+}
+
+body.dark-mode .badge:contains("Medium Priority"),
+body.dark-mode .badge:contains("Medium"),
+body.dark-mode [class*="priority-medium"] {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    color: #000000 !important;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.5) !important;
+}
+
+body.dark-mode .badge:contains("Low Priority"),
+body.dark-mode .badge:contains("Low"),
+body.dark-mode [class*="priority-low"] {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5) !important;
+}
+
+/* Category Badges */
+body.dark-mode .badge.rounded-pill {
+    border: 1px solid #a855f7 !important;
+}
+
+/* Admin Badge */
+body.dark-mode .badge-sm.bg-primary,
+body.dark-mode .badge.bg-primary.badge-sm {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+}
+
+/* Staff Badge */
+body.dark-mode .badge-sm.bg-info,
+body.dark-mode .badge.bg-info.badge-sm {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+}
+
+/* ===================================================================
+   ADMIN PAGES - Tables, Cards, Modals Dark Mode Styles
+   (Categories, Staff, Citizens, etc.)
+   =================================================================== */
+
+/* Tables */
+body.dark-mode .table {
+    --bs-table-bg: #121212 !important;
+    --bs-table-color: #ffffff !important;
+    --bs-table-border-color: #333 !important;
+    --bs-table-striped-bg: #1a1a1a !important;
+    --bs-table-striped-color: #ffffff !important;
+    --bs-table-hover-bg: rgba(168, 85, 247, 0.1) !important;
+    --bs-table-hover-color: #ffffff !important;
+    color: #ffffff !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .table> :not(caption)>*>* {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+    border-bottom-color: #333 !important;
+}
+
+body.dark-mode .table-hover>tbody>tr:hover>* {
+    background-color: rgba(168, 85, 247, 0.15) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .table thead,
+body.dark-mode .table-light,
+body.dark-mode thead.table-light {
+    background-color: #1a1a1a !important;
+    --bs-table-bg: #1a1a1a !important;
+}
+
+body.dark-mode .table thead th,
+body.dark-mode .table-light th,
+body.dark-mode thead.table-light th,
+body.dark-mode thead.table-light>tr>th {
+    background-color: #1a1a1a !important;
+    color: #c084fc !important;
+    border-bottom-color: #a855f7 !important;
+    font-weight: 600 !important;
+}
+
+body.dark-mode .table tbody td {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .table tbody tr {
+    background-color: #121212 !important;
+}
+
+body.dark-mode .table tbody tr:hover {
+    background-color: rgba(168, 85, 247, 0.1) !important;
+}
+
+body.dark-mode .table tbody tr:hover td {
+    background-color: rgba(168, 85, 247, 0.1) !important;
+}
+
+body.dark-mode .table-responsive {
+    background-color: #121212 !important;
+}
+
+/* Table text styling */
+body.dark-mode .table strong,
+body.dark-mode .table .fw-bold {
+    color: #ffffff !important;
+}
+
+body.dark-mode .table .text-muted {
+    color: #a3a3a3 !important;
+}
+
+body.dark-mode .table small.text-muted {
+    color: #a3a3a3 !important;
+}
+
+/* Cards */
+body.dark-mode .card {
+    background-color: #121212 !important;
+    border-color: #333 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .card-body {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .card-header {
+    background-color: #1a1a1a !important;
+    border-bottom-color: #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .card-footer {
+    background-color: #1a1a1a !important;
+    border-top-color: #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .card.shadow-sm {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(168, 85, 247, 0.1) !important;
+}
+
+/* Modals */
+body.dark-mode .modal-content {
+    background-color: #121212 !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 30px rgba(168, 85, 247, 0.3) !important;
+}
+
+body.dark-mode .modal-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0618 100%) !important;
+    border-bottom: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .modal-title {
+    color: #ffffff !important;
+}
+
+body.dark-mode .modal-body {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .modal-footer {
+    background-color: #1a1a1a !important;
+    border-top: 1px solid #333 !important;
+}
+
+body.dark-mode .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+/* Form Select (Dropdowns) */
+body.dark-mode .form-select {
+    background-color: #1a1a1a !important;
+    border-color: #333 !important;
+    color: #ffffff !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23a855f7' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 16px 12px !important;
+}
+
+body.dark-mode .form-select:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+    background-color: #1a1a1a !important;
+}
+
+body.dark-mode .form-select option {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Form Labels */
+body.dark-mode .form-label {
+    color: #ffffff !important;
+}
+
+/* Textarea */
+body.dark-mode textarea.form-control {
+    background-color: #1a1a1a !important;
+    border-color: #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode textarea.form-control:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+    background-color: #1a1a1a !important;
+}
+
+/* Buttons in tables */
+body.dark-mode .btn-outline-primary {
+    color: #c084fc !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .btn-outline-primary:hover {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-color: #a855f7 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-outline-danger {
+    color: #f87171 !important;
+    border-color: #ef4444 !important;
+}
+
+body.dark-mode .btn-outline-danger:hover {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    border-color: #ef4444 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-outline-warning {
+    color: #fbbf24 !important;
+    border-color: #f59e0b !important;
+}
+
+body.dark-mode .btn-outline-warning:hover {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    border-color: #f59e0b !important;
+    color: #000000 !important;
+}
+
+body.dark-mode .btn-outline-success {
+    color: #34d399 !important;
+    border-color: #10b981 !important;
+}
+
+body.dark-mode .btn-outline-success:hover {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: #333 !important;
+    border-color: #444 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #444 !important;
+    border-color: #555 !important;
+}
+
+body.dark-mode .btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-success:hover {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5) !important;
+}
+
+/* Alerts */
+body.dark-mode .alert-info {
+    background-color: rgba(6, 182, 212, 0.15) !important;
+    border-color: rgba(6, 182, 212, 0.3) !important;
+    color: #22d3ee !important;
+}
+
+body.dark-mode .alert-info i {
+    color: #22d3ee !important;
+}
+
+/* Page headings */
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5 {
+    color: #ffffff !important;
+}
+
+body.dark-mode h2 i,
+body.dark-mode h3 i {
+    color: #c084fc !important;
+}
+
+/* ===================================================================
+   CHART.JS - Dark Mode Styles
+   =================================================================== */
+
+/* Chart container backgrounds */
+body.dark-mode canvas {
+    background-color: transparent !important;
+}
+
+/* Chart card headers in dark mode */
+body.dark-mode .card-header.bg-white {
+    background-color: #1a1a1a !important;
+}
+
+/* Badge in chart card header */
+body.dark-mode .badge.bg-light.text-dark {
+    background-color: #333 !important;
+    color: #c084fc !important;
+}
+
+/* ===================================================================
+   RATING SELECTOR - Dark Mode Styles
+   =================================================================== */
+body.dark-mode .rating-selector {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode .rating-option {
+    color: #ffffff !important;
+}
+
+body.dark-mode .rating-option:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+}
+
+body.dark-mode .rating-option input[type="radio"] {
+    accent-color: #a855f7 !important;
+}
+
+body.dark-mode .rating-text {
+    color: #ffffff !important;
+}
+
+body.dark-mode .rating-option .star-display {
+    color: #fbbf24 !important;
+}
+
+/* Feedback card header */
+body.dark-mode .card-header.bg-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    color: #000000 !important;
+}
+
+/* ===================================================================
+   FILE INPUT - Dark Mode Styles
+   =================================================================== */
+body.dark-mode input[type="file"] {
+    background-color: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    margin-right: 10px !important;
+    transition: all 0.2s ease !important;
+}
+
+body.dark-mode input[type="file"]::file-selector-button:hover {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* For Firefox */
+body.dark-mode input[type="file"]::-webkit-file-upload-button {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+}
+
+/* ===================================================================
+   NAVBAR BRAND ICON - Dark Mode Purple
+   =================================================================== */
+body.dark-mode .navbar-brand i.bi-shield-check {
+    color: #a855f7 !important;
+}
+
+body.dark-mode .bi-shield-check {
+    color: #c084fc !important;
+}
+
+body.dark-mode .bi-shield-lock,
+body.dark-mode .bi-shield-lock-fill,
+body.dark-mode .bi-shield-shaded {
+    color: #c084fc !important;
+}
+
+/* ===================================================================
+   PRIORITY SELECTOR BUTTONS - Dark Mode Styles
+   =================================================================== */
+
+/* Outline buttons in dark mode - default state */
+body.dark-mode .priority-selector .btn-outline-info {
+    color: #22d3ee !important;
+    border-color: #22d3ee !important;
+}
+
+body.dark-mode .priority-selector .btn-outline-warning {
+    color: #fbbf24 !important;
+    border-color: #fbbf24 !important;
+}
+
+body.dark-mode .priority-selector .btn-outline-danger {
+    color: #f87171 !important;
+    border-color: #ef4444 !important;
+}
+
+/* When checked/selected - ensure text is visible on colored backgrounds */
+body.dark-mode .priority-selector .btn-check:checked+.btn-outline-info {
+    background-color: #22d3ee !important;
+    color: #000000 !important;
+    border-color: #22d3ee !important;
+}
+
+body.dark-mode .priority-selector .btn-check:checked+.btn-outline-warning {
+    background-color: #fbbf24 !important;
+    color: #000000 !important;
+    border-color: #fbbf24 !important;
+}
+
+body.dark-mode .priority-selector .btn-check:checked+.btn-outline-danger {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    border-color: #ef4444 !important;
+}
+
+/* Hover states */
+body.dark-mode .priority-selector .btn-outline-info:hover {
+    background-color: rgba(34, 211, 238, 0.15) !important;
+}
+
+body.dark-mode .priority-selector .btn-outline-warning:hover {
+    background-color: rgba(251, 191, 36, 0.15) !important;
+}
+
+body.dark-mode .priority-selector .btn-outline-danger:hover {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* ===================================================================
+   GIF PICKER & MEDIA MESSAGES - Dark Mode Styles
+   =================================================================== */
+
+/* GIF Picker Container */
+body.dark-mode .gif-picker-container {
+    background: #0a0a0a !important;
+    border: 2px solid #a855f7 !important;
+    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.4), 0 0 0 1px rgba(168, 85, 247, 0.2) !important;
+}
+
+body.dark-mode .gif-picker-header {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border-bottom: 1px solid #a855f7 !important;
+}
+
+body.dark-mode .gif-picker-header .form-control {
+    background: rgba(0, 0, 0, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .gif-picker-header .form-control:focus {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .gif-picker-header .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.dark-mode .gif-picker-content {
+    background: #0a0a0a !important;
+}
+
+body.dark-mode .gif-picker-content::-webkit-scrollbar-track {
+    background: #1a1a1a !important;
+}
+
+body.dark-mode .gif-picker-content::-webkit-scrollbar-thumb {
+    background: #a855f7 !important;
+}
+
+body.dark-mode .gif-item {
+    background: #1a1a1a !important;
+}
+
+body.dark-mode .gif-item:hover {
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .gif-item:hover::after {
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode .gif-picker-footer {
+    background: #121212 !important;
+    border-top: 1px solid #333 !important;
+}
+
+body.dark-mode .gif-picker-footer small {
+    color: #a3a3a3 !important;
+}
+
+/* Image Preview */
+body.dark-mode .image-preview {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+}
+
+/* Image/GIF Buttons - Match other chat input buttons */
+body.dark-mode #imageBtn,
+body.dark-mode #gifBtn,
+body.dark-mode #emojiBtn,
+body.dark-mode #micBtn {
+    background: #1a1a1a !important;
+    border: 1px solid #a855f7 !important;
+    color: #c084fc !important;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2) !important;
+}
+
+body.dark-mode #imageBtn:hover,
+body.dark-mode #gifBtn:hover,
+body.dark-mode #emojiBtn:hover,
+body.dark-mode #micBtn:hover {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #c084fc !important;
+    color: #c084fc !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+}
+
+/* Image Modal */
+body.dark-mode .image-modal {
+    background: rgba(0, 0, 0, 0.95) !important;
+}
+
+body.dark-mode .btn-close-modal {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode .btn-close-modal:hover {
+    background: #a855f7 !important;
+}
+
+/* ===================================================================
+   NAV PILLS - Dark Mode Styles (MyWork page tabs)
+   =================================================================== */
+body.dark-mode .nav-pills .nav-link {
+    background: #1a1a1a !important;
+    color: #a3a3a3 !important;
+    border: 1px solid #333 !important;
+}
+
+body.dark-mode .nav-pills .nav-link:hover:not(.active) {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: #a855f7 !important;
+    color: #c084fc !important;
+}
+
+body.dark-mode .nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5) !important;
+}
+
+body.dark-mode .nav-pills .nav-link .badge {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .nav-pills .nav-link:not(.active) .badge.bg-info {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.4) !important;
+}
+
+body.dark-mode .nav-pills .nav-link:not(.active) .badge.bg-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* ===================================================================
+   AUTHENTICATION RIGHT PANEL - Dark Mode Override
+   (VerifyEmail, Register info panels with gradient backgrounds)
+   =================================================================== */
+body.dark-mode .row.g-0.min-vh-100>.col-lg-6.position-relative>.position-absolute[style*="gradient"],
+body.dark-mode .row.min-vh-100>.col-lg-6.position-relative>.position-absolute[style*="gradient"],
+body.dark-mode .col-lg-6.position-relative .position-absolute[style*="linear-gradient"] {
+    background: linear-gradient(135deg, #1a0a2e 0%, #0d0618 100%) !important;
+    opacity: 1 !important;
+}
+
+/* Right side panel background */
+body.dark-mode .row.g-0.min-vh-100>.col-lg-6.bg-light,
+body.dark-mode .row.min-vh-100>.col-lg-6.bg-light {
+    background: #0a0a0a !important;
+}
+
+/* Shield/lock icon styling */
+body.dark-mode .col-lg-6.position-relative .bi-shield-lock,
+body.dark-mode .col-lg-6.position-relative .bi-shield-check {
+    color: #c084fc !important;
+}
+
+/* Decorative circles - make visible in dark mode */
+body.dark-mode .col-lg-6.position-relative .position-absolute[style*="border-radius: 50%"] {
+    border-color: rgba(168, 85, 247, 0.15) !important;
+    background: rgba(168, 85, 247, 0.05) !important;
+}
+
+/* Styling for Anonymity Toggle Section in Dark Mode */
+body.dark-mode .bi-incognito,
+body.dark-mode .bi-incognito.text-dark {
+    color: #ffffff !important;
+}
+
+body.dark-mode .form-switch .form-check-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffffff'/%3e%3c/svg%3e") !important;
+}
+
+body.dark-mode .bg-light.border.rounded.p-3 {
+    background-color: #1a1a1a !important;
+    border-color: #a855f7 !important;
+}
+
+body.dark-mode #isAnonymous:checked {
+    background-color: #a855f7 !important;
+    border-color: #a855f7 !important;
+}

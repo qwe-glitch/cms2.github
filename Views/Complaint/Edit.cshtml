@@ -1,0 +1,262 @@
+@model ComplaintManagementSystem.Models.ViewModels.ComplaintEditViewModel
+@{
+    ViewData["Title"] = "Edit Complaint";
+    var categories = ViewBag.Categories as IEnumerable<dynamic>;
+}
+
+<div class="mb-3">
+    <a href="/Complaint/Details/@Model.ComplaintId" class="btn btn-outline-secondary rounded-pill hover-lift">
+        <i class="bi bi-arrow-left me-1"></i> Back to Details
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card border-0 shadow-lg animate-fade-in-up">
+            <div class="card-header border-0 text-white text-center py-4" style="background: var(--gradient-primary);">
+                <div class="mb-2">
+                    <i class="bi bi-pencil-square" style="font-size: 3rem;"></i>
+                </div>
+                <h3 class="mb-1 fw-bold">Edit Complaint</h3>
+                <p class="mb-0 opacity-90 small">Update details for Complaint #@Model.ComplaintId</p>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data" class="needs-validation" id="complaintEditForm">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    <input type="hidden" asp-for="ComplaintId" />
+                    
+                    <!-- Hidden Lat/Long -->
+                    <input type="hidden" asp-for="Latitude" id="latitude" />
+                    <input type="hidden" asp-for="Longitude" id="longitude" />
+                    
+                    <!-- Anonymity & Contact Preference -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <label class="form-check-label fw-bold mb-0" for="isAnonymous">
+                                            <i class="bi bi-incognito text-dark me-1"></i> Submit Anonymously
+                                        </label>
+                                        <div class="small text-muted mt-1">Your identity will be hidden from staff</div>
+                                    </div>
+                                    <div class="form-check form-switch m-0 ps-0">
+                                        <input class="form-check-input ms-0" type="checkbox" asp-for="IsAnonymous" id="isAnonymous" role="switch" style="width: 3rem; height: 1.5rem;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label asp-for="ContactPreference" class="form-label fw-bold">Contact Preference</label>
+                            <select asp-for="ContactPreference" class="form-select">
+                                <option value="Email">Email</option>
+                                <option value="Phone">Phone</option>
+                                <option value="None">None</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="mb-4">
+                        <label asp-for="Title" class="form-label">
+                            <i class="bi bi-card-heading text-primary me-1"></i> Complaint Title *
+                        </label>
+                        <input asp-for="Title" class="form-control form-control-lg" 
+                               placeholder="Brief, descriptive title of your complaint" 
+                               maxlength="200" id="titleInput" />
+                        <div class="d-flex justify-content-between">
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                            <small class="text-muted"><span id="titleCount">@(Model.Title?.Length ?? 0)</span> / 200</small>
+                        </div>
+                    </div>
+
+                    <!-- Knowledge Base Suggestions -->
+                    <div id="knowledgeBaseSuggestions" class="mb-4" style="display: none;">
+                        <div class="alert alert-info border-0 shadow-sm">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-lightbulb-fill text-warning me-2" style="font-size: 1.25rem;"></i>
+                                <h6 class="mb-0 fw-bold">Similar Issues Found</h6>
+                            </div>
+                            <p class="small mb-2 text-muted">These resolved complaints may help answer your question:</p>
+                            <div id="suggestionsList" class="kb-suggestions-list"></div>
+                            <div class="text-center mt-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" id="dismissSuggestions">
+                                    <i class="bi bi-x me-1"></i> Continue updating
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label">
+                            <i class="bi bi-card-text text-primary me-1"></i> Description *
+                        </label>
+                        <textarea asp-for="Description" class="form-control" rows="6" 
+                                  placeholder="Provide detailed information about your complaint. Include what happened, when it occurred, and any other relevant details..."
+                                  maxlength="2000"></textarea>
+                        <div class="d-flex justify-content-between">
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                            <small class="text-muted"><span id="descCount">@(Model.Description?.Length ?? 0)</span> / 2000</small>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Location -->
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Location" class="form-label">
+                                <i class="bi bi-geo-alt text-primary me-1"></i> Location *
+                            </label>
+                            <div class="input-group">
+                                <input asp-for="Location" class="form-control" id="locationInput" placeholder="e.g., Main Street, Building A" />
+                                <button type="button" class="btn btn-outline-primary" id="btnLocate" title="Use Current Location">
+                                    <i class="bi bi-crosshair"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Location" class="text-danger small"></span>
+                            <div id="locationSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="CategoryId" class="form-label">
+                                <i class="bi bi-tags text-primary me-1"></i> Category *
+                            </label>
+                            <select asp-for="CategoryId" class="form-select">
+                                <option value="">-- Select Category --</option>
+                                @if (categories != null)
+                                {
+                                    @foreach (var category in categories)
+                                    {
+                                        <option value="@category.CategoryId">@category.CategoryName</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Priority -->
+                    <div class="mb-4">
+                        <label asp-for="Priority" class="form-label">
+                            <i class="bi bi-exclamation-triangle text-primary me-1"></i> Priority Level *
+                        </label>
+                        <div class="btn-group w-100 priority-selector" role="group">
+                            <input type="radio" class="btn-check" name="Priority" id="priorityLow" value="Low" @(Model.Priority == "Low" ? "checked" : "") />
+                            <label class="btn btn-outline-info" for="priorityLow">
+                                <i class="bi bi-dash-circle me-1"></i> Low
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="Priority" id="priorityMedium" value="Medium" @(Model.Priority == "Medium" ? "checked" : "") />
+                            <label class="btn btn-outline-warning" for="priorityMedium">
+                                <i class="bi bi-exclamation-circle me-1"></i> Medium
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="Priority" id="priorityHigh" value="High" @(Model.Priority == "High" ? "checked" : "") />
+                            <label class="btn btn-outline-danger" for="priorityHigh">
+                                <i class="bi bi-exclamation-triangle me-1"></i> High
+                            </label>
+                        </div>
+                        <span asp-validation-for="Priority" class="text-danger small"></span>
+                    </div>
+
+                    <!-- Existing Attachments -->
+                    @if (Model.ExistingAttachments != null && Model.ExistingAttachments.Any())
+                    {
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="bi bi-images text-primary me-1"></i> Existing Attachments (Select to remove)
+                            </label>
+                            <div class="row g-3" id="existingAttachmentsContainer">
+                                @foreach (var attachment in Model.ExistingAttachments)
+                                {
+                                    <div class="col-sm-6 col-md-4 attachment-item" data-id="@attachment.AttachmentId">
+                                        <div class="card h-100 border shadow-sm">
+                                            @if (attachment.FileType != null && attachment.FileType.StartsWith("image/"))
+                                            {
+                                                <img src="@attachment.FilePath" class="card-img-top attachment-preview" alt="Attachment" style="height: 120px; object-fit: cover;">
+                                            }
+                                            else
+                                            {
+                                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 120px;">
+                                                    <i class="bi bi-file-earmark-text text-secondary" style="font-size: 3rem;"></i>
+                                                </div>
+                                            }
+                                            <div class="card-body p-2 d-flex justify-content-between align-items-center bg-light border-top">
+                                                <span class="small text-truncate me-2 fw-medium" title="@attachment.FileName">@attachment.FileName</span>
+                                                <button type="button" class="btn btn-sm btn-outline-danger btn-delete-attachment hover-scale" 
+                                                        data-id="@attachment.AttachmentId" 
+                                                        data-filename="@attachment.FileName"
+                                                        title="Remove attachment">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div id="deleteAttachmentsList"></div>
+                        </div>
+                    }
+
+                    <!-- Attachments -->
+                    <div class="mb-4">
+                        <label asp-for="Attachments" class="form-label">
+                            <i class="bi bi-paperclip text-primary me-1"></i> Add New Attachments (Optional)
+                        </label>
+                        <input asp-for="Attachments" type="file" class="form-control" id="fileInput"
+                               multiple accept="image/*,.pdf,.doc,.docx" />
+                        <small class="text-muted d-block mt-1">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Accepted: Images (JPG, PNG), PDFs, Word documents. Max 10MB per file.
+                        </small>
+                        <span asp-validation-for="Attachments" class="text-danger small"></span>
+                        
+                                <!-- File Preview -->
+                        <div id="filePreview" class="mt-3"></div>
+                    </div>
+
+                    <!-- Notice Box -->
+                    <div class="alert alert-info border-0 mb-4" style="background: linear-gradient(135deg, var(--info-subtle) 0%, #cffafe 100%);">
+                        <h6 class="fw-bold mb-2">
+                            <i class="bi bi-lightbulb me-2"></i> Before submitting:
+                        </h6>
+                        <ul class="small mb-0 ps-3">
+                            <li>Ensure all updated fields are accurate</li>
+                            <li>You can remove old attachments or add new ones</li>
+                            <li>Updated complaints will be re-assigned if category changes</li>
+                            <li>The review process may take 24-48 hours</li>
+                        </ul>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex gap-3 justify-content-end">
+                        <a href="/Complaint/Details/@Model.ComplaintId" class="btn btn-lg btn-light px-4 rounded-pill">
+                            <i class="bi bi-x-circle me-2"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-lg btn-primary px-5 rounded-pill shadow-sm hover-lift">
+                            <i class="bi bi-send me-2"></i> Update Complaint
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Auto-save indicator -->
+        <div class="text-center mt-3">
+            <small class="text-muted">
+                <i class="bi bi-cloud me-1"></i> Your draft is automatically saved locally
+            </small>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+    <script src="~/js/complaint.edit.js"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/complaint.create.css" />
+}

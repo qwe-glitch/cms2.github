@@ -1,0 +1,86 @@
+@model ComplaintManagementSystem.Models.ViewModels.ContactFormViewModel
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Contact Us</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Index" asp-controller="Contact" method="post" novalidate aria-label="Contact form">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" aria-required="true" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" aria-required="true" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Subject" class="form-label"></label>
+                        <input asp-for="Subject" class="form-control" aria-required="true" />
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Message" class="form-label"></label>
+                        <textarea asp-for="Message" class="form-control" rows="5" aria-required="true"></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary" aria-label="Send message">Send Message</button>
+                    @Html.AntiForgeryToken()
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Company Information</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2 d-flex align-items-start"><i class="bi bi-geo-alt me-2 text-primary"></i><span>Government Building, City Hall, Main Street, Segamat</span></li>
+                    <li class="mb-2 d-flex align-items-start"><i class="bi bi-telephone me-2 text-primary"></i><span>03-1234-5678</span></li>
+                    <li class="mb-2 d-flex align-items-start"><i class="bi bi-envelope me-2 text-primary"></i><span>support@citizenvoice.gov</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Business Hours</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">Monday – Friday</div>
+                    <div class="col-6 text-end">9:00 AM – 5:00 PM</div>
+                    <div class="col-6">Saturday</div>
+                    <div class="col-6 text-end">9:00 AM – 1:00 PM</div>
+                    <div class="col-6">Sunday & Public Holidays</div>
+                    <div class="col-6 text-end">Closed</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h6 class="mb-0">Our Location</h6>
+            </div>
+            <div class="card-body">
+                <div class="ratio ratio-16x9" aria-label="Google Map showing business location">
+                    <iframe src="https://www.google.com/maps?q=Segamat%20City%20Hall&output=embed" title="Business location on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

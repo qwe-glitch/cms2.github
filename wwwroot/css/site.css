@@ -1,0 +1,1520 @@
+/* ===================================================================
+   Complaint Management System - Modern Design System
+   =================================================================== */
+
+/* Import Modern Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   CSS Custom Properties - Design Tokens
+   =================================================================== */
+:root {
+    /* Color Palette */
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #60a5fa;
+    --primary-subtle: #eff6ff;
+
+    --secondary: #0891b2;
+    --secondary-dark: #0e7490;
+    --secondary-light: #22d3ee;
+
+    --success: #10b981;
+    --success-dark: #059669;
+    --success-light: #34d399;
+    --success-subtle: #d1fae5;
+
+    --warning: #f59e0b;
+    --warning-dark: #d97706;
+    --warning-light: #fbbf24;
+    --warning-subtle: #fef3c7;
+
+    --danger: #ef4444;
+    --danger-dark: #dc2626;
+    --danger-light: #f87171;
+    --danger-subtle: #fee2e2;
+
+    --info: #06b6d4;
+    --info-dark: #0891b2;
+    --info-light: #22d3ee;
+    --info-subtle: #cffafe;
+
+    --dark: #1e293b;
+    --gray-900: #0f172a;
+    --gray-800: #1e293b;
+    --gray-700: #334155;
+    --gray-600: #475569;
+    --gray-500: #64748b;
+    --gray-400: #94a3b8;
+    --gray-300: #cbd5e1;
+    --gray-200: #e2e8f0;
+    --gray-100: #f1f5f9;
+    --gray-50: #f8fafc;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+    --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --gradient-sunset: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    --gradient-ocean: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
+
+    /* Spacing Scale */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Z-Index Scale */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+/* ===================================================================
+   Base Styles & Typography
+   =================================================================== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--gray-800);
+    background-color: var(--gray-50);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--gray-900);
+    margin-bottom: var(--space-md);
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* ===================================================================
+   Enhanced Container & Layout
+   =================================================================== */
+.container {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding-left: var(--space-lg);
+        padding-right: var(--space-lg);
+    }
+}
+
+/* ===================================================================
+   Modern Card Components
+   =================================================================== */
+.card {
+    background: white;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.card-elevated {
+    box-shadow: var(--shadow-md);
+}
+
+.card-elevated:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-4px);
+}
+
+/* Glassmorphism Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ===================================================================
+   Enhanced Buttons
+   =================================================================== */
+.btn {
+    font-weight: 600;
+    border-radius: var(--radius-lg);
+    padding: 0.625rem 1.25rem;
+    transition: all var(--transition-base);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: var(--gradient-success);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover {
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+}
+
+.btn-pill {
+    border-radius: var(--radius-full);
+}
+
+.btn-fixed {
+    --btn-w: 200px;
+    --btn-h: 48px;
+    --btn-gap: 0.5rem;
+    --btn-px: 1rem;
+    width: var(--btn-w);
+    height: var(--btn-h);
+    padding: 0 var(--btn-px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--btn-gap);
+    white-space: nowrap;
+    border-radius: var(--radius-full);
+    line-height: 1;
+}
+
+.btn-fixed:active {
+    transform: none;
+}
+
+.btn-fixed:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-subtle), 0 0 0 1px var(--primary);
+}
+
+@media (max-width: 768px) {
+    .btn-fixed {
+        --btn-w: 180px;
+        --btn-h: 44px;
+    }
+}
+
+/* ===================================================================
+   Form Enhancements
+   =================================================================== */
+.form-control,
+.form-select {
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all var(--transition-base);
+    background-color: white;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-subtle);
+    outline: none;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+    background-color: var(--gray-100);
+    cursor: not-allowed;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: var(--space-sm);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.input-group-text {
+    background-color: var(--gray-100);
+    border: 2px solid var(--gray-200);
+    color: var(--gray-600);
+}
+
+/* Custom Checkbox & Radio */
+.form-check-input:checked {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+#isAnonymous:checked {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+.form-check-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-subtle);
+}
+
+/* ===================================================================
+   Badge Enhancements
+   =================================================================== */
+.badge {
+    font-weight: 600;
+    padding: 0.375em 0.75em;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+}
+
+.badge-pill {
+    border-radius: var(--radius-full);
+}
+
+/* ===================================================================
+   Alert Enhancements
+   =================================================================== */
+.alert {
+    border-radius: var(--radius-xl);
+    border: none;
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.alert i {
+    font-size: 1.25rem;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, var(--success-subtle) 0%, #d1fae5 100%);
+    color: var(--success-dark);
+    border-left: 4px solid var(--success);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, var(--danger-subtle) 0%, #fee2e2 100%);
+    color: var(--danger-dark);
+    border-left: 4px solid var(--danger);
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, var(--warning-subtle) 0%, #fef3c7 100%);
+    color: var(--warning-dark);
+    border-left: 4px solid var(--warning);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, var(--info-subtle) 0%, #cffafe 100%);
+    color: var(--info-dark);
+    border-left: 4px solid var(--info);
+}
+
+/* ===================================================================
+   Toast Notifications
+   =================================================================== */
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: var(--z-tooltip);
+    max-width: 400px;
+}
+
+.toast {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: 1rem 1.25rem;
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideInRight 0.3s ease-out;
+    border-left: 4px solid var(--primary);
+}
+
+.toast.toast-success {
+    border-left-color: var(--success);
+}
+
+.toast.toast-error {
+    border-left-color: var(--danger);
+}
+
+.toast.toast-warning {
+    border-left-color: var(--warning);
+}
+
+.toast.toast-info {
+    border-left-color: var(--info);
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--gray-900);
+}
+
+.toast-message {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin: 0;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.toast-close:hover {
+    background: var(--gray-100);
+    color: var(--gray-700);
+}
+
+/* ===================================================================
+   Loading States
+   =================================================================== */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--gray-200);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.spinner-sm {
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, var(--gray-200) 0%, var(--gray-100) 50%, var(--gray-200) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-md);
+}
+
+.skeleton-text {
+    height: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+    height: 1.5rem;
+    width: 60%;
+    margin-bottom: 1rem;
+}
+
+/* ===================================================================
+   Data Tables
+   =================================================================== */
+.table-modern {
+    background: white;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.table-modern thead {
+    background: var(--gray-50);
+}
+
+.table-modern th {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--gray-700);
+    padding: 1rem;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.table-modern td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.table-modern tbody tr {
+    transition: background-color var(--transition-fast);
+}
+
+.table-modern tbody tr:hover {
+    background-color: var(--gray-50);
+}
+
+.table-modern tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ===================================================================
+   Timeline Component
+   =================================================================== */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gray-200);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -1.6rem;
+    top: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary);
+    z-index: 1;
+}
+
+.timeline-dot.success {
+    border-color: var(--success);
+}
+
+.timeline-dot.warning {
+    border-color: var(--warning);
+}
+
+.timeline-dot.danger {
+    border-color: var(--danger);
+}
+
+.timeline-content {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===================================================================
+   Modal Enhancements
+   =================================================================== */
+.modal-content {
+    border: none;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--gray-100);
+    padding: 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--gray-100);
+    padding: 1.5rem;
+}
+
+/* ===================================================================
+   Scroll to Top Button
+   =================================================================== */
+.scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-xl);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+    z-index: var(--z-fixed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+}
+
+/* ===================================================================
+   Utility Classes
+   =================================================================== */
+.text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hover-lift {
+    transition: transform var(--transition-base);
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+}
+
+.hover-scale {
+    transition: transform var(--transition-base);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.rounded-xl {
+    border-radius: var(--radius-xl);
+}
+
+.rounded-2xl {
+    border-radius: var(--radius-2xl);
+}
+
+.rounded-full {
+    border-radius: var(--radius-full);
+}
+
+.shadow-soft {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow-medium {
+    box-shadow: var(--shadow-md);
+}
+
+.shadow-large {
+    box-shadow: var(--shadow-lg);
+}
+
+/* ===================================================================
+   Animations
+   =================================================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.4s ease-out;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.4s ease-out;
+}
+
+.animate-zoom-in {
+    animation: zoomIn 0.4s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ===================================================================
+   Responsive Utilities
+   =================================================================== */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    h4 {
+        font-size: 1.25rem;
+    }
+
+    .toast-container {
+        left: 1rem;
+        right: 1rem;
+        max-width: none;
+    }
+
+    .scroll-to-top {
+        bottom: 1rem;
+        right: 1rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.25rem;
+    }
+}
+
+/* ===================================================================
+   Print Styles
+   =================================================================== */
+@media print {
+    /* Hide non-essential elements */
+    .btn,
+    .navbar,
+    .scroll-to-top,
+    .toast-container,
+    .alert-info,
+    /* "Need Help?" section */
+    .card-body>.btn,
+    /* Action buttons */
+    .card-body>hr,
+    .card-body>h6.text-uppercase
+
+    /* Section headers in sidebar */
+        {
+        display: none !important;
+    }
+
+    /* Reset background and shadows */
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #eee !important;
+        break-inside: avoid;
+    }
+
+    /* Layout adjustments */
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .row {
+        display: block !important;
+    }
+
+    .col-lg-8,
+    .col-lg-4 {
+        width: 100% !important;
+        flex: none !important;
+        max-width: 100% !important;
+    }
+
+    /* Specific adjustments for Details view */
+    .badge {
+        border: 1px solid #000 !important;
+        color: #000 !important;
+        background: transparent !important;
+    }
+
+    /* Ensure links are readable */
+    a {
+        text-decoration: none !important;
+        color: black !important;
+    }
+
+    /* Hide the "Back to List" button container specifically */
+    .mb-4:has(a[href="/Complaint"]) {
+        display: none !important;
+    }
+
+    /* Hide specific sidebar cards if needed, but keeping Timeline info */
+    /* We want to hide the Actions card completely */
+    .col-lg-4 .card:has(.bi-pencil-square),
+    .col-lg-4 .card:has(.bi-printer) {
+        display: none !important;
+    }
+}
+
+/* ===================================================================
+   Accessibility
+   =================================================================== */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+*:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+.btn-search {
+    letter-spacing: 0.2px;
+}
+
+.btn-circle {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+}
+
+.btn-circle:active {
+    transform: none;
+}
+
+.btn-circle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-subtle), 0 0 0 1px var(--primary);
+}
+
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.social-links .bi {
+    font-size: 1rem;
+}
+
+@media (max-width: 576px) {
+    .social-links {
+        justify-content: flex-start;
+    }
+}
+
+/* ===================================================================
+   Navbar Active State Enhancements
+   - Ensures active links are visually prominent across browsers
+   - Applied when clicking "My Work" so "Complaints" also appears active
+   =================================================================== */
+.navbar .nav-link.active {
+    color: #ffffff !important;
+    /* High-contrast text for dark navbar */
+    filter: brightness(1.15);
+    /* Subtle emphasis for active state */
+    background-color: rgba(255, 255, 255, 0.15);
+    /* Visible pill background */
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    /* Clear edge for contrast */
+    border-radius: 0.5rem;
+    /* Consistent rounding */
+}
+
+.navbar .nav-link.active .bi {
+    color: #ffffff !important;
+    /* Keep icons consistent with active link */
+}
+
+/* Ensure focus is clearly visible and accessible */
+.navbar .nav-link:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+}
+
+/* ===================================================================
+   Mobile Responsive Styles - Phone Optimization
+   =================================================================== */
+
+/* Small phones (max-width: 576px) */
+@media (max-width: 576px) {
+
+    /* Typography adjustments for mobile */
+    body {
+        font-size: 0.9375rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    h4 {
+        font-size: 1.125rem;
+    }
+
+    h5 {
+        font-size: 1rem;
+    }
+
+    h6 {
+        font-size: 0.875rem;
+    }
+
+    /* Container adjustments */
+    .container {
+        padding-left: var(--space-sm);
+        padding-right: var(--space-sm);
+    }
+
+    main.container {
+        margin-top: var(--space-md) !important;
+    }
+
+    /* Card adjustments */
+    .card {
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--space-md);
+    }
+
+    .card:hover {
+        transform: none;
+    }
+
+    .card-body {
+        padding: var(--space-md);
+    }
+
+    /* Button adjustments - touch-friendly */
+    .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+        min-height: 44px;
+    }
+
+    .btn-sm {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        min-height: 36px;
+    }
+
+    .btn-fixed {
+        --btn-w: 100%;
+        --btn-h: 48px;
+    }
+
+    /* Make action buttons full-width on mobile */
+    .d-flex.gap-2 .btn,
+    .d-flex.gap-3 .btn {
+        flex: 1;
+    }
+
+    /* Form controls - touch-friendly */
+    .form-control,
+    .form-select {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+        min-height: 48px;
+    }
+
+    .form-label {
+        font-size: 0.8125rem;
+    }
+
+    textarea.form-control {
+        min-height: 120px;
+    }
+
+    /* Input group adjustments */
+    .input-group {
+        flex-wrap: wrap;
+    }
+
+    .input-group .form-control {
+        flex: 1 1 100%;
+    }
+
+    .input-group .btn {
+        flex: 1 1 100%;
+        margin-top: var(--space-sm);
+        border-radius: var(--radius-lg) !important;
+    }
+
+    /* Table adjustments - horizontal scroll */
+    .table-responsive {
+        border-radius: var(--radius-lg);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-modern th,
+    .table-modern td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+
+    /* Badge adjustments */
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.3em 0.6em;
+    }
+
+    /* Alert adjustments */
+    .alert {
+        padding: 0.875rem 1rem;
+        font-size: 0.875rem;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .alert i {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Modal adjustments */
+    .modal-dialog {
+        margin: var(--space-sm);
+    }
+
+    .modal-content {
+        border-radius: var(--radius-xl);
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: var(--space-md);
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Timeline adjustments */
+    .timeline {
+        padding-left: 1.5rem;
+    }
+
+    .timeline-dot {
+        left: -1.3rem;
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    .timeline-content {
+        padding: 0.875rem;
+    }
+
+    /* Navbar mobile adjustments */
+    .navbar-brand span {
+        font-size: 0.9375rem;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem !important;
+    }
+
+    .dropdown-menu {
+        margin: 0;
+        border-radius: var(--radius-lg);
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1rem;
+    }
+
+    /* Footer adjustments */
+    footer .row {
+        text-align: center;
+    }
+
+    footer .col-md-4,
+    footer .col-md-2 {
+        margin-bottom: var(--space-lg);
+    }
+
+    footer h6 {
+        font-size: 0.8125rem;
+    }
+
+    footer .social-links {
+        justify-content: center;
+    }
+
+    /* User info in navbar */
+    .glass-card {
+        padding: 0.5rem 0.75rem !important;
+    }
+
+    /* Scroll to top - smaller on mobile */
+    .scroll-to-top {
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: 1rem;
+        bottom: 1rem;
+        right: 0.75rem;
+    }
+
+    /* Utility - stack flex items on mobile */
+    .mobile-stack {
+        flex-direction: column !important;
+    }
+
+    .mobile-stack>* {
+        width: 100% !important;
+    }
+
+    /* Hide elements on mobile if needed */
+    .hide-on-mobile {
+        display: none !important;
+    }
+}
+
+/* Extra small phones (max-width: 400px) */
+@media (max-width: 400px) {
+    body {
+        font-size: 0.875rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.375rem;
+    }
+
+    h3 {
+        font-size: 1.125rem;
+    }
+
+    .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .card-body {
+        padding: 0.875rem;
+    }
+
+    .btn {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.875rem;
+    }
+
+    .form-control,
+    .form-select {
+        padding: 0.75rem 0.875rem;
+        font-size: 0.9375rem;
+    }
+
+    /* Navbar brand icon only on very small screens */
+    .navbar-brand .icon-circle {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .navbar-brand .icon-circle i {
+        font-size: 1rem !important;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Disable hover effects on touch devices */
+    .card:hover {
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .card-elevated:hover {
+        transform: none;
+    }
+
+    .btn:hover::before {
+        display: none;
+    }
+
+    .btn-primary:hover,
+    .btn-success:hover {
+        transform: none;
+    }
+
+    .hover-lift:hover,
+    .hover-scale:hover {
+        transform: none;
+    }
+
+    /* Ensure tap targets are large enough */
+    a,
+    button,
+    .btn,
+    .nav-link,
+    .dropdown-item {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Better active states for touch */
+    .btn:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+    }
+}
+
+/* Landscape orientation on phones */
+@media (max-width: 812px) and (orientation: landscape) {
+    .navbar {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+    }
+
+    main.container {
+        margin-top: var(--space-sm) !important;
+    }
+
+    .modal-dialog {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+/* Password Toggle Button Positioning - Fix overlap with validation checkmark */
+.position-relative .btn-link.position-absolute.end-0 {
+    right: 35px !important;
+}
+
+/* Move the validation checkmark further right on password fields */
+.position-relative .form-control.is-valid {
+    background-position: right 0.5rem center;
+    padding-right: 3.5rem;
+}
+
+/* Safe area insets for notched phones */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(var(--space-md), env(safe-area-inset-left));
+        padding-right: max(var(--space-md), env(safe-area-inset-right));
+    }
+
+    footer {
+        padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom));
+    }
+
+    .scroll-to-top {
+        right: max(0.75rem, env(safe-area-inset-right));
+        bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+}

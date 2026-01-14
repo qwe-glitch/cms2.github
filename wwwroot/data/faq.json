@@ -1,0 +1,49 @@
+{
+  "categories": [
+    {
+      "id": "account",
+      "name": "Account & Login",
+      "items": [
+        {
+          "id": "reset-password",
+          "question": "How do I reset my password?",
+          "answer": "Go to the Login page and click <strong>Forgot Password</strong>. Enter your email to receive a reset code, then set a new password on the Reset Password page.",
+          "imageUrl": "/images/help/reset-password.png"
+        },
+        {
+          "id": "verify-email",
+          "question": "Why must I verify my email?",
+          "answer": "Email verification helps protect your account and ensures you receive notifications about your complaints."
+        }
+      ]
+    },
+    {
+      "id": "complaints",
+      "name": "Complaints",
+      "items": [
+        {
+          "id": "submit-complaint",
+          "question": "How do I submit a complaint?",
+          "answer": "Navigate to <strong>Complaints</strong> → <strong>Create</strong>, fill in the form with details and optional attachments, then submit. You can track progress on the My Complaints page."
+        },
+        {
+          "id": "status-updates",
+          "question": "How will I get status updates?",
+          "answer": "You will receive notifications under the <strong>Notifications</strong> page and via email if enabled."
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "name": "Privacy & Data",
+      "items": [
+        {
+          "id": "data-use",
+          "question": "How is my data used?",
+          "answer": "We use your data to process complaints, notify you of updates, and improve the service. See the <a href=\"/Help/Privacy\">Privacy Policy</a> for details."
+        }
+      ]
+    }
+  ]
+}
+
