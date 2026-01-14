@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Complaint_Management_System</RootNamespace>
+    <UserSecretsId>38c30627-459e-484d-9a58-5d131ba6e2af</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

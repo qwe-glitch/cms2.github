@@ -1,9 +1,8 @@
 global using ComplaintManagementSystem;
 global using ComplaintManagementSystem.Models;
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ComplaintManagementSystem.Hubs;
+using ComplaintManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -103,7 +102,7 @@ async Task SeedDatabaseAsync(WebApplication app)
         {
             Name = "System Administrator",
             Email = "admin@cms.com",
-            PasswordHash = HashPassword("Admin123!"),
+            PasswordHash = SecurityHelper.HashPassword("Admin123!"),
             CreatedAt = DateTime.Now,
             IsActive = true
         };
@@ -148,7 +147,7 @@ async Task SeedDatabaseAsync(WebApplication app)
         {
             Name = "John Doe",
             Email = "staff@cms.com",
-            PasswordHash = HashPassword("Staff123!"),
+            PasswordHash = SecurityHelper.HashPassword("Staff123!"),
             DepartmentId = departments[0].DepartmentId,
             Phone = "012-3456789",
             CreatedAt = DateTime.Now,
@@ -240,11 +239,4 @@ async Task SeedDatabaseAsync(WebApplication app)
         Console.WriteLine("═══════════════════════════════════════════════════════");
         Console.WriteLine();
     }
-}
-
-string HashPassword(string password)
-{
-    using var sha256 = SHA256.Create();
-    var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-    return Convert.ToBase64String(hashedBytes);
 }

@@ -1,7 +1,5 @@
 using ComplaintManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace ComplaintManagementSystem.Services;
 
@@ -103,7 +101,7 @@ public class AdminService : IAdminService
         {
             Name = name,
             Email = email,
-            PasswordHash = HashPassword(password),
+            PasswordHash = SecurityHelper.HashPassword(password),
             DepartmentId = departmentId,
             Phone = phone,
             CreatedAt = DateTime.Now,
@@ -554,16 +552,4 @@ public class AdminService : IAdminService
 
     #endregion
 
-    #region Helper Methods
-
-    private string HashPassword(string password)
-    {
-        using (var sha256 = SHA256.Create())
-        {
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hashedBytes);
-        }
-    }
-
-    #endregion
 }

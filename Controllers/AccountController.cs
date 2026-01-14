@@ -1,13 +1,12 @@
 using ComplaintManagementSystem.Models;
 using ComplaintManagementSystem.Models.ViewModels;
+using ComplaintManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace ComplaintManagementSystem.Controllers;
 
@@ -48,7 +47,7 @@ public class AccountController : Controller
             return View(model);
         }
 
-        var passwordHash = HashPassword(model.Password);
+        var passwordHash = SecurityHelper.HashPassword(model.Password);
 
         // Auto-detect user type by checking all tables sequentially
         
@@ -192,7 +191,7 @@ public class AccountController : Controller
         {
             Name = model.Name,
             Email = model.Email,
-            PasswordHash = HashPassword(model.Password),
+            PasswordHash = SecurityHelper.HashPassword(model.Password),
             Phone = model.Phone,
             Address = model.Address,
             CreatedAt = DateTime.Now,
@@ -409,7 +408,7 @@ public class AccountController : Controller
         {
             Name = model.Name,
             Email = model.Email,
-            PasswordHash = HashPassword(model.Password),
+            PasswordHash = SecurityHelper.HashPassword(model.Password),
             CreatedAt = DateTime.Now,
             IsActive = true,
             IsEmailVerified = false, // Require verification
@@ -510,10 +509,9 @@ public class AccountController : Controller
         citizen.Phone = model.Phone;
         citizen.Address = model.Address;
 
-        // Update password if provided
         if (!string.IsNullOrWhiteSpace(model.NewPassword))
         {
-            citizen.PasswordHash = HashPassword(model.NewPassword);
+            citizen.PasswordHash = SecurityHelper.HashPassword(model.NewPassword);
         }
 
         // Update session username if changed
@@ -667,7 +665,7 @@ public class AccountController : Controller
         }
 
         // Update Password
-        citizen.PasswordHash = HashPassword(model.NewPassword);
+        citizen.PasswordHash = SecurityHelper.HashPassword(model.NewPassword);
         citizen.EmailVerificationToken = null;
         citizen.TokenExpiresAt = null;
         
@@ -682,15 +680,6 @@ public class AccountController : Controller
     }
 
     #region Helper Methods
-
-    private string HashPassword(string password)
-    {
-        using (var sha256 = SHA256.Create())
-        {
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hashedBytes);
-        }
-    }
 
     private string GenerateOTP()
     {
