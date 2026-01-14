@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ComplaintManagementSystem.Hubs;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
@@ -51,10 +52,13 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddSignalR();
 
-builder.Services.AddSqlServer<DB>($@"
-    Data Source=(LocalDB)\MSSQLLocalDB;
-    AttachDbFilename={builder.Environment.ContentRootPath}\DB.mdf;
-");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                     ?? "Data Source=complaints.db";
+
+builder.Services.AddDbContext<DB>(options =>
+{
+    options.UseSqlite(connectionString);
+});
 
 
 var app = builder.Build();
