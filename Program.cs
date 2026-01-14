@@ -63,10 +63,12 @@ builder.Services.AddDbContext<DB>(options =>
 
 var app = builder.Build();
 
-// Seed database with default data
 await SeedDatabaseAsync(app);
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.UseStaticFiles();
 app.UseRequestLocalization("en-MY");
 app.UseSession();
